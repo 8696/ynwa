@@ -1,0 +1,399 @@
+/* ============================================================
+   style.css — 简约 / iOS 感：系统字体、清晰字阶、细边框与毛玻璃
+   ============================================================ */
+
+/* ----------------------------------------------------------------
+   设计色板（与 iOS 标签/分隔线类似）
+   ---------------------------------------------------------------- */
+:root {
+  --c-label: #1c1c1e;
+  --c-secondary: #8e8e93;
+  --c-tertiary: #aeaeb2;
+  --c-separator: #e5e5ea;
+  --c-tint: #007aff;
+  --c-fill-quaternary: #f2f2f7;
+  --c-grouped-bg: #ffffff;
+  --md-text: #4f5660;
+  --md-heading: #2f353d;
+  --md-muted: #7f8792;
+  --md-border: #e6e9ee;
+  --md-code-bg: #fafbfc;
+  --md-inline-code-bg: #f2f4f7;
+  --md-link: #3e7dd6;
+  --md-link-hover: #2f6fc8;
+}
+
+a { cursor: pointer; }
+
+html {
+  min-width: 1200px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro SC',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+  color: var(--c-label);
+  background: var(--c-grouped-bg);
+}
+
+/* 站点英文标题：优先 Display 字族并增加一点字距 */
+.site-title {
+  font-family: 'SF Pro Display', 'SF Pro Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  font-weight: 650;
+}
+
+code,
+pre {
+  font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+}
+
+/* ----------------------------------------------------------------
+   顶栏毛玻璃
+   ---------------------------------------------------------------- */
+.header-blur {
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* ----------------------------------------------------------------
+   两行截断
+   ---------------------------------------------------------------- */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ================================================================
+   Markdown 富文本（.prose）
+   ================================================================ */
+
+.prose {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: var(--c-label);
+}
+
+/* 文章内标题：大 → 中 → 小，该粗则粗、该细则细 */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--c-label);
+  line-height: 1.2;
+  margin-top: 1.75em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.022em;
+}
+.prose h1 {
+  font-size: 30px;
+  font-weight: 600;
+}
+.prose h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 2em;
+  padding-bottom: 0.35em;
+  border-bottom: 0.5px solid var(--c-separator);
+}
+.prose h3 {
+  font-size: 19px;
+  font-weight: 600;
+}
+.prose h4 {
+  font-size: 17px;
+  font-weight: 500;
+  color: #3a3a3c;
+}
+
+.prose p {
+  margin-bottom: 1.15em;
+}
+
+.prose a {
+  color: var(--c-tint);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(0, 122, 255, 0.35);
+}
+.prose a:hover {
+  color: #0066d6;
+  border-bottom-color: currentColor;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.35em;
+  margin-bottom: 1.15em;
+}
+.prose li {
+  margin-bottom: 0.3em;
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--c-separator);
+  padding: 0.35em 0 0.35em 1.1em;
+  margin: 1.4em 0;
+  color: var(--c-secondary);
+  font-weight: 400;
+  font-style: normal;
+  background: transparent;
+  border-radius: 0;
+}
+
+.prose :not(pre) > code {
+  font-size: 0.9em;
+  font-weight: 500;
+  background: var(--c-fill-quaternary);
+  padding: 0.12em 0.4em;
+  border-radius: 5px;
+  border: none;
+  color: #3a3a3c;
+}
+
+.prose pre {
+  background: var(--c-fill-quaternary);
+  border: 0.5px solid var(--c-separator);
+  border-radius: 12px;
+  padding: 16px 18.4px;
+  overflow-x: auto;
+  margin: 1.35em 0;
+}
+.prose pre code {
+  font-size: 0.86em;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--c-label);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.35em 0;
+  font-size: 15px;
+}
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 0.65em 0.85em;
+  border: 0.5px solid var(--c-separator);
+}
+.prose th {
+  background: var(--c-fill-quaternary);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--c-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.prose td {
+  color: var(--c-label);
+  font-weight: 400;
+}
+
+.prose hr {
+  border: none;
+  border-top: 0.5px solid var(--c-separator);
+  margin: 2em 0;
+}
+
+.prose img {
+  border-radius: 8px;
+  margin: 1.35em 0;
+}
+
+.prose pre .hljs {
+  background: transparent;
+  padding: 0;
+}
+.prose pre code.hljs {
+  color: var(--c-label);
+}
+
+/* ================================================================
+   GitHub-like Markdown（详情页：#post-content.markdown-body）
+   ================================================================ */
+
+.markdown-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--md-text);
+  word-wrap: break-word;
+}
+
+.markdown-body > *:first-child {
+  margin-top: 0;
+}
+
+.markdown-body > *:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--md-heading);
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--md-border);
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--md-border);
+}
+
+.markdown-body h3 { font-size: 1.25em; }
+.markdown-body h4 { font-size: 1em; }
+.markdown-body h5 { font-size: 0.875em; }
+.markdown-body h6 { font-size: 0.85em; color: var(--md-muted); }
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body details {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body li + li {
+  margin-top: 0.25em;
+}
+
+.markdown-body li > p {
+  margin-top: 16px;
+}
+
+.markdown-body li > p:first-child {
+  margin-top: 0;
+}
+
+.markdown-body a {
+  color: var(--md-link);
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  color: var(--md-link-hover);
+  text-decoration: underline;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body blockquote {
+  padding: 0 1em;
+  color: var(--md-muted);
+  border-left: 0.25em solid var(--md-border);
+}
+
+.markdown-body hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: var(--md-border);
+  border: 0;
+}
+
+.markdown-body :not(pre) > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: var(--md-inline-code-bg);
+  border-radius: 6px;
+  color: #48505a;
+}
+
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: var(--md-code-bg);
+  border-radius: 6px;
+  border: 1px solid var(--md-border);
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid var(--md-border);
+}
+
+.markdown-body table th {
+  font-weight: 600;
+  background-color: var(--md-code-bg);
+}
+
+.markdown-body table tr {
+  background-color: #ffffff;
+  border-top: 1px solid var(--md-border);
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #fcfcfd;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: content-box;
+  background-color: #ffffff;
+}
+
+.markdown-body pre .hljs,
+.markdown-body pre code.hljs {
+  background: transparent;
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-pm-title="tag">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/vendor/tailwindcss.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/vendor/highlight.github.min.css" />
+</head>
+<body class="min-h-screen flex flex-col bg-white text-[#1c1c1e] antialiased">
+
+  <!-- 顶栏：标签页不激活上方「分类」项，与详情页一致传 null -->
+  <header class="header-blur sticky top-0 z-50 border-b border-[#f2f2f7]">
+    <div class="max-w-[784px] mx-auto px-8 min-h-16 flex items-stretch justify-start gap-8">
+      <a href="index.html" class="site-title shrink-0 self-center text-[26px] font-semibold text-[#1c1c1e] tracking-tight no-underline hover:opacity-60 transition-opacity duration-200">YNWA</a>
+      <nav id="nav-categories" class="flex flex-1 min-w-0 items-center justify-start flex-wrap gap-x-0.5"></nav>
+    </div>
+  </header>
+
+  <main class="max-w-[784px] mx-auto px-8 flex-1 w-full">
+
+    <div class="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+      <p class="text-[13px] font-medium tracking-[0.12em] uppercase text-[#8e8e93] mb-2">标签</p>
+      <h1 id="tag-title" class="text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">…</h1>
+      <p id="tag-desc" class="mt-2 text-[17px] font-normal text-[#8e8e93] leading-relaxed"></p>
+    </div>
+
+    <div id="post-list" class="flex flex-col">
+      <div class="py-20 text-center text-[#8e8e93] text-[15px] font-normal">加载中…</div>
+    </div>
+
+    <div id="pager"></div>
+
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/pagination.js"></script>
+  <script src="assets/js/render.js"></script>
+  <script>
+    (async () => {
+      renderFooter();
+
+      // 与分类页一致，用 ?id= 表示标签 id（如 javascript）
+      const tagId = getParam('id');
+      const db = await loadDB();
+
+      await renderNav({ type: 'tag', value: tagId });
+
+      const tag = db.tags.find(t => t.id === tagId);
+      if (!tag) {
+        document.getElementById('tag-title').textContent = '标签不存在';
+        document.getElementById('post-list').innerHTML = '<div class="py-20 text-center text-[#8e8e93]">找不到该标签</div>';
+        return;
+      }
+
+      document.title = `${tag.name} · 标签 · ${getSiteName()}`;
+      document.getElementById('tag-title').textContent = `${tag.name}`;
+      document.getElementById('tag-desc').textContent = '含此标签的文章';
+
+      // posts.tags 为 id 数组，包含即视为命中
+      const filtered = db.posts.filter(p => (p.tags || []).includes(tagId));
+      const page = parseInt(getParam('page') || '1', 10);
+      const { items, current, totalPages } = paginate(filtered, page, PAGE_SIZE);
+
+      const listEl = document.getElementById('post-list');
+      listEl.innerHTML = items.length
+        ? items.map(p => renderPostCard(p, db)).join('')
+        : '<div class="py-20 text-center text-[#8e8e93]">暂无带此标签的文章</div>';
+
+      renderPager(document.getElementById('pager'), current, totalPages, n => `tag.html?id=${encodeURIComponent(tagId)}&page=${n}`);
+    })();
+  </script>
+</body>
+</html>

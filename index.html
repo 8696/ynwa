@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-pm-title="home">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <script src="assets/js/config.js"></script>
+  <meta name="description" content="记录技术、思考与生活" />
+  <script src="assets/js/vendor/tailwindcss.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/vendor/highlight.github.min.css" />
+</head>
+<body class="min-h-screen flex flex-col bg-white text-[#1c1c1e] antialiased">
+
+  <!-- ============================================================
+       顶栏：站点 Logo + 分类导航
+       .header-blur 提供毛玻璃背景；sticky + z-50 确保滚动时悬浮
+       ============================================================ -->
+  <header class="header-blur sticky top-0 z-50 border-b border-[#f2f2f7]">
+    <div class="max-w-[784px] mx-auto px-8 min-h-16 flex items-stretch justify-start gap-8">
+      <a href="index.html" class="site-title shrink-0 self-center text-[26px] font-semibold text-[#1c1c1e] tracking-tight no-underline hover:opacity-60 transition-opacity duration-200">YNWA</a>
+      <nav id="nav-categories" class="flex flex-1 min-w-0 items-center justify-start flex-wrap gap-x-0.5"></nav>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       主体内容
+       ============================================================ -->
+  <main class="max-w-[784px] mx-auto px-8 flex-1 w-full">
+
+    <!-- 页面标题区：副标题 + 主标题 + 描述 -->
+    <div class="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+      <p class="text-[13px] font-medium tracking-[0.12em] uppercase text-[#8e8e93] mb-2">最新文章</p>
+      <h1 class="text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">所有文章</h1>
+      <p class="mt-2 text-[17px] font-normal text-[#8e8e93] leading-relaxed">记录技术、思考与生活</p>
+    </div>
+
+    <!-- 文章列表：初始显示加载占位，由 JS 替换为卡片列表 -->
+    <div id="post-list" class="flex flex-col">
+      <div class="py-20 text-center text-[#8e8e93] text-[15px] font-normal">加载中…</div>
+    </div>
+
+    <!-- 分页导航：由 js/pagination.js renderPager() 动态注入 -->
+    <div id="pager"></div>
+
+  </main>
+
+  <!-- ============================================================
+       页脚
+       ============================================================ -->
+  <footer id="site-footer"></footer>
+
+  <!-- 公共脚本（按依赖顺序加载） -->
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/pagination.js"></script>
+  <script src="assets/js/render.js"></script>
+  <script>
+    (async () => {
+      renderFooter();
+
+      // 加载数据库并渲染顶部分类导航（首页无激活分类，传 null）
+      const db = await loadDB();
+      await renderNav({ type: 'home' });
+
+      // 读取 URL 中的 ?page= 参数，默认第 1 页
+      const page = parseInt(getParam('page') || '1', 10);
+
+      // 对全量文章做本地分页
+      const { items, current, totalPages } = paginate(db.posts, page, PAGE_SIZE);
+
+      // 渲染文章卡片列表
+      const listEl = document.getElementById('post-list');
+      listEl.innerHTML = items.length
+        ? items.map(p => renderPostCard(p, db)).join('')
+        : '<div class="py-20 text-center text-[#8e8e93]">暂无文章</div>';
+
+      // 渲染分页按钮，翻页 URL 保持 ?page=N 格式
+      renderPager(document.getElementById('pager'), current, totalPages, n => `index.html?page=${n}`);
+    })();
+  </script>
+</body>
+</html>

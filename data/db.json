@@ -1,0 +1,108 @@
+{
+  "nav": [
+    {
+      "type": "category",
+      "label": "AI",
+      "value": "AI"
+    },
+    {
+      "type": "category",
+      "label": "技术实践",
+      "value": "engineering"
+    },
+    {
+      "type": "category",
+      "label": "生活记录",
+      "value": "life"
+    },
+    {
+      "type": "category",
+      "label": "随便写写",
+      "value": "writing"
+    },
+    {
+      "type": "link",
+      "label": "GitHub",
+      "value": "https://github.com/8696/ynwa",
+      "target": "_blank"
+    }
+  ],
+  "categories": [
+    {
+      "id": "AI",
+      "name": "AI",
+      "description": "围绕AI的探索与实践"
+    },
+    {
+      "id": "engineering",
+      "name": "技术实践",
+      "description": "围绕前端工程、性能与开发流程的记录"
+    },
+    {
+      "id": "writing",
+      "name": "随便写写",
+      "description": "随便写写，想到什么写什么"
+    },
+    {
+      "id": "life",
+      "name": "生活记录",
+      "description": "日常观察、习惯复盘与长期计划"
+    }
+  ],
+  "tags": [
+    {
+      "id": "AI",
+      "name": "AI"
+    },
+    {
+      "id": "Hermes-Agent",
+      "name": "Hermes Agent"
+    },
+    {
+      "id": "frontend",
+      "name": "前端"
+    },
+    {
+      "id": "javascript",
+      "name": "JavaScript"
+    },
+    {
+      "id": "性能优化",
+      "name": "性能优化"
+    },
+    {
+      "id": "productivity",
+      "name": "效率"
+    },
+    {
+      "id": "writing",
+      "name": "写作"
+    },
+    {
+      "id": "life",
+      "name": "生活"
+    }
+  ],
+  "posts": [
+    {
+      "id": "1",
+      "title": "使用 Claude code 生成个人博客网站",
+      "category": ["engineering", "AI"],
+      "tags": ["javascript", "frontend", "AI"],
+      "date": "2026-04-25",
+      "summary": "使用 Claude code 生成个人博客网站",
+      "file": "README.md",
+      "cover": ""
+    },
+    {
+      "id": "2",
+      "title": "Hermes Agent 工作流程详解",
+      "category": ["AI"],
+      "tags": ["Hermes-Agent", "AI"],
+      "date": "2026-04-25",
+      "summary": "Hermes Agent 是由 Nous Research 构建的自我改进型 AI 代理，一个灵活的多平台 AI 助手",
+      "file": "articles/ai/hermes/workflow-summary.md",
+      "cover": ""
+    }
+  ]
+}

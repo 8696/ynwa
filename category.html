@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-pm-title="category">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/vendor/tailwindcss.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/vendor/highlight.github.min.css" />
+</head>
+<body class="min-h-screen flex flex-col bg-white text-[#1c1c1e] antialiased">
+
+  <!-- ============================================================
+       顶栏：与首页相同结构，分类导航会高亮当前分类
+       ============================================================ -->
+  <header class="header-blur sticky top-0 z-50 border-b border-[#f2f2f7]">
+    <div class="max-w-[784px] mx-auto px-8 min-h-16 flex items-stretch justify-start gap-8">
+      <a href="index.html" class="site-title shrink-0 self-center text-[26px] font-semibold text-[#1c1c1e] tracking-tight no-underline hover:opacity-60 transition-opacity duration-200">YNWA</a>
+      <nav id="nav-categories" class="flex flex-1 min-w-0 items-center justify-start flex-wrap gap-x-0.5"></nav>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       主体内容
+       ============================================================ -->
+  <main class="max-w-[784px] mx-auto px-8 flex-1 w-full">
+
+    <!-- 页面标题区：分类名称和描述由 JS 动态填入 -->
+    <div class="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+      <p class="text-[13px] font-medium tracking-[0.12em] uppercase text-[#8e8e93] mb-2">分类</p>
+      <!-- id="cat-title" 由 JS 写入分类显示名 -->
+      <h1 id="cat-title" class="text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">…</h1>
+      <!-- id="cat-desc" 由 JS 写入分类描述，可为空 -->
+      <p id="cat-desc" class="mt-2 text-[17px] font-normal text-[#8e8e93] leading-relaxed"></p>
+    </div>
+
+    <!-- 文章列表：加载完成后由 JS 替换为对应分类的卡片 -->
+    <div id="post-list" class="flex flex-col">
+      <div class="py-20 text-center text-[#8e8e93] text-[15px] font-normal">加载中…</div>
+    </div>
+
+    <!-- 分页导航 -->
+    <div id="pager"></div>
+
+  </main>
+
+  <!-- ============================================================
+       页脚
+       ============================================================ -->
+  <footer id="site-footer"></footer>
+
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/pagination.js"></script>
+  <script src="assets/js/render.js"></script>
+  <script>
+    (async () => {
+      renderFooter();
+
+      // 从 URL 读取分类 id，例如 ?id=tech
+      const catId = getParam('id');
+      const db = await loadDB();
+
+      // 渲染导航，将当前分类高亮
+      await renderNav({ type: 'category', value: catId });
+
+      // 查找分类信息；找不到时显示错误提示并提前退出
+      const cat = db.categories.find(c => c.id === catId);
+      if (!cat) {
+        document.getElementById('cat-title').textContent = '分类不存在';
+        document.getElementById('post-list').innerHTML = '<div class="py-20 text-center text-[#8e8e93]">找不到该分类</div>';
+        return;
+      }
+
+      // 更新页面标题和 Hero 区域
+      document.title = `${cat.name} · ${getSiteName()}`;
+      document.getElementById('cat-title').textContent = cat.name;
+      document.getElementById('cat-desc').textContent = cat.description || '';
+
+      // 筛选出属于该分类的文章（category 支持字符串或数组），再做本地分页
+      const filtered = db.posts.filter(p =>
+        Array.isArray(p.category) ? p.category.includes(catId) : p.category === catId
+      );
+      const page = parseInt(getParam('page') || '1', 10);
+      const { items, current, totalPages } = paginate(filtered, page, PAGE_SIZE);
+
+      // 渲染文章卡片
+      const listEl = document.getElementById('post-list');
+      listEl.innerHTML = items.length
+        ? items.map(p => renderPostCard(p, db)).join('')
+        : '<div class="py-20 text-center text-[#8e8e93]">该分类暂无文章</div>';
+
+      // 翻页时保留 ?id= 参数，避免丢失当前分类
+      renderPager(document.getElementById('pager'), current, totalPages, n => `category.html?id=${catId}&page=${n}`);
+    })();
+  </script>
+</body>
+</html>
