@@ -7,7 +7,7 @@ let _db = null;
 
 /**
  * 加载并缓存 db.json；命中 localStorage 且未过期则不发请求。
- * 返回对象中 posts 已按 date 降序。
+ * 返回对象中 articles 已按 date 降序。
  */
 async function loadDB() {
   if (_db) return _db;
@@ -37,7 +37,7 @@ async function loadDB() {
 
   const res = await fetch(DB_URL+ '?_=' + new Date().getTime());
   _db = await res.json();
-  _db.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+  _db.articles.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify(_db));

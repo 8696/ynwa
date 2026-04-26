@@ -62,8 +62,8 @@
       document.getElementById('tag-title').textContent = `${tag.name}`;
       document.getElementById('tag-desc').textContent = '含此标签的文章';
 
-      // posts.tags 为 id 数组，包含即视为命中
-      const filtered = db.posts.filter(p => (p.tags || []).includes(tagId));
+      // articles.tags 为 id 数组，包含即视为命中
+      const filtered = db.articles.filter(p => (p.tags || []).includes(tagId));
       const page = parseInt(getParam('page') || '1', 10);
       const { items, current, totalPages } = paginate(filtered, page, PAGE_SIZE);
 

@@ -67,7 +67,7 @@
       const page = parseInt(getParam('page') || '1', 10);
 
       // 对全量文章做本地分页
-      const { items, current, totalPages } = paginate(db.posts, page, PAGE_SIZE);
+      const { items, current, totalPages } = paginate(db.articles, page, PAGE_SIZE);
 
       // 渲染文章卡片列表
       const listEl = document.getElementById('post-list');

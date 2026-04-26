@@ -26,10 +26,10 @@ function getCategoryName(db, id) {
 }
 
 /**
- * post.category 支持字符串或数组，统一返回 { id, name }[] 列表
+ * post.categories 支持字符串或数组，统一返回 { id, name }[] 列表
  */
-function getCategoryList(db, category) {
-  const ids = Array.isArray(category) ? category : (category ? [category] : []);
+function getCategoryList(db, categories) {
+  const ids = Array.isArray(categories) ? categories : (categories ? [categories] : []);
   return ids.map(id => {
     const cat = db.categories.find(c => c.id === id);
     return { id, name: cat ? cat.name : id };

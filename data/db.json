@@ -83,11 +83,11 @@
       "name": "生活"
     }
   ],
-  "posts": [
+  "articles": [
     {
       "id": "1",
       "title": "使用 Claude code 生成个人博客网站",
-      "category": ["engineering", "AI"],
+      "categories": ["engineering", "AI"],
       "tags": ["javascript", "frontend", "AI"],
       "date": "2026-04-25",
       "summary": "使用 Claude code 生成个人博客网站",
@@ -97,7 +97,7 @@
     {
       "id": "2",
       "title": "Hermes Agent 工作流程详解",
-      "category": ["AI"],
+      "categories": ["AI"],
       "tags": ["Hermes-Agent", "AI"],
       "date": "2026-04-25",
       "summary": "Hermes Agent 是由 Nous Research 构建的自我改进型 AI 代理，一个灵活的多平台 AI 助手",

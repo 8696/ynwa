@@ -78,9 +78,9 @@
       document.getElementById('cat-title').textContent = cat.name;
       document.getElementById('cat-desc').textContent = cat.description || '';
 
-      // 筛选出属于该分类的文章（category 支持字符串或数组），再做本地分页
-      const filtered = db.posts.filter(p =>
-        Array.isArray(p.category) ? p.category.includes(catId) : p.category === catId
+      // 筛选出属于该分类的文章（categories 支持字符串或数组），再做本地分页
+      const filtered = db.articles.filter(p =>
+        Array.isArray(p.categories) ? p.categories.includes(catId) : p.categories === catId
       );
       const page = parseInt(getParam('page') || '1', 10);
       const { items, current, totalPages } = paginate(filtered, page, PAGE_SIZE);

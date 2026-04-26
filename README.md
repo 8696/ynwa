@@ -64,13 +64,13 @@ npx serve .
 articles/my-article.md
 ```
 
-**第二步**：在 `data/db.json` 的 `posts` 数组末尾追加一条记录：
+**第二步**：在 `data/db.json` 的 `articles` 数组末尾追加一条记录：
 
 ```json
 {
   "id": "201",
   "title": "文章标题",
-  "category": "engineering",
+  "categories": ["engineering"],
   "tags": ["javascript", "frontend"],
   "date": "2026-05-01",
   "summary": "一句话摘要，显示在列表页卡片与详情页头部。",
@@ -85,7 +85,7 @@ articles/my-article.md
 |------|------|------|
 | `id` | string | 全局唯一，用作文章页 URL 参数（`?id=201`） |
 | `title` | string | 文章标题 |
-| `category` | string | 分类 id，需在 `categories` 数组中存在 |
+| `categories` | string[] | 分类 id 列表，需在 `categories` 数组中存在 |
 | `tags` | string[] | 标签 id 列表，需在 `tags` 数组中存在 |
 | `date` | string | 发布日期，格式 `YYYY-MM-DD`，列表页按此降序排列 |
 | `summary` | string | 摘要文字，列表卡片最多展示 2 行 |
@@ -181,7 +181,7 @@ clearDBCache()
 
 ## 搜索功能
 
-搜索页（`search.html`）对 `db.posts` 数组中所有文章条目的**字段值**做深度递归搜索（不比较键名），不区分大小写，实时防抖响应（200 ms）。
+搜索页（`search.html`）对 `db.articles` 数组中所有文章条目的**字段值**做深度递归搜索（不比较键名），不区分大小写，实时防抖响应（200 ms）。
 
 - 搜索关键词会同步到 URL 参数 `?q=`，支持直接分享搜索链接
 - 匹配结果按文章去重，最多显示 50 条（`SEARCH_MAX_RESULTS`）

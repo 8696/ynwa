@@ -40,7 +40,7 @@ function applySiteName() {
  * 单条文章 → 列表卡片 HTML
  */
 function renderPostCard(post, db) {
-  const catList = getCategoryList(db, post.category);
+  const catList = getCategoryList(db, post.categories);
   const catsHtml = catList.map(c =>
     `<a href="category.html?id=${encodeURIComponent(c.id)}"
         class="cursor-pointer text-[12px] font-medium text-[#636366] px-2 py-0.5 bg-[#f2f2f7] rounded-full hover:bg-[#e5e5ea] no-underline transition-colors duration-150">

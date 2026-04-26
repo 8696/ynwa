@@ -80,7 +80,7 @@
       await renderNav({ type: 'home' });
 
       // 在数据库中查找对应文章
-      const post = db.posts.find(p => p.id === id);
+      const post = db.articles.find(p => p.id === id);
       const contentEl = document.getElementById('post-content');
 
       // 找不到文章时显示错误提示，不继续执行
@@ -96,7 +96,7 @@
       document.getElementById('post-header').style.display = '';
 
       // 填入分类信息（支持多个分类）
-      const catList = getCategoryList(db, post.category);
+      const catList = getCategoryList(db, post.categories);
       const catCls = 'cursor-pointer text-[12px] font-medium text-[#636366] px-2 py-0.5 bg-[#f2f2f7] rounded-full hover:bg-[#e5e5ea] no-underline transition-colors duration-150';
       document.getElementById('post-cats').innerHTML = catList
         .map(c => `<a href="category.html?id=${encodeURIComponent(c.id)}" class="${catCls}">${c.name}</a>`)

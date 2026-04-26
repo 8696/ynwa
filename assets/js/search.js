@@ -1,5 +1,5 @@
 /* ============================================================
-   search.js — 在 db.posts 的 title / summary 字段中搜索，以文章为单位展示结果
+  search.js — 在 db.articles 的 title / summary 字段中搜索，以文章为单位展示结果
    依赖：无（在页面中于 utils 之后、render 之后加载）
    ============================================================ */
 
@@ -31,16 +31,16 @@ function highlightOne(text, q) {
 }
 
 /**
- * 在 posts 的 title / summary 中搜索，返回匹配的文章数组
+ * 在 articles 的 title / summary 中搜索，返回匹配的文章数组
  * 每篇文章只出现一次，附带 matchedField 标记首个命中字段
  */
 function searchDatabaseAllFields(db, query) {
   const q = (query || '').trim();
   if (!q) return [];
-  const posts = db && Array.isArray(db.posts) ? db.posts : [];
+  const articles = db && Array.isArray(db.articles) ? db.articles : [];
   const qLower = q.toLowerCase();
   const results = [];
-  for (const post of posts) {
+  for (const post of articles) {
     if (!post) continue;
     const inTitle = post.title && String(post.title).toLowerCase().includes(qLower);
     const inSummary = post.summary && String(post.summary).toLowerCase().includes(qLower);
@@ -64,7 +64,7 @@ function renderSearchResultRow(item, query, db) {
          style="-webkit-line-clamp:2;-webkit-box-orient:vertical;display:-webkit-box">${highlightOne(post.summary, query)}</p>`
     : '';
 
-  const catList = getCategoryList(db, post.category);
+  const catList = getCategoryList(db, post.categories);
   const catsHtml = catList.map(c =>
     `<a href="category.html?id=${encodeURIComponent(c.id)}" ${newWindowAttrs}
         class="cursor-pointer text-[12px] font-medium text-[#636366] px-2 py-0.5 bg-[#f2f2f7] rounded-full hover:bg-[#e5e5ea] no-underline transition-colors duration-150">
