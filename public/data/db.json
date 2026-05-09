@@ -99,9 +99,19 @@
       "title": "Hermes Agent 工作流程详解",
       "categories": ["AI"],
       "tags": ["Hermes-Agent", "AI"],
-      "date": "2026-04-25",
+      "date": "2026-04-26",
       "summary": "Hermes Agent 是由 Nous Research 构建的自我改进型 AI 代理，一个灵活的多平台 AI 助手",
       "file": "articles/ai/hermes/workflow-summary.md",
+      "cover": ""
+    },
+    {
+      "id": "3",
+      "title": "Hermes Agent 自学习循环机制深度解析",
+      "categories": ["AI"],
+      "tags": ["Hermes-Agent", "AI"],
+      "date": "2026-05-07",
+      "summary": "",
+      "file": "articles/ai/hermes/hermes-agent-self-learning.md",
       "cover": ""
     }
   ]

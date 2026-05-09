@@ -1,10 +1,10 @@
+@import "tailwindcss";
+@import "highlight.js/styles/github.css";
+
 /* ============================================================
    style.css — 简约 / iOS 感：系统字体、清晰字阶、细边框与毛玻璃
    ============================================================ */
 
-/* ----------------------------------------------------------------
-   设计色板（与 iOS 标签/分隔线类似）
-   ---------------------------------------------------------------- */
 :root {
   --c-label: #1c1c1e;
   --c-secondary: #8e8e93;
@@ -38,7 +38,6 @@ body {
   background: var(--c-grouped-bg);
 }
 
-/* 站点英文标题：优先 Display 字族并增加一点字距 */
 .site-title {
   font-family: 'SF Pro Display', 'SF Pro Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   letter-spacing: 0.02em;
@@ -50,18 +49,14 @@ pre {
   font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 }
 
-/* ----------------------------------------------------------------
-   顶栏毛玻璃
-   ---------------------------------------------------------------- */
+/* 顶栏毛玻璃 */
 .header-blur {
   background: rgba(255, 255, 255, 0.72);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   backdrop-filter: blur(20px) saturate(180%);
 }
 
-/* ----------------------------------------------------------------
-   两行截断
-   ---------------------------------------------------------------- */
+/* 两行截断 */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -82,7 +77,6 @@ pre {
   color: var(--c-label);
 }
 
-/* 文章内标题：大 → 中 → 小，该粗则粗、该细则细 */
 .prose h1,
 .prose h2,
 .prose h3,
@@ -93,10 +87,7 @@ pre {
   margin-bottom: 0.5em;
   letter-spacing: -0.022em;
 }
-.prose h1 {
-  font-size: 30px;
-  font-weight: 600;
-}
+.prose h1 { font-size: 30px; font-weight: 600; }
 .prose h2 {
   font-size: 24px;
   font-weight: 600;
@@ -104,19 +95,10 @@ pre {
   padding-bottom: 0.35em;
   border-bottom: 0.5px solid var(--c-separator);
 }
-.prose h3 {
-  font-size: 19px;
-  font-weight: 600;
-}
-.prose h4 {
-  font-size: 17px;
-  font-weight: 500;
-  color: #3a3a3c;
-}
+.prose h3 { font-size: 19px; font-weight: 600; }
+.prose h4 { font-size: 17px; font-weight: 500; color: #3a3a3c; }
 
-.prose p {
-  margin-bottom: 1.15em;
-}
+.prose p { margin-bottom: 1.15em; }
 
 .prose a {
   color: var(--c-tint);
@@ -134,9 +116,7 @@ pre {
   padding-left: 1.35em;
   margin-bottom: 1.15em;
 }
-.prose li {
-  margin-bottom: 0.3em;
-}
+.prose li { margin-bottom: 0.3em; }
 
 .prose blockquote {
   border-left: 2px solid var(--c-separator);
@@ -232,13 +212,8 @@ pre {
   word-wrap: break-word;
 }
 
-.markdown-body > *:first-child {
-  margin-top: 0;
-}
-
-.markdown-body > *:last-child {
-  margin-bottom: 0;
-}
+.markdown-body > *:first-child { margin-top: 0; }
+.markdown-body > *:last-child { margin-bottom: 0; }
 
 .markdown-body h1,
 .markdown-body h2,
@@ -283,35 +258,22 @@ pre {
 }
 
 .markdown-body ul,
-.markdown-body ol {
-  padding-left: 2em;
-}
+.markdown-body ol { padding-left: 2em; }
 
-.markdown-body li + li {
-  margin-top: 0.25em;
-}
-
-.markdown-body li > p {
-  margin-top: 16px;
-}
-
-.markdown-body li > p:first-child {
-  margin-top: 0;
-}
+.markdown-body li + li { margin-top: 0.25em; }
+.markdown-body li > p { margin-top: 16px; }
+.markdown-body li > p:first-child { margin-top: 0; }
 
 .markdown-body a {
   color: var(--md-link);
   text-decoration: none;
 }
-
 .markdown-body a:hover {
   color: var(--md-link-hover);
   text-decoration: underline;
 }
 
-.markdown-body strong {
-  font-weight: 600;
-}
+.markdown-body strong { font-weight: 600; }
 
 .markdown-body blockquote {
   padding: 0 1em;
