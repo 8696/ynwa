@@ -15,6 +15,18 @@ export default function Category() {
 
   const cat = useMemo(() => db?.categories.find(c => c.id === catId), [db, catId])
 
+  const filtered = useMemo(() => {
+    if (!db) return []
+    return db.articles.filter(p =>
+      Array.isArray(p.categories) ? p.categories.includes(catId) : p.categories === catId,
+    )
+  }, [db, catId])
+
+  const { items, current, totalPages } = useMemo(
+    () => paginate(filtered, page, PAGE_SIZE),
+    [filtered, page],
+  )
+
   useEffect(() => {
     if (cat) document.title = `${cat.name} · ${SITE_NAME}`
   }, [cat])
@@ -38,11 +50,6 @@ export default function Category() {
       </main>
     )
   }
-
-  const filtered = useMemo(() => db.articles.filter(p =>
-    Array.isArray(p.categories) ? p.categories.includes(catId) : p.categories === catId,
-  ), [db.articles, catId])
-  const { items, current, totalPages } = useMemo(() => paginate(filtered, page, PAGE_SIZE), [filtered, page])
 
   return (
     <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
