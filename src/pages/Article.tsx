@@ -4,7 +4,7 @@ import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import hljs from 'highlight.js'
 import { useDB } from '../hooks/useDB'
-import { formatDate, getCategoryList } from '../utils'
+import { formatDate, getCategoryList, resolvePublicAssetUrl } from '../utils'
 import { SITE_NAME } from '../config'
 import TagLinks from '../components/TagLinks'
 
@@ -32,8 +32,7 @@ export default function Article() {
     let cancelled = false
     async function load() {
       try {
-        const file = post!.file
-        const filePath = file.startsWith('/') ? file : '/' + file
+        const filePath = resolvePublicAssetUrl(post!.file)
         const res = await fetch(filePath)
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         const mdText = await res.text()

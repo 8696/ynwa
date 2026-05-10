@@ -1,3 +1,12 @@
+/**
+ * 静态资源公网根（无尾斜杠）。文章 `file`、`cover` 若存相对路径且托管在 OSS，
+ * 构建前设置环境变量 `VITE_PUBLIC_ASSET_BASE`，例如：https://bucket.oss-cn-shenzhen.aliyuncs.com
+ */
+export const PUBLIC_ASSET_BASE = (
+  import.meta.env.VITE_PUBLIC_ASSET_BASE as string | undefined
+)?.trim()
+  .replace(/\/$/, '') ?? ''
+
 /** 站点名称 */
 export const SITE_NAME = 'YNWA'
 /** 文章数据库 JSON 文件路径 */

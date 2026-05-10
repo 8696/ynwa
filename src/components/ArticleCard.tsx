@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { formatDate, getCategoryList } from '../utils'
+import { formatDate, getCategoryList, resolvePublicAssetUrl } from '../utils'
 import TagLinks from './TagLinks'
 import type { Article, DB } from '../types'
 
@@ -7,7 +7,8 @@ import type { Article, DB } from '../types'
 export default function ArticleCard({ post, db }: { post: Article; db: DB }) {
   const catList = getCategoryList(db, post.categories)
   const dateStr = formatDate(post.date)
-  const cover = typeof post.cover === 'string' ? post.cover.trim() : ''
+  const coverRaw = typeof post.cover === 'string' ? post.cover.trim() : ''
+  const cover = coverRaw ? resolvePublicAssetUrl(coverRaw) : ''
   // 有封面时采用左右布局：左侧文字 + 右侧缩略图
 
   return (

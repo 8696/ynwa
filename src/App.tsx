@@ -6,6 +6,7 @@ import Article from './pages/Article'
 import Category from './pages/Category'
 import Tag from './pages/Tag'
 import Search from './pages/Search'
+import Upload from './pages/Upload'
 import NotFound from './pages/NotFound'
 
 /**
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/category/:id" element={<Category />} />
         <Route path="/tag/:id" element={<Tag />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/upload" element={<Upload />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

@@ -1,4 +1,5 @@
 import type { DB, Article, PaginatedResult, SearchResult } from './types'
+import { PUBLIC_ASSET_BASE } from './config'
 
 /** 将日期字符串格式化为中文长日期，如 "2026年4月25日" */
 export function formatDate(dateStr: string): string {
@@ -96,4 +97,29 @@ export function searchArticles(db: DB, query: string): SearchResult[] {
     }
   }
   return results
+}
+
+/**
+ * db.json 中 article.file：站内或 OSS 相对路径统一为单前导 `/`；完整 http(s) URL 保持原样。
+ */
+export function normalizeArticleFilePath(file: string): string {
+  const p = file.trim()
+  if (!p) return ''
+  if (/^https?:\/\//i.test(p)) return p
+  return '/' + p.replace(/^\/+/, '')
+}
+
+/**
+ * 将 db 中的 file / cover 转为可请求的 URL。
+ * 已是 http(s) 则原样返回；否则若有 PUBLIC_ASSET_BASE 则拼到 OSS 根下；否则作为站内路径（前导 /）。
+ */
+export function resolvePublicAssetUrl(path: string): string {
+  const raw = path.trim()
+  if (!raw) return ''
+  if (/^https?:\/\//i.test(raw)) return raw
+  const p = normalizeArticleFilePath(raw)
+  const base = PUBLIC_ASSET_BASE
+  if (!base) return p
+  const rel = p.replace(/^\/+/, '')
+  return `${base}/${rel}`
 }
