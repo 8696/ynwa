@@ -1,13 +1,15 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Home from './pages/Home'
-import Article from './pages/Article'
-import Category from './pages/Category'
-import Tag from './pages/Tag'
-import Search from './pages/Search'
-import Upload from './pages/Upload'
-import NotFound from './pages/NotFound'
+
+const Home = lazy(() => import('./pages/Home'))
+const Article = lazy(() => import('./pages/Article'))
+const Category = lazy(() => import('./pages/Category'))
+const Tag = lazy(() => import('./pages/Tag'))
+const Search = lazy(() => import('./pages/Search'))
+const Upload = lazy(() => import('./pages/Upload'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 /**
  * 应用根组件
@@ -25,15 +27,17 @@ export default function App() {
   return (
     <>
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/article/:id" element={<Article />} />
-        <Route path="/category/:id" element={<Category />} />
-        <Route path="/tag/:id" element={<Tag />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/upload" element={<Upload />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<div className="h-screen w-full bg-white"></div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/article/:id" element={<Article />} />
+          <Route path="/category/:id" element={<Category />} />
+          <Route path="/tag/:id" element={<Tag />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
       <Footer />
     </>
   )
