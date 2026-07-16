@@ -9,13 +9,13 @@ export default function ArticleCard({ post, db }: { post: Article; db: DB }) {
   const dateStr = formatDate(post.date)
   const coverRaw = typeof post.cover === 'string' ? post.cover.trim() : ''
   const cover = coverRaw ? resolvePublicAssetUrl(coverRaw) : ''
-  // 有封面时采用左右布局：左侧文字 + 右侧缩略图
+  // 有封面时布局：< 768px 竖排（封面在上）；≥ 768px（md:）左文右图
 
   return (
-    <article className="py-9 border-b border-[#f2f2f7] first:pt-0">
-      <div className={cover ? 'flex items-start gap-5' : ''}>
+    <article className="py-7 md:py-9 border-b border-[#f2f2f7] first:pt-0">
+      <div className={cover ? 'flex flex-col-reverse md:flex-row items-start gap-4 md:gap-5' : ''}>
         <div className={cover ? 'min-w-0 flex-1' : ''}>
-          <h2 className="text-[22px] font-semibold tracking-[-0.02em] leading-tight mb-3">
+          <h2 className="text-[20px] md:text-[22px] font-semibold tracking-[-0.02em] leading-tight mb-3">
             <Link
               to={`/article/${post.id}`}
               className="cursor-pointer text-[#1c1c1e] no-underline hover:opacity-70 transition-opacity duration-150"
@@ -43,7 +43,10 @@ export default function ArticleCard({ post, db }: { post: Article; db: DB }) {
           </div>
         </div>
         {cover && (
-          <Link to={`/article/${post.id}`} className="block w-[180px] h-[108px] shrink-0 rounded-xl overflow-hidden bg-[#f2f2f7]">
+          <Link
+            to={`/article/${post.id}`}
+            className="block w-full h-[180px] md:w-[180px] md:h-[108px] shrink-0 rounded-xl overflow-hidden bg-[#f2f2f7]"
+          >
             <img src={cover} alt={post.title} loading="lazy" className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-200" />
           </Link>
         )}

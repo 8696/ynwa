@@ -130,36 +130,38 @@ const STEPS: { key: Step; label: string }[] = [
 function Stepper({ current }: { current: Step }) {
   const idx = STEPS.findIndex(s => s.key === current)
   return (
-    <div className="flex items-center gap-0 mb-10">
-      {STEPS.map((s, i) => (
-        <div key={s.key} className="flex items-center">
-          <div className="flex flex-col items-center">
-            <div
-              className={`w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-semibold transition-colors ${
-                i < idx
-                  ? 'bg-[#34c759] text-white'
-                  : i === idx
-                  ? 'bg-[#007aff] text-white'
-                  : 'bg-[#f2f2f7] text-[#aeaeb2]'
-              }`}
-            >
-              {i < idx ? '✓' : i + 1}
+    <div className="overflow-x-auto -mx-1 px-1 mb-8 md:mb-10">
+      <div className="flex items-center gap-0 min-w-min">
+        {STEPS.map((s, i) => (
+          <div key={s.key} className="flex items-center shrink-0">
+            <div className="flex flex-col items-center">
+              <div
+                className={`w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-semibold transition-colors ${
+                  i < idx
+                    ? 'bg-[#34c759] text-white'
+                    : i === idx
+                    ? 'bg-[#007aff] text-white'
+                    : 'bg-[#f2f2f7] text-[#aeaeb2]'
+                }`}
+              >
+                {i < idx ? '✓' : i + 1}
+              </div>
+              <span
+                className={`mt-1 text-[10px] sm:text-[11px] whitespace-nowrap ${
+                  i === idx ? 'text-[#007aff] font-medium' : 'text-[#aeaeb2]'
+                }`}
+              >
+                {s.label}
+              </span>
             </div>
-            <span
-              className={`mt-1 text-[11px] whitespace-nowrap ${
-                i === idx ? 'text-[#007aff] font-medium' : 'text-[#aeaeb2]'
-              }`}
-            >
-              {s.label}
-            </span>
+            {i < STEPS.length - 1 && (
+              <div
+                className={`w-6 sm:w-10 h-px mb-4 transition-colors ${i < idx ? 'bg-[#34c759]' : 'bg-[#e5e5ea]'}`}
+              />
+            )}
           </div>
-          {i < STEPS.length - 1 && (
-            <div
-              className={`w-10 h-px mb-4 transition-colors ${i < idx ? 'bg-[#34c759]' : 'bg-[#e5e5ea]'}`}
-            />
-          )}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
@@ -467,12 +469,12 @@ export default function Upload() {
   // ─── 渲染 ─────────────────────────────────────────────────────────────────
 
   return (
-    <main className="max-w-[784px] mx-auto px-8 flex-1 w-full pb-20">
-      <div className="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+    <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full pb-20">
+      <div className="pt-8 md:pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
         <p className="text-[13px] font-medium tracking-[0.12em] uppercase text-[#8e8e93] mb-2">
           工具
         </p>
-        <h1 className="text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">
+        <h1 className="text-[28px] md:text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">
           OSS 上传
         </h1>
         <p className="mt-2 text-[17px] font-normal text-[#8e8e93] leading-relaxed">
@@ -528,7 +530,7 @@ export default function Upload() {
             配置保存在当前浏览器中，下次打开页面无需重新填写。
           </p>
 
-          <div className="flex items-center gap-3 mt-2">
+          <div className="flex flex-wrap items-center gap-3 mt-2">
             <button
               onClick={handleConfigNext}
               className="px-5 py-2 rounded-lg bg-[#007aff] text-white text-[15px] font-medium hover:bg-[#0066d6] transition-colors"
@@ -627,7 +629,7 @@ export default function Upload() {
             </div>
           )}
 
-          <div className="flex items-center gap-3 mt-2">
+          <div className="flex flex-wrap items-center gap-3 mt-2">
             <button
               onClick={handleUpload}
               disabled={!file || uploading}
@@ -782,7 +784,7 @@ export default function Upload() {
             </div>
           )}
 
-          <div className="flex items-center gap-3 mt-2">
+          <div className="flex flex-wrap items-center gap-3 mt-2">
             <button
               onClick={handleMetaNext}
               className="px-5 py-2 rounded-lg bg-[#007aff] text-white text-[15px] font-medium hover:bg-[#0066d6] transition-colors"

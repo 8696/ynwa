@@ -68,7 +68,7 @@ export default function Article() {
 
   if (!db) {
     return (
-      <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
+      <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
         <div className="py-20 text-center text-[#8e8e93] text-[15px] font-normal">加载中…</div>
       </main>
     )
@@ -76,7 +76,7 @@ export default function Article() {
 
   if (!post) {
     return (
-      <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
+      <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
         <div className="py-20 text-center text-[#8e8e93]">文章不存在</div>
       </main>
     )
@@ -85,8 +85,8 @@ export default function Article() {
   const catList = getCategoryList(db, post.categories)
 
   return (
-    <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
-      <div className="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+    <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
+      <div className="pt-8 md:pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
         {window.history.length > 1 ? (
           <a
             onClick={e => { e.preventDefault(); navigate(-1) }}
@@ -103,7 +103,7 @@ export default function Article() {
           </Link>
         )}
 
-        <h1 className="text-[38px] font-semibold tracking-[-0.03em] leading-[1.12] mb-3 text-[#1c1c1e]">
+        <h1 className="text-[26px] md:text-[38px] font-semibold tracking-[-0.03em] leading-[1.12] mb-3 text-[#1c1c1e]">
           {post.title}
         </h1>
 

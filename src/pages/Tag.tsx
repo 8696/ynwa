@@ -21,7 +21,7 @@ export default function Tag() {
 
   if (!db) {
     return (
-      <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
+      <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
         <div className="py-20 text-center text-[#8e8e93] text-[15px] font-normal">加载中…</div>
       </main>
     )
@@ -29,10 +29,10 @@ export default function Tag() {
 
   if (!tag) {
     return (
-      <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
-        <div className="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+      <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
+        <div className="pt-8 md:pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
           <p className="text-[13px] font-medium tracking-[0.12em] uppercase text-[#8e8e93] mb-2">标签</p>
-          <h1 className="text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">标签不存在</h1>
+          <h1 className="text-[28px] md:text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">标签不存在</h1>
         </div>
         <div className="py-20 text-center text-[#8e8e93]">找不到该标签</div>
       </main>
@@ -43,10 +43,10 @@ export default function Tag() {
   const { items, current, totalPages } = useMemo(() => paginate(filtered, page, PAGE_SIZE), [filtered, page])
 
   return (
-    <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
-      <div className="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+    <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
+      <div className="pt-8 md:pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
         <p className="text-[13px] font-medium tracking-[0.12em] uppercase text-[#8e8e93] mb-2">标签</p>
-        <h1 className="text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">{tag.name}</h1>
+        <h1 className="text-[28px] md:text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">{tag.name}</h1>
         <p className="mt-2 text-[17px] font-normal text-[#8e8e93] leading-relaxed">含此标签的文章</p>
       </div>
 
