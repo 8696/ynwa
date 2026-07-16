@@ -33,7 +33,7 @@ export default function Category() {
 
   if (!db) {
     return (
-      <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
+      <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
         <div className="py-20 text-center text-[#8e8e93] text-[15px] font-normal">加载中…</div>
       </main>
     )
@@ -41,10 +41,10 @@ export default function Category() {
 
   if (!cat) {
     return (
-      <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
-        <div className="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+      <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
+        <div className="pt-8 md:pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
           <p className="text-[13px] font-medium tracking-[0.12em] uppercase text-[#8e8e93] mb-2">分类</p>
-          <h1 className="text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">分类不存在</h1>
+          <h1 className="text-[28px] md:text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">分类不存在</h1>
         </div>
         <div className="py-20 text-center text-[#8e8e93]">找不到该分类</div>
       </main>
@@ -52,10 +52,10 @@ export default function Category() {
   }
 
   return (
-    <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
-      <div className="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+    <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
+      <div className="pt-8 md:pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
         <p className="text-[13px] font-medium tracking-[0.12em] uppercase text-[#8e8e93] mb-2">分类</p>
-        <h1 className="text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">{cat.name}</h1>
+        <h1 className="text-[28px] md:text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">{cat.name}</h1>
         {cat.description && (
           <p className="mt-2 text-[17px] font-normal text-[#8e8e93] leading-relaxed">{cat.description}</p>
         )}

@@ -26,7 +26,6 @@
 a { cursor: pointer; }
 
 html {
-  min-width: 1200px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -189,6 +188,8 @@ pre {
 }
 
 .prose img {
+  max-width: 100%;
+  height: auto;
   border-radius: 8px;
   margin: 1.35em 0;
 }
@@ -351,7 +352,8 @@ pre {
 
 .markdown-body img {
   max-width: 100%;
-  box-sizing: content-box;
+  height: auto;
+  box-sizing: border-box;
   background-color: #ffffff;
 }
 

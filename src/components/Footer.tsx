@@ -4,7 +4,7 @@ export default function Footer() {
   const y = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-[#e5e5ea] py-8 text-center text-[13px] font-normal text-[#8e8e93]">
+    <footer className="border-t border-[#e5e5ea] py-8 px-4 text-center text-[13px] font-normal text-[#8e8e93]">
       © {FOOTER_COPYRIGHT_START}–{y} &nbsp;|&nbsp;{' '}
       <a
         href={FOOTER_ICP_LINK}

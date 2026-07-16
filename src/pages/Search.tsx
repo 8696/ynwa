@@ -20,7 +20,7 @@ function SearchResultRow({ post, query, db }: { post: Article; query: string; db
   }), [db.tags, post.tags])
 
   return (
-    <article className="py-9 border-b border-[#f2f2f7] first:pt-0">
+    <article className="py-7 md:py-9 border-b border-[#f2f2f7] first:pt-0">
       <div>
         <div>
           <h2 className="text-[22px] font-semibold tracking-[-0.02em] leading-tight mb-3">
@@ -127,10 +127,10 @@ export default function Search() {
   const isTruncated = useMemo(() => rows.length > SEARCH_MAX_RESULTS, [rows])
 
   return (
-    <main className="max-w-[784px] mx-auto px-8 flex-1 w-full">
-      <div className="pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
+    <main className="max-w-[784px] mx-auto px-4 md:px-8 flex-1 w-full">
+      <div className="pt-8 md:pt-12 pb-9 border-b border-[#e5e5ea] mb-9">
         <p className="text-[13px] font-medium tracking-[0.12em] uppercase text-[#8e8e93] mb-2">文章搜索</p>
-        <h1 className="text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">搜索</h1>
+        <h1 className="text-[28px] md:text-[40px] font-semibold tracking-[-0.03em] leading-[1.05]">搜索</h1>
         <p className="mt-2 text-[17px] font-normal text-[#8e8e93] leading-relaxed">输入关键词，在全部文章条目的字段值中匹配</p>
       </div>
 
