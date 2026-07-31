@@ -17,6 +17,10 @@ export const PAGE_SIZE = 10
 export const CACHE_KEY = 'DA_CACHE_KEY'
 /** localStorage 中缓存时间戳的 key */
 export const CACHE_TS_KEY = 'DA_CACHE_TS_KEY'
+/** localStorage 中永久禁用 db.json 缓存的标识 key */
+export const CACHE_DISABLED_KEY = 'DA_CACHE_DISABLED'
+/** 任意页面 URL 上用于禁用缓存的查询参数名；仅 nocache=1 生效（如 /?nocache=1） */
+export const CACHE_DISABLE_PARAM = 'nocache'
 /** 缓存有效期：1 小时（毫秒） */
 export const CACHE_TTL_MS = 3600 * 1000
 /** 版权起始年份 */
