@@ -102,7 +102,7 @@ function Header() {
   }
 
   var searchIcon = (
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
       <circle cx="11" cy="11" r="7"></circle>
       <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
     </svg>
@@ -112,6 +112,7 @@ function Header() {
     <header className="site-header">
       <div className="site-header-inner">
         <ReactRouterDOM.Link to="/" className="site-title">
+          <span className="logo-badge" aria-hidden="true">{SITE_NAME.charAt(0)}</span>
           {SITE_NAME}
         </ReactRouterDOM.Link>
 
@@ -135,13 +136,15 @@ function Header() {
               </ReactRouterDOM.Link>
             )
           })}
-          <ReactRouterDOM.Link to="/search" className="nav-link nav-link--search" aria-label="搜索" title="搜索">
-            <svg aria-hidden="true" viewBox="0 0 24 24" className="nav-search-icon" fill="none" stroke="currentColor" strokeWidth="1.75">
+          <ReactRouterDOM.Link to="/search" className={navClass(activeNav.type === 'search') + ' nav-link--search'} aria-label="搜索" title="搜索">
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="nav-search-icon" fill="none" stroke="currentColor" strokeWidth="2.5">
               <circle cx="11" cy="11" r="7"></circle>
               <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
             </svg>
           </ReactRouterDOM.Link>
         </nav>
+        <ReactRouterDOM.Link className="nav-link nav-link--about" to={{ pathname: '/', hash: 'about' }}>关于</ReactRouterDOM.Link>
+        <ReactRouterDOM.Link className="nav-link nav-link--about" to={{ pathname: '/', hash: 'contact' }}>联系</ReactRouterDOM.Link>
 
         <div className="header-tools">
           <ReactRouterDOM.Link to="/search" className="icon-btn" aria-label="搜索" title="搜索">
@@ -155,12 +158,12 @@ function Header() {
             onClick={function () { setMenuOpen(function (open) { return !open }) }}
           >
             {menuOpen ? (
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <line x1="6" y1="6" x2="18" y2="18"></line>
                 <line x1="6" y1="18" x2="18" y2="6"></line>
               </svg>
             ) : (
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <line x1="4" y1="7" x2="20" y2="7"></line>
                 <line x1="4" y1="12" x2="20" y2="12"></line>
                 <line x1="4" y1="17" x2="20" y2="17"></line>
@@ -207,6 +210,20 @@ function Header() {
               </ReactRouterDOM.Link>
             )
           })}
+          <ReactRouterDOM.Link
+            to={{ pathname: '/', hash: 'about' }}
+            className="nav-mobile-link"
+            onClick={function () { setMenuOpen(false) }}
+          >
+            关于
+          </ReactRouterDOM.Link>
+          <ReactRouterDOM.Link
+            to={{ pathname: '/', hash: 'contact' }}
+            className="nav-mobile-link"
+            onClick={function () { setMenuOpen(false) }}
+          >
+            联系
+          </ReactRouterDOM.Link>
         </nav>
       )}
     </header>
@@ -216,13 +233,129 @@ function Header() {
 /** 页脚版权年份用「起始年–今年」，避免每年改常量 */
 function Footer() {
   var y = new Date().getFullYear()
+  var github = getGithubNav(useDB().db)
   return (
     <footer className="site-footer">
-      © {FOOTER_COPYRIGHT_START}–{y} &nbsp;|&nbsp;{' '}
+      <ReactRouterDOM.Link to="/" className="site-footer-brand">{SITE_NAME}</ReactRouterDOM.Link>
+      <p className="site-footer-links">
+        {SITE_EMAIL ? (
+          <a href={'mailto:' + SITE_EMAIL}>{SITE_EMAIL}</a>
+        ) : null}
+        {SITE_EMAIL && github ? <span aria-hidden="true"> · </span> : null}
+        {github ? (
+          <a href={github.value} target="_blank" rel="noopener noreferrer">
+            {github.label || 'GitHub'} ↗
+          </a>
+        ) : null}
+      </p>
+      © {FOOTER_COPYRIGHT_START}–{y} ·{' '}
       <a href={FOOTER_ICP_LINK} target="_blank" rel="noopener noreferrer">
         {FOOTER_ICP}
       </a>
     </footer>
+  )
+}
+
+/**
+ * 「屏幕之外的我」。文案来自 SITE_AUTHOR / SITE_CITY / SITE_ABOUT_BIO / SITE_ABOUT_TAGS。
+ */
+function AboutSection() {
+  if (!SITE_AUTHOR && !SITE_ABOUT_BIO && !(SITE_ABOUT_WHY && SITE_ABOUT_WHY.length)) return null
+  var tags = (Array.isArray(SITE_ABOUT_TAGS) ? SITE_ABOUT_TAGS : []).map(function (tag) {
+    if (tag && typeof tag === 'object') {
+      return { name: tag.name, desc: tag.desc || '' }
+    }
+    return { name: String(tag), desc: '' }
+  }).filter(function (tag) { return tag.name })
+  var why = Array.isArray(SITE_ABOUT_WHY) ? SITE_ABOUT_WHY : SITE_ABOUT_WHY ? [SITE_ABOUT_WHY] : []
+
+  return (
+    <section className="about" id="about" aria-labelledby="about-title">
+      <div className="wrap">
+        <div className="about-head">
+          <span className="eyebrow">About · 关于</span>
+          <h2 id="about-title" className="about-title">屏幕之外的我</h2>
+        </div>
+        <div className="about-grid">
+          <div className="about-portrait">
+            <div className="about-portrait-dots" aria-hidden="true"></div>
+            <div className="about-portrait-body">
+              {SITE_AUTHOR ? <h3>{SITE_AUTHOR}</h3> : null}
+              {SITE_CITY ? <p className="about-city">{SITE_CITY}</p> : null}
+              {tags.length ? (
+                <ul className="about-facts">
+                  {tags.map(function (tag) {
+                    return (
+                      <li key={tag.name}>
+                        <div>
+                          <span className="about-fact-name">{tag.name}</span>
+                          {tag.desc ? <p className="about-fact-desc">{tag.desc}</p> : null}
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ul>
+              ) : null}
+            </div>
+          </div>
+          <div className="about-text">
+            <h3>为什么叫「{SITE_NAME}」？</h3>
+            {why.map(function (p, i) {
+              return <p key={i}>{p}</p>
+            })}
+            {SITE_ABOUT_BIO ? <p>{SITE_ABOUT_BIO}</p> : null}
+            {tags.length ? (
+              <div className="about-tags">
+                {tags.map(function (tag) {
+                  return <span key={tag.name} className="chip chip--static">{tag.name}</span>
+                })}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/**
+ * 全站联系区。邮箱来自 SITE_EMAIL，GitHub 复用 db.nav 里已有的外链，避免写两份地址。
+ */
+function ContactCta() {
+  var github = getGithubNav(useDB().db)
+  if (!SITE_EMAIL && !github) return null
+
+  return (
+    <section className="cta" id="contact" aria-labelledby="cta-title">
+      <svg className="cta-deco cta-deco-mail" width="90" height="66" viewBox="0 0 90 66" aria-hidden="true">
+        <rect x="2" y="2" width="86" height="62" fill="#FFE135" stroke="#000" strokeWidth="4"></rect>
+        <path d="M2 2 L45 36 L88 2" fill="none" stroke="#000" strokeWidth="4"></path>
+      </svg>
+      <svg className="cta-deco cta-deco-circle" width="80" height="80" viewBox="0 0 80 80" aria-hidden="true">
+        <circle cx="40" cy="40" r="36" fill="#ffffff" stroke="#000" strokeWidth="4"></circle>
+        <circle cx="40" cy="40" r="18" fill="#FFE135" stroke="#000" strokeWidth="4"></circle>
+      </svg>
+      <div className="wrap cta-inner">
+        <span className="eyebrow">Contact · 联系</span>
+        <h2 id="cta-title" className="cta-title">有想法？<br />来聊聊。</h2>
+        <p className="cta-lede">不管是文章讨论、合作，还是单纯想交流——邮件最快。</p>
+        <div className="cta-actions">
+          {SITE_EMAIL ? (
+            <a className="btn btn-ink" href={'mailto:' + SITE_EMAIL}>✉ {SITE_EMAIL}</a>
+          ) : null}
+          {github ? (
+            <a
+              className="btn btn-ghost"
+              href={github.value}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {github.label || 'GitHub'} ↗
+            </a>
+          ) : null}
+        </div>
+      </div>
+    </section>
   )
 }
 

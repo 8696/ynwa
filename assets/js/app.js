@@ -3,17 +3,35 @@
  * 未匹配路径走 * → NotFound。BrowserRouter 依赖静态服务器把未知路径回退到 index.html。
  */
 function App() {
+  var location = ReactRouterDOM.useLocation()
+  var isHome = location.pathname === '/'
+
+  React.useEffect(function () {
+    if (!isHome || !location.hash) return
+    var id = location.hash.slice(1)
+    var frame = requestAnimationFrame(function () {
+      var el = document.getElementById(id)
+      if (el) el.scrollIntoView()
+    })
+    return function () { cancelAnimationFrame(frame) }
+  }, [isHome, location.hash])
+
   return (
     <React.Fragment>
+      <a className="skip-link" href="#main">跳到主内容</a>
       <Header />
-      <ReactRouterDOM.Routes>
-        <ReactRouterDOM.Route path="/" element={<Home />} />
-        <ReactRouterDOM.Route path="/article/:id" element={<Article />} />
-        <ReactRouterDOM.Route path="/category/:id" element={<Category />} />
-        <ReactRouterDOM.Route path="/tag/:id" element={<Tag />} />
-        <ReactRouterDOM.Route path="/search" element={<Search />} />
-        <ReactRouterDOM.Route path="*" element={<NotFound />} />
-      </ReactRouterDOM.Routes>
+      <div id="main" tabIndex="-1">
+        <ReactRouterDOM.Routes>
+          <ReactRouterDOM.Route path="/" element={<Home />} />
+          <ReactRouterDOM.Route path="/article/:id" element={<Article />} />
+          <ReactRouterDOM.Route path="/category/:id" element={<Category />} />
+          <ReactRouterDOM.Route path="/tag/:id" element={<Tag />} />
+          <ReactRouterDOM.Route path="/search" element={<Search />} />
+          <ReactRouterDOM.Route path="*" element={<NotFound />} />
+        </ReactRouterDOM.Routes>
+      </div>
+      {isHome ? <AboutSection /> : null}
+      {isHome ? <ContactCta /> : null}
       <Footer />
     </React.Fragment>
   )

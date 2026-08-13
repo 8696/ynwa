@@ -7,8 +7,31 @@
  */
 var PUBLIC_ASSET_BASE = ''
 
-/** 站点名称，用于标题与顶栏 */
+/** 站点名称，用于标题、顶栏、页脚与 logo 首字母 */
 var SITE_NAME = 'YNWA'
+/** 站点口号，拼在首页 Hero 眉题：{SITE_NAME} · {SITE_SLOGAN} */
+var SITE_SLOGAN = "You'll Never Walk Alone"
+/** 站点一句话介绍，写入 <meta name="description">，也用作首页 Hero 导语 */
+var SITE_DESCRIPTION = '记录技术、思考与生活'
+/** 联系邮箱，用于首页联系区和 mailto */
+var SITE_EMAIL = 'y201899@gmail.com'
+/** 关于区：名字、城市、短介绍、标签。全空则不渲染该区块 */
+var SITE_AUTHOR = '啊龙'
+var SITE_CITY = '深圳'
+/** 关于区右侧「为什么叫 YNWA」正文，可多段 */
+var SITE_ABOUT_WHY = [
+  '因为喜欢利物浦。YNWA 是队歌 You\'ll Never Walk Alone：安菲尔德唱起来的时候，意思很简单——你不会一个人走。',
+  '这就是足球精神。比分会变，人还在；跌倒了站起来，身边总有人。写代码、过日子，我也想按这个来。',
+]
+var SITE_ABOUT_BIO = '人在深圳。写代码，也关心盘面和路面。'
+/** 关于区左侧条目：name 为标签，desc 为一句说明 */
+var SITE_ABOUT_TAGS = [
+  { name: '咖啡', desc: '续命。清醒往往从一杯开始。' },
+  { name: '股市', desc: '图的是清醒：不把情绪交给行情，涨不昏，跌不慌。' },
+  { name: '跑步', desc: '出门跑两圈，把噪音跑掉。' },
+  { name: '足球', desc: '利物浦。跌倒了还一起走。' },
+  { name: '脑洞', desc: '用不上的想法，也得有地方放。' },
+]
 /** 全站元数据 JSON；须与静态目录 assets/data/db.json 一致 */
 var DB_URL = '/assets/data/db.json'
 /** 列表页每页条数 */
@@ -32,3 +55,7 @@ var FOOTER_COPYRIGHT_START = 2020
 var FOOTER_ICP = '粤ICP备17039322号-3'
 /** 工信部备案查询入口 */
 var FOOTER_ICP_LINK = 'https://beian.miit.gov.cn'
+
+document.title = SITE_NAME
+var _metaDesc = document.querySelector('meta[name="description"]')
+if (_metaDesc && SITE_DESCRIPTION) _metaDesc.setAttribute('content', SITE_DESCRIPTION)

@@ -1,3 +1,95 @@
+/** 首页 Hero：高亮标题、最近一篇侧卡、计数、分类/标签跑马灯 */
+function HomeHero(props) {
+  var db = props.db
+  var articles = db && Array.isArray(db.articles) ? db.articles : []
+  var categories = db && Array.isArray(db.categories) ? db.categories : []
+  var tags = db && Array.isArray(db.tags) ? db.tags : []
+
+  var latest = React.useMemo(function () {
+    if (!articles.length) return null
+    return articles.slice().sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date)
+    })[0]
+  }, [articles])
+
+  var latestCat = latest && db ? getCategoryList(db, latest.categories)[0] : null
+
+  var marqueeBits = React.useMemo(function () {
+    var names = categories.map(function (c) { return c.name })
+      .concat(tags.map(function (t) { return t.name }))
+    if (!names.length) names = [SITE_NAME, '技术', '思考', '生活']
+    return names
+  }, [categories, tags])
+
+  var marqueeText = marqueeBits.join('  ✦  ') + '  ✦  '
+
+  return (
+    <section className="home-hero">
+      <div className="wrap home-hero-grid">
+        <div>
+          <span className="eyebrow">{SITE_SLOGAN ? SITE_NAME + ' · ' + SITE_SLOGAN : SITE_NAME}</span>
+          <h1 className="home-hero-title">
+            记录 <span className="hl">技术</span>、思考<br />
+            与 <span className="hl">生活</span>。
+          </h1>
+          <p className="home-hero-lede">
+            {SITE_DESCRIPTION}{SITE_SLOGAN ? '。' + SITE_SLOGAN : ''}
+          </p>
+          <div className="home-hero-actions">
+            <a className="btn" href="#articles">看文章 ↓</a>
+            <ReactRouterDOM.Link className="btn btn-ghost" to="/search">搜索</ReactRouterDOM.Link>
+          </div>
+          <div className="home-stats">
+            <div className="stat-chip">
+              <b>{articles.length}</b>
+              <span>篇文章</span>
+            </div>
+            <div className="stat-chip">
+              <b>{categories.length}</b>
+              <span>个分类</span>
+            </div>
+            <div className="stat-chip">
+              <b>{tags.length}</b>
+              <span>个标签</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="hero-card">
+          <div className="hero-card-stripes" aria-hidden="true"></div>
+          <span className="eyebrow">正在写</span>
+          <h3>{latest ? '最近在写' : '还没动笔'}</h3>
+          {latest ? (
+            <React.Fragment>
+              <p>
+                <ReactRouterDOM.Link to={'/article/' + latest.id}>{latest.title}</ReactRouterDOM.Link>
+              </p>
+              <p className="hero-card-meta">
+                {formatDate(latest.date)}
+                {latestCat ? ' · ' + latestCat.name : ''}
+              </p>
+            </React.Fragment>
+          ) : (
+            <p>有想法就写下来。第一篇可以很短。</p>
+          )}
+          <svg className="hero-deco hero-deco-star" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+            <path d="M26 2 L31 19 L48 19 L34 30 L39 47 L26 37 L13 47 L18 30 L4 19 L21 19 Z" fill="#FFE135" stroke="#000" strokeWidth="2.5"></path>
+          </svg>
+          <svg className="hero-deco hero-deco-zig" width="80" height="26" viewBox="0 0 80 26" aria-hidden="true">
+            <path d="M2 22 L14 4 L26 22 L38 4 L50 22 L62 4 L74 22" fill="none" stroke="#000" strokeWidth="3"></path>
+          </svg>
+        </div>
+      </div>
+      <div className="marquee" aria-hidden="true">
+        <div className="marquee-track">
+          <span>{marqueeText}</span>
+          <span>{marqueeText}</span>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /** 首页：全站文章倒序列表；页码来自 ?page=，第 1 页链接写成 / 以免污染地址栏 */
 function Home() {
   var db = useDB().db
@@ -12,41 +104,36 @@ function Home() {
     return paginate(db && db.articles ? db.articles : [], page, PAGE_SIZE)
   }, [db && db.articles, page])
 
-  if (!db) {
-    return (
-      <main className="page">
-        <div className="page-hero">
-          <p className="eyebrow">最新文章</p>
-          <h1 className="page-title">所有文章</h1>
-          <p className="page-desc">记录技术、思考与生活</p>
-        </div>
-        <div className="status">加载中…</div>
-      </main>
-    )
-  }
-
   return (
-    <main className="page">
-      <div className="page-hero">
-        <p className="eyebrow">最新文章</p>
-        <h1 className="page-title">所有文章</h1>
-        <p className="page-desc">记录技术、思考与生活</p>
-      </div>
+    <main className="home">
+      <HomeHero db={db} />
 
-      <div className="article-list">
-        {paged.items.length
-          ? paged.items.map(function (p) {
-              return <ArticleCard key={p.id} post={p} db={db} />
-            })
-          : <div className="status">暂无文章</div>
-        }
-      </div>
+      <div className="page">
+        <div className="home-posts-head" id="articles">
+          <span className="eyebrow">Posts · 文章</span>
+          <h2 className="home-posts-title">最近写下的</h2>
+        </div>
 
-      <Pagination
-        current={paged.current}
-        totalPages={paged.totalPages}
-        buildUrl={function (n) { return n === 1 ? '/' : '/?page=' + n }}
-      />
+        {!db ? (
+          <div className="status">加载中…</div>
+        ) : (
+          <React.Fragment>
+            <div className="article-list">
+              {paged.items.length
+                ? paged.items.map(function (p) {
+                    return <ArticleCard key={p.id} post={p} db={db} />
+                  })
+                : <div className="status">暂无文章</div>
+              }
+            </div>
+            <Pagination
+              current={paged.current}
+              totalPages={paged.totalPages}
+              buildUrl={function (n) { return n === 1 ? '/' : '/?page=' + n }}
+            />
+          </React.Fragment>
+        )}
+      </div>
     </main>
   )
 }

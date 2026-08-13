@@ -132,3 +132,19 @@ function resolvePublicAssetUrl(path) {
   var rel = p.replace(/^\/+/, '')
   return base + '/' + rel
 }
+
+/**
+ * 从 db.nav 里找出 GitHub 外链：label 为 GitHub，或 URL 含 github.com。
+ * 没有则返回 null，联系区/页脚不渲染该按钮。
+ */
+function getGithubNav(db) {
+  if (!db || !Array.isArray(db.nav)) return null
+  var found = null
+  db.nav.forEach(function (item) {
+    if (found || !item || item.type !== 'link' || !item.value) return
+    var label = String(item.label || '').toLowerCase()
+    var value = String(item.value || '').toLowerCase()
+    if (label === 'github' || value.indexOf('github.com') >= 0) found = item
+  })
+  return found
+}
