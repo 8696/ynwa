@@ -3,8 +3,8 @@
  */
 
 /**
- * 将日期字符串格式化为「YYYY-MM-DD HH:MM:SS」，按数据库原始时间戳展示到秒。
- * 例：'2026-04-25 14:00:00' → '2026-04-25 14:00:00'。
+ * 将日期字符串格式化为「YYYY-MM-DD HH:MM」，按数据库原始时间戳展示到分钟。
+ * 例：'2026-04-25 14:00:00' → '2026-04-25 14:00'。
  * 非法日期会得到浏览器默认的 Invalid Date 文案。
  */
 function formatDate(dateStr) {
@@ -12,7 +12,7 @@ function formatDate(dateStr) {
   if (isNaN(d.getTime())) return d.toString()
   var pad = function (n) { return n < 10 ? '0' + n : '' + n }
   return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
-    ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds())
+    ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes())
 }
 
 /** 根据分类 ID 取展示名；db 里找不到时回退为原始 ID，避免空白 */
