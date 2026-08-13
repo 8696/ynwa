@@ -151,6 +151,22 @@
       "summary": "拆解个人数据管理系统的设计哲学：SQLite 做真值源、Skill 做契约层、脚本做守门人、视图做只读出口。以记账系统为完整场景，剖析 agent 如何可靠地把自然语言翻译成数据库操作。",
       "file": "/assets/articles/engineering/ai-personal-data-sqlite-skills.md",
       "cover": ""
+    },
+    {
+      "id": "e29108d8-ec99-4711-afd2-90d42a6010a9",
+      "title": "系统提示词字节战：Hermes Agent 如何让前缀缓存命中率最大化",
+      "categories": [
+        "AI",
+        "engineering"
+      ],
+      "tags": [
+        "Hermes-Agent",
+        "AI"
+      ],
+      "date": "2026-08-13 18:39:54",
+      "summary": "从 v0.20.0 源码拆解 Hermes Agent 系统提示词的成本优化设计：stable/context/volatile 三段式架构、记忆冻结快照、时间戳精度妥协、Anthropic 4 断点前缀缓存精算，四层防线叠加让前缀缓存命中率接近 100%。",
+      "file": "/assets/articles/ai/hermes/system-prompt-prefix-caching.md",
+      "cover": ""
     }
   ]
 }
