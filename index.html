@@ -5,9 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="记录技术、思考与生活" />
   <title>YNWA</title>
+  <!-- highlight.js 主题须先于正文样式，便于 .markdown-body 覆盖其背景 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github.min.css" />
+  <!-- 使用站点根绝对路径，避免 /article/:id 等子路由把相对 URL 解析错 -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
-<body class="min-h-screen flex flex-col bg-white text-[#1c1c1e] antialiased">
+<body>
   <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+
+  <!--
+    运行时库全部走 jsDelivr UMD，无打包步骤。
+    顺序不可调换：React → ReactDOM → Remix Router → react-router → react-router-dom。
+    React 19 / RR 7 无浏览器 UMD，故钉在 18.3.1 / 6.30.1。
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@remix-run/router@1.23.0/dist/router.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-router@6.30.1/dist/umd/react-router.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.30.1/dist/umd/react-router-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.4.2/dist/purify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+  <!-- Babel 必须在 type="text/babel" 脚本之前；data-presets="react" 避免再套 env 预设 -->
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.28.5/babel.min.js"></script>
+
+  <!-- 无 JSX 的配置/工具先以经典脚本注入全局，供后续 Babel 脚本直接调用 -->
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/utils.js"></script>
+  <!-- Babel 按文档顺序编译并执行；组件须先于页面、页面须先于挂载 -->
+  <script type="text/babel" data-presets="react" src="/assets/js/db-context.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/js/components.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/js/pages.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/js/app.js"></script>
 </body>
 </html>

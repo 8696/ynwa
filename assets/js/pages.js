@@ -1,0 +1,533 @@
+/** 首页：全站文章倒序列表；页码来自 ?page=，第 1 页链接写成 / 以免污染地址栏 */
+function Home() {
+  var db = useDB().db
+  var searchParams = ReactRouterDOM.useSearchParams()[0]
+  var page = parseInt(searchParams.get('page') || '1', 10)
+
+  React.useEffect(function () {
+    document.title = SITE_NAME
+  }, [])
+
+  var paged = React.useMemo(function () {
+    return paginate(db && db.articles ? db.articles : [], page, PAGE_SIZE)
+  }, [db && db.articles, page])
+
+  if (!db) {
+    return (
+      <main className="page">
+        <div className="page-hero">
+          <p className="eyebrow">最新文章</p>
+          <h1 className="page-title">所有文章</h1>
+          <p className="page-desc">记录技术、思考与生活</p>
+        </div>
+        <div className="status">加载中…</div>
+      </main>
+    )
+  }
+
+  return (
+    <main className="page">
+      <div className="page-hero">
+        <p className="eyebrow">最新文章</p>
+        <h1 className="page-title">所有文章</h1>
+        <p className="page-desc">记录技术、思考与生活</p>
+      </div>
+
+      <div className="article-list">
+        {paged.items.length
+          ? paged.items.map(function (p) {
+              return <ArticleCard key={p.id} post={p} db={db} />
+            })
+          : <div className="status">暂无文章</div>
+        }
+      </div>
+
+      <Pagination
+        current={paged.current}
+        totalPages={paged.totalPages}
+        buildUrl={function (n) { return n === 1 ? '/' : '/?page=' + n }}
+      />
+    </main>
+  )
+}
+
+/**
+ * 文章详情：按 :id 取元数据，再 fetch Markdown → marked → DOMPurify。
+ * cancelled 用于切文章或卸载时丢弃过期响应，避免旧正文写进新页。
+ */
+function Article() {
+  var id = ReactRouterDOM.useParams().id
+  var db = useDB().db
+  var navigate = ReactRouterDOM.useNavigate()
+  var _content = React.useState(null)
+  var content = _content[0]
+  var setContent = _content[1]
+  var _error = React.useState(null)
+  var error = _error[0]
+  var setError = _error[1]
+
+  var post = db && db.articles.find(function (p) { return p.id === id })
+
+  React.useEffect(function () {
+    if (!post) return
+    document.title = post.title + ' · ' + SITE_NAME
+
+    var cancelled = false
+    function load() {
+      var filePath = resolvePublicAssetUrl(post.file)
+      fetch(filePath).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status)
+        return res.text()
+      }).then(function (mdText) {
+        if (cancelled) return
+        marked.setOptions({ gfm: true, breaks: false })
+        var unsafeHtml = marked.parse(mdText)
+        // 仅允许常见文档协议与相对路径，挡住 javascript: 等
+        var safeHtml = DOMPurify.sanitize(unsafeHtml, {
+          USE_PROFILES: { html: true },
+          ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto):|\/|\.\/|\.\.\/)/i,
+        })
+        setContent(safeHtml)
+      }).catch(function (err) {
+        if (!cancelled) setError(err.message)
+      })
+    }
+    load()
+    return function () { cancelled = true }
+  }, [post])
+
+  // 消毒后的 HTML 入 DOM 后再做高亮和外链新窗口；依赖 content 以免容器尚未挂载
+  React.useEffect(function () {
+    if (!content) return
+    var container = document.getElementById('post-content')
+    if (!container) return
+    container.querySelectorAll('pre code').forEach(function (el) {
+      hljs.highlightElement(el)
+    })
+    container.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      a.target = '_blank'
+      a.rel = 'noopener noreferrer'
+    })
+  }, [content])
+
+  if (!db) {
+    return (
+      <main className="page">
+        <div className="status">加载中…</div>
+      </main>
+    )
+  }
+
+  if (!post) {
+    return (
+      <main className="page">
+        <div className="status">文章不存在</div>
+      </main>
+    )
+  }
+
+  var catList = getCategoryList(db, post.categories)
+
+  return (
+    <main className="page">
+      <div className="page-hero">
+        {window.history.length > 1 ? (
+          <a
+            onClick={function (e) { e.preventDefault(); navigate(-1) }}
+            className="back-link"
+          >
+            ← 返回
+          </a>
+        ) : (
+          <ReactRouterDOM.Link to="/" className="back-link">
+            ← 首页
+          </ReactRouterDOM.Link>
+        )}
+
+        <h1 className="post-title">{post.title}</h1>
+
+        {post.summary && <p className="post-summary">{post.summary}</p>}
+
+        <div className="article-meta">
+          <time className="article-date">{formatDate(post.date)}</time>
+          <span className="tag-list">
+            {catList.map(function (c) {
+              return (
+                <ReactRouterDOM.Link key={c.id} to={'/category/' + c.id} className="chip">
+                  {c.name}
+                </ReactRouterDOM.Link>
+              )
+            })}
+          </span>
+          <div className="tag-list">
+            <TagLinks tagIds={post.tags} db={db} />
+          </div>
+        </div>
+      </div>
+
+      {error ? (
+        <div className="status">文章内容加载失败：{error}</div>
+      ) : content ? (
+        <div
+          id="post-content"
+          className="markdown-body post-content"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      ) : (
+        <div className="status">加载中…</div>
+      )}
+    </main>
+  )
+}
+
+/**
+ * 分类页。categories 可能是字符串（旧数据）或数组，过滤时两种都认。
+ */
+function Category() {
+  var catId = ReactRouterDOM.useParams().id || ''
+  var db = useDB().db
+  var searchParams = ReactRouterDOM.useSearchParams()[0]
+  var page = parseInt(searchParams.get('page') || '1', 10)
+
+  var cat = React.useMemo(function () {
+    return db && db.categories.find(function (c) { return c.id === catId })
+  }, [db, catId])
+
+  var filtered = React.useMemo(function () {
+    if (!db) return []
+    return db.articles.filter(function (p) {
+      return Array.isArray(p.categories) ? p.categories.indexOf(catId) >= 0 : p.categories === catId
+    })
+  }, [db, catId])
+
+  var paged = React.useMemo(function () {
+    return paginate(filtered, page, PAGE_SIZE)
+  }, [filtered, page])
+
+  React.useEffect(function () {
+    if (cat) document.title = cat.name + ' · ' + SITE_NAME
+  }, [cat])
+
+  if (!db) {
+    return (
+      <main className="page">
+        <div className="status">加载中…</div>
+      </main>
+    )
+  }
+
+  if (!cat) {
+    return (
+      <main className="page">
+        <div className="page-hero">
+          <p className="eyebrow">分类</p>
+          <h1 className="page-title">分类不存在</h1>
+        </div>
+        <div className="status">找不到该分类</div>
+      </main>
+    )
+  }
+
+  return (
+    <main className="page">
+      <div className="page-hero">
+        <p className="eyebrow">分类</p>
+        <h1 className="page-title">{cat.name}</h1>
+        {cat.description && <p className="page-desc">{cat.description}</p>}
+      </div>
+
+      <div className="article-list">
+        {paged.items.length
+          ? paged.items.map(function (p) {
+              return <ArticleCard key={p.id} post={p} db={db} />
+            })
+          : <div className="status">该分类暂无文章</div>
+        }
+      </div>
+
+      <Pagination
+        current={paged.current}
+        totalPages={paged.totalPages}
+        buildUrl={function (n) { return '/category/' + catId + '?page=' + n }}
+      />
+    </main>
+  )
+}
+
+/** 标签页：文章 tags 数组包含当前 :id 即入选 */
+function Tag() {
+  var tagId = ReactRouterDOM.useParams().id || ''
+  var db = useDB().db
+  var searchParams = ReactRouterDOM.useSearchParams()[0]
+  var page = parseInt(searchParams.get('page') || '1', 10)
+
+  var tag = React.useMemo(function () {
+    return db && db.tags.find(function (t) { return t.id === tagId })
+  }, [db, tagId])
+
+  React.useEffect(function () {
+    if (tag) document.title = tag.name + ' · 标签 · ' + SITE_NAME
+  }, [tag])
+
+  var filtered = React.useMemo(function () {
+    if (!db) return []
+    return db.articles.filter(function (p) {
+      return (p.tags || []).indexOf(tagId) >= 0
+    })
+  }, [db && db.articles, tagId])
+
+  var paged = React.useMemo(function () {
+    return paginate(filtered, page, PAGE_SIZE)
+  }, [filtered, page])
+
+  if (!db) {
+    return (
+      <main className="page">
+        <div className="status">加载中…</div>
+      </main>
+    )
+  }
+
+  if (!tag) {
+    return (
+      <main className="page">
+        <div className="page-hero">
+          <p className="eyebrow">标签</p>
+          <h1 className="page-title">标签不存在</h1>
+        </div>
+        <div className="status">找不到该标签</div>
+      </main>
+    )
+  }
+
+  return (
+    <main className="page">
+      <div className="page-hero">
+        <p className="eyebrow">标签</p>
+        <h1 className="page-title">{tag.name}</h1>
+        <p className="page-desc">含此标签的文章</p>
+      </div>
+
+      <div className="article-list">
+        {paged.items.length
+          ? paged.items.map(function (p) {
+              return <ArticleCard key={p.id} post={p} db={db} />
+            })
+          : <div className="status">暂无带此标签的文章</div>
+        }
+      </div>
+
+      <Pagination
+        current={paged.current}
+        totalPages={paged.totalPages}
+        buildUrl={function (n) { return '/tag/' + tagId + '?page=' + n }}
+      />
+    </main>
+  )
+}
+
+/** 搜索结果上限，防止关键词过宽时一次渲染过多 DOM */
+var SEARCH_MAX_RESULTS = 50
+
+/**
+ * 单条搜索结果。标题/摘要 HTML 来自 highlightOne（已转义再包 <mark>）。
+ * 使用原生 <a target=_blank>，方便对照阅读而不离开搜索页。
+ */
+function SearchResultRow(props) {
+  var post = props.post
+  var query = props.query
+  var db = props.db
+  var href = '/article/' + encodeURIComponent(post.id)
+  var catList = React.useMemo(function () {
+    return getCategoryList(db, post.categories)
+  }, [db, post.categories])
+  var highlightedTitle = React.useMemo(function () {
+    return highlightOne(post.title || '', query)
+  }, [post.title, query])
+  var highlightedSummary = React.useMemo(function () {
+    return highlightOne(post.summary, query)
+  }, [post.summary, query])
+  var tags = React.useMemo(function () {
+    return (post.tags || []).map(function (tagId) {
+      var t = db.tags.find(function (x) { return x.id === tagId })
+      return { id: tagId, label: t ? t.name : tagId }
+    })
+  }, [db.tags, post.tags])
+
+  return (
+    <article className="article-card">
+      <div>
+        <h2 className="article-card-title">
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            dangerouslySetInnerHTML={{ __html: highlightedTitle }}
+          />
+        </h2>
+        {post.summary && (
+          <p
+            className="article-summary"
+            dangerouslySetInnerHTML={{ __html: highlightedSummary }}
+          />
+        )}
+        <div className="article-meta">
+          <time className="article-date">{formatDate(post.date)}</time>
+          {catList.map(function (c) {
+            return (
+              <a
+                key={c.id}
+                href={'/category/' + c.id}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="chip"
+              >
+                {c.name}
+              </a>
+            )
+          })}
+          <div className="tag-list">
+            {tags.map(function (tag) {
+              return (
+                <a
+                  key={tag.id}
+                  href={'/tag/' + tag.id}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tag-link"
+                >
+                  {tag.label}
+                </a>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+      <div className="article-more">
+        <a href={href} target="_blank" rel="noopener noreferrer" className="article-more-link">
+          阅读全文 →
+        </a>
+      </div>
+    </article>
+  )
+}
+
+/**
+ * 搜索页。输入即时更新本地 state，200ms 防抖后再 replace 写入 ?q=，
+ * 以便分享 URL / 浏览器前进后退，同时不把每次按键都推进历史栈。
+ */
+function Search() {
+  var db = useDB().db
+  var _sp = ReactRouterDOM.useSearchParams()
+  var searchParams = _sp[0]
+  var setSearchParams = _sp[1]
+  var _query = React.useState(searchParams.get('q') || '')
+  var query = _query[0]
+  var setQuery = _query[1]
+  var timerRef = React.useRef(null)
+
+  React.useEffect(function () {
+    document.title = '搜索 · ' + SITE_NAME
+  }, [])
+
+  // 外部改 URL（后退、粘贴）时把输入框同步过来
+  React.useEffect(function () {
+    var q = searchParams.get('q') || ''
+    if (q !== query) setQuery(q)
+  }, [searchParams])
+
+  React.useEffect(function () {
+    return function () {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
+  }, [])
+
+  var updateURL = React.useCallback(function (q) {
+    setSearchParams(q ? { q: q } : {}, { replace: true })
+  }, [setSearchParams])
+
+  function handleInput(e) {
+    var v = e.target.value
+    setQuery(v)
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(function () {
+      updateURL(v.trim())
+    }, 200)
+  }
+
+  var rows = React.useMemo(function () {
+    return db ? searchArticles(db, query) : []
+  }, [db, query])
+  var visibleRows = React.useMemo(function () {
+    return rows.slice(0, SEARCH_MAX_RESULTS)
+  }, [rows])
+  var isTruncated = rows.length > SEARCH_MAX_RESULTS
+
+  return (
+    <main className="page">
+      <div className="page-hero">
+        <p className="eyebrow">文章搜索</p>
+        <h1 className="page-title">搜索</h1>
+        <p className="page-desc">输入关键词，在全部文章条目的字段值中匹配</p>
+      </div>
+
+      <div className="search-box">
+        <label htmlFor="search-input" className="sr-only">搜索关键词</label>
+        <input
+          type="search"
+          id="search-input"
+          autoComplete="off"
+          placeholder="输入关键词…"
+          value={query}
+          onChange={handleInput}
+          className="search-input"
+        />
+        <p className="search-hint">
+          <code>结果最多显示 50 条</code>
+        </p>
+      </div>
+
+      <div className="search-results">
+        {!db ? (
+          <div className="status status--compact">加载中…</div>
+        ) : !query.trim() ? null : rows.length === 0 ? (
+          <div className="status status--compact">未找到匹配项</div>
+        ) : (
+          <React.Fragment>
+            {isTruncated && (
+              <p className="search-truncate">
+                结果已截断为前 {SEARCH_MAX_RESULTS} 条，请缩小关键词范围。
+              </p>
+            )}
+            <p className="search-count">共 {visibleRows.length} 条结果</p>
+            <div className="article-list">
+              {visibleRows.map(function (r) {
+                return <SearchResultRow key={r.post.id} post={r.post} query={query} db={db} />
+              })}
+            </div>
+          </React.Fragment>
+        )}
+      </div>
+    </main>
+  )
+}
+
+/** 未匹配路由的占位页 */
+function NotFound() {
+  React.useEffect(function () {
+    document.title = '404 · ' + SITE_NAME
+  }, [])
+
+  return (
+    <main className="page page--center">
+      <section className="not-found">
+        <p className="eyebrow">Error</p>
+        <h1 className="not-found-code">404</h1>
+        <p className="not-found-title">页面不存在</p>
+        <p className="not-found-desc">
+          你访问的地址可能已被删除、改名，或暂时不可用。
+        </p>
+      </section>
+    </main>
+  )
+}
