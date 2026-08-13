@@ -97,7 +97,7 @@
         "AI"
       ],
       "date": "2026-04-25",
-      "summary": "使用 Claude code 生成个人博客网站",
+      "summary": "一个无需构建、零本地依赖的个人博客：React 18 + React Router 6 SPA，JSX 浏览器内 Babel 转换，Markdown 经 marked + DOMPurify 消毒渲染，localStorage 缓存 db.json。记录从用 Claude Code 生成到部署到静态托管的全过程。",
       "file": "/README.md",
       "cover": ""
     },
@@ -112,7 +112,7 @@
         "AI"
       ],
       "date": "2026-08-13",
-      "summary": "Hermes Agent 是由 Nous Research 构建的自我改进型 AI 代理，一个灵活的多平台 AI 助手",
+      "summary": "基于 v0.20.0 源码，从工具自注册（96 个工具/30+ 工具集）、系统提示词三段式组装、对话循环与并行工具执行、5 种 API 模式，到记忆+技能+后台 review 的自学习三机制，完整拆解 Hermes Agent 的一次请求全流程。",
       "file": "/assets/articles/ai/hermes/workflow-summary.md",
       "cover": ""
     },
@@ -127,7 +127,7 @@
         "AI"
       ],
       "date": "2026-08-13",
-      "summary": "",
+      "summary": "从 v0.20.0 源码拆解 Hermes Agent 自学习循环：前台即时学习（memory/skill_manage）、后台自改进审查（Fork Agent）、Curator 定期维护三子系统，围绕声明性记忆、程序性记忆、会话历史三层持久化存储运转。",
       "file": "/assets/articles/ai/hermes/hermes-agent-self-learning.md",
       "cover": ""
     }
