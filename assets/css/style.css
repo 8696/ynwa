@@ -26,7 +26,7 @@
   --c-fill: #ecece4;
   --c-grouped-bg: var(--paper);
   --c-muted: #5c5c56;
-  --page-max: 1080px;
+  --page-max: 880px;
 
   /* 正文阅读色，刻意不跟外壳抢 */
   --md-text: #2f353d;
@@ -149,11 +149,6 @@ h1, h2, h3, h4 {
   margin: 0 auto;
   padding: 0 16px;
   flex: 1;
-}
-
-/* 内页（文章 / 分类 / 搜索）收窄行宽，首页列表仍跟 1080 外壳对齐 */
-#main > .page {
-  max-width: 800px;
 }
 
 .page--center {
