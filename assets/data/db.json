@@ -23,7 +23,7 @@
     {
       "type": "link",
       "label": "GitHub",
-      "value": "https://github.com/8696/ynwa",
+      "value": "https://github.com/8696",
       "target": "_blank"
     }
   ],
@@ -85,33 +85,50 @@
   ],
   "articles": [
     {
-      "id": "1",
+      "id": "3e4de540-55bd-41e6-ab7a-e8654dd70059",
       "title": "使用 Claude code 生成个人博客网站",
-      "categories": ["engineering", "AI"],
-      "tags": ["javascript", "frontend", "AI"],
+      "categories": [
+        "engineering",
+        "AI"
+      ],
+      "tags": [
+        "javascript",
+        "frontend",
+        "AI"
+      ],
       "date": "2026-04-25",
       "summary": "使用 Claude code 生成个人博客网站",
       "file": "/README.md",
       "cover": ""
     },
     {
-      "id": "2",
+      "id": "23bb42b6-4597-44ea-98cf-15005df8063f",
       "title": "Hermes Agent 工作流程详解",
-      "categories": ["AI"],
-      "tags": ["Hermes-Agent", "AI"],
+      "categories": [
+        "AI"
+      ],
+      "tags": [
+        "Hermes-Agent",
+        "AI"
+      ],
       "date": "2026-04-26",
       "summary": "Hermes Agent 是由 Nous Research 构建的自我改进型 AI 代理，一个灵活的多平台 AI 助手",
-      "file": "/articles/ai/hermes/workflow-summary.md",
+      "file": "/assets/articles/ai/hermes/workflow-summary.md",
       "cover": ""
     },
     {
-      "id": "3",
+      "id": "d6c7bc20-ed68-48ee-9a6b-87a7596b710a",
       "title": "Hermes Agent 自学习循环机制深度解析",
-      "categories": ["AI"],
-      "tags": ["Hermes-Agent", "AI"],
+      "categories": [
+        "AI"
+      ],
+      "tags": [
+        "Hermes-Agent",
+        "AI"
+      ],
       "date": "2026-05-07",
       "summary": "",
-      "file": "/articles/ai/hermes/hermes-agent-self-learning.md",
+      "file": "/assets/articles/ai/hermes/hermes-agent-self-learning.md",
       "cover": ""
     }
   ]
