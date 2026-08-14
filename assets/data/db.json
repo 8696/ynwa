@@ -172,5 +172,61 @@
       "file": "/assets/articles/ai/hermes/system-prompt-prefix-caching.md",
       "cover": ""
     }
+  ],
+  "works": [
+    {
+      "title": "糖果屋",
+      "kicker": "个人作品集",
+      "summary": "Neo-Brutalism 风格的个人主页：技能清单、项目 Bento、经历时间线三段式。纯 HTML / CSS 手写，零框架。",
+      "tags": [
+        "HTML",
+        "CSS"
+      ],
+      "href": "/ai-page/candy-house/index.html"
+    },
+    {
+      "title": "墨叙工作室 / MUXU STUDIO",
+      "kicker": "Editorial 工作室单页",
+      "summary": "杂志策展式品牌设计工作室样板页：8 大区块 Editorial 排版，带交互式合作评估器和逐块揭示动效。React 19 + Tailwind v4。",
+      "tags": [
+        "React 19",
+        "Tailwind v4",
+        "Editorial"
+      ],
+      "href": "/ai-page/muxu-studio/index.html"
+    },
+    {
+      "title": "构形实验室 / FORM-GRID",
+      "kicker": "Swiss Grid 工作室单页",
+      "summary": "瑞士网格 × 包豪斯构成风工作室样板页：可见网格线、三原色高对比、巨型字构图、几何时间线、纯黑 Footer 实时时钟。React 19 + Tailwind v4。",
+      "tags": [
+        "React 19",
+        "Tailwind v4",
+        "Swiss Grid"
+      ],
+      "href": "/ai-page/form-grid/index.html"
+    },
+    {
+      "title": "浮岛 / Floating Island",
+      "kicker": "创意工作室作品集",
+      "summary": "立体剪纸风创意工作室作品集：品牌理念、项目预估、历程与 FAQ。莫兰迪大地色，多层 box-shadow 堆出厚纸板质感。纯 HTML / CSS / JS。",
+      "tags": [
+        "HTML",
+        "CSS",
+        "Papercut"
+      ],
+      "href": "/ai-page/floating-island/index.html"
+    },
+    {
+      "title": "构象艺术 / CONSTRUCT-ART",
+      "kicker": "Avant-Garde 雕塑风作品集",
+      "summary": "前卫孟菲斯 × 雕塑风艺术工作室单页：克莱因蓝点缀、重型实体阴影、拱门 FAQ、交互式预算估算器。纯 HTML / CSS / JS。",
+      "tags": [
+        "HTML",
+        "CSS",
+        "Memphis"
+      ],
+      "href": "/ai-page/construct-art/index.html"
+    }
   ]
 }

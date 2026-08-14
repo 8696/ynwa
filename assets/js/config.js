@@ -33,47 +33,10 @@ var SITE_ABOUT_TAGS = [
   { name: '脑洞', desc: '用不上的想法，也得有地方放。' },
 ]
 /**
- * 首页「AI 页面作品集」。条目对应独立 HTML 页（部署在 /ai-page/<目录>/）。
+ * 首页「AI 页面作品集」。条目数据在 db.json 的 works 数组（blog.mjs add-work 管理）。
  * 最多展示 SITE_WORKS_MAX 张卡；仅当作品数超过该上限（溢出）时才追加末尾「更多」卡。
  */
 var SITE_WORKS_MAX = 4
-var SITE_WORKS = [
-  {
-    title: '糖果屋',
-    kicker: '个人作品集',
-    summary: 'Neo-Brutalism 风格的个人站：技能、项目 Bento、经历时间线。纯 HTML / CSS，没用框架。',
-    tags: ['HTML', 'CSS'],
-    href: '/ai-page/candy-house/index.html',
-  },
-  {
-    title: '墨叙工作室 / MUXU STUDIO',
-    kicker: 'Editorial 工作室单页',
-    summary: '杂志/策展式品牌设计工作室样板页：8 大区块、Editorial 排版、交互式合作评估器、IntersectionObserver 逐块揭示。React 19 + Tailwind v4 + Google Fonts。',
-    tags: ['React 19', 'Tailwind v4', 'Editorial'],
-    href: '/ai-page/muxu-studio/index.html',
-  },
-  {
-    title: '构形实验室 / FORM-GRID',
-    kicker: 'Swiss Grid 工作室单页',
-    summary: '瑞士网格 × 包豪斯构成风的设计工作室样板页：可见网格线、Bauhaus 三原色高对比、巨型字构图、Bento 作品 Bento、交互式服务评估器、几何时间线、纯黑 Footer 实时 GMT 时钟。React 19 + Tailwind v4 + Google Fonts。',
-    tags: ['React 19', 'Tailwind v4', 'Swiss Grid'],
-    href: '/ai-page/form-grid/index.html',
-  },
-  {
-    title: '浮岛 / Floating Island',
-    kicker: '创意工作室作品集',
-    summary: '立体剪纸 × 柔和有机风格创意工作室作品集单页：品牌理念、作品、项目预估、历程、FAQ。莫兰迪大地色系，多层 box-shadow 模拟厚纸板质感。纯 HTML / CSS / JS。',
-    tags: ['HTML', 'CSS', 'Papercut'],
-    href: '/ai-page/floating-island/index.html',
-  },
-  {
-    title: '构象艺术 / CONSTRUCT-ART',
-    kicker: 'Avant-Garde 雕塑风作品集',
-    summary: '前卫孟菲斯 × 高级雕塑风先锋艺术工作室单页：克莱因蓝点缀、巨型几何构图、重型实体阴影、拱门 FAQ、交互式预算估算器、锯齿时间线、纯黑 Footer 实时 GMT 时钟。纯 HTML / CSS / JS。',
-    tags: ['HTML', 'CSS', 'Memphis'],
-    href: '/ai-page/construct-art/index.html',
-  }
-]
 /** 「更多」卡文案；href 指向完整作品集页 /works（SPA 内路由） */
 var SITE_WORKS_MORE = {
   title: '更多',

@@ -355,14 +355,15 @@ function WorksCard(props) {
 }
 
 /**
- * 首页 AI 页面作品集。条目来自 SITE_WORKS。
+ * 首页 AI 页面作品集。条目来自 db.json 的 works 数组（useDB）。
  * 可展示卡位上限 SITE_WORKS_MAX（与模板 Bento 的 6 格对齐）。
  * 末尾始终追加「更多」卡，链接到完整作品集页 /works。
  * 卡片色块在每次挂载时抽一版，刷新即换。两列瀑布流，高度由内容决定。
  */
 function WorksSection() {
+  var ctx = useDB()
   var max = typeof SITE_WORKS_MAX === 'number' && SITE_WORKS_MAX > 1 ? SITE_WORKS_MAX : 4
-  var source = Array.isArray(SITE_WORKS) ? SITE_WORKS : []
+  var source = ctx.db && Array.isArray(ctx.db.works) ? ctx.db.works : []
   var items = source.filter(function (item) {
     return item && item.title
   })
@@ -375,6 +376,9 @@ function WorksSection() {
   var looks = React.useMemo(function () {
     return buildWorksLooks(cardCount)
   }, [cardCount])
+
+  // db 未就绪时不渲染整段，避免首页出现半截空卡区
+  if (!ctx.db) return null
 
   return (
     <section className="works" id="works" aria-labelledby="works-title">

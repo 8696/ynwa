@@ -615,11 +615,12 @@ function Search() {
 }
 
 /**
- * 完整作品集页 /works。渲染 SITE_WORKS 全部条目，不分页；
+ * 完整作品集页 /works。渲染 db.json works 全部条目，不分页；
  * 复用首页 WorksSection 的 bento-card 卡片样式（WorksCard / buildWorksLooks 在 components.js）。
  */
 function Works() {
-  var source = Array.isArray(SITE_WORKS) ? SITE_WORKS : []
+  var ctx = useDB()
+  var source = ctx.db && Array.isArray(ctx.db.works) ? ctx.db.works : []
   var items = source.filter(function (item) {
     return item && item.title
   })
@@ -630,6 +631,12 @@ function Works() {
   React.useEffect(function () {
     document.title = '作品集 · ' + SITE_NAME
   }, [])
+
+  if (!ctx.db) return (
+    <main className="page">
+      <DbState />
+    </main>
+  )
 
   return (
     <main className="page">
