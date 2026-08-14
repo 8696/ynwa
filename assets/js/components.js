@@ -255,7 +255,7 @@ function WorksCardArrow() {
 var WORKS_TONES = ['yellow', 'white', 'soft', 'ink', 'red', 'blue']
 
 /**
- * 为 n 张卡抽一版外观：色、高低。固定两列，不做通栏。
+ * 为 n 张卡抽一版外观：色、条纹、编号。固定两列瀑布流，高度由内容决定。
  * 相邻不同色。
  */
 function buildWorksLooks(count) {
@@ -268,7 +268,6 @@ function buildWorksLooks(count) {
     prevTone = tone
     looks.push({
       tone: tone,
-      tall: Math.random() < 0.45,
       stripe: Math.random() < 0.32,
       showNum: i !== count - 1 && Math.random() < 0.6,
       numLeft: Math.random() < 0.45,
@@ -291,7 +290,6 @@ function WorksCard(props) {
   var className = [
     'bento-card',
     'bento-card--' + (look.tone || 'white'),
-    look.tall ? 'bento-card--tall' : '',
     look.stripe ? 'bento-card--stripe' : '',
     look.numLeft ? 'bento-card--num-left' : '',
     isMore ? 'bento-card--more' : '',
@@ -316,12 +314,19 @@ function WorksCard(props) {
 
   if (href) {
     var external = /^https?:\/\//i.test(href) || href.indexOf('/ai-page/') === 0
+    if (!external) {
+      return (
+        <ReactRouterDOM.Link className={className} to={href} aria-label={item.title}>
+          {inner}
+        </ReactRouterDOM.Link>
+      )
+    }
     return (
       <a
         className={className}
         href={href}
-        target={external ? '_blank' : undefined}
-        rel={external ? 'noopener noreferrer' : undefined}
+        target="_blank"
+        rel="noopener noreferrer"
         aria-label={item.title}
       >
         {inner}
@@ -335,8 +340,8 @@ function WorksCard(props) {
 /**
  * 首页 AI 页面作品集。条目来自 SITE_WORKS。
  * 可展示卡位上限 SITE_WORKS_MAX（与模板 Bento 的 6 格对齐）。
- * 仅当作品数超过可展示上限（溢出）时才追加末尾「更多」卡。
- * 卡片色块 / 高度在每次挂载时抽一版，刷新即换。固定两列一行。
+ * 末尾始终追加「更多」卡，链接到完整作品集页 /works。
+ * 卡片色块在每次挂载时抽一版，刷新即换。两列瀑布流，高度由内容决定。
  */
 function WorksSection() {
   var max = typeof SITE_WORKS_MAX === 'number' && SITE_WORKS_MAX > 1 ? SITE_WORKS_MAX : 6
@@ -344,14 +349,12 @@ function WorksSection() {
   var items = source.filter(function (item) {
     return item && item.title
   })
-  var overflow = items.length > max - 1
   var visible = items.slice(0, max - 1)
   var more = SITE_WORKS_MORE && SITE_WORKS_MORE.title ? SITE_WORKS_MORE : {
     title: '更多',
-    kicker: 'Coming soon',
     summary: '后面做的 AI 页面会继续放到这里。',
   }
-  var cardCount = visible.length + (overflow ? 1 : 0)
+  var cardCount = visible.length + 1
   var looks = React.useMemo(function () {
     return buildWorksLooks(cardCount)
   }, [cardCount])
@@ -375,7 +378,7 @@ function WorksSection() {
               />
             )
           })}
-          {overflow ? <WorksCard item={more} isMore look={looks[visible.length]} /> : null}
+          <WorksCard item={more} isMore look={looks[visible.length]} />
         </div>
       </div>
     </section>

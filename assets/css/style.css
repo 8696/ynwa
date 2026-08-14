@@ -767,16 +767,15 @@ a.site-footer-brand:hover {
   line-height: 1.65;
 }
 
+/* 瀑布流：多列布局，卡片高度由内容决定，各列独立堆叠 */
 .bento {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: 1fr;
+  column-count: 1;
+  column-gap: 20px;
 }
 
 @media (min-width: 640px) {
   .bento {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
+    column-count: 2;
   }
 }
 
@@ -793,6 +792,12 @@ a.site-footer-brand:hover {
   text-decoration: none;
   color: var(--ink);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  break-inside: avoid;
+  margin-bottom: 20px;
+}
+
+.bento-card:last-child {
+  margin-bottom: 0;
 }
 
 a.bento-card:hover {
@@ -802,10 +807,6 @@ a.bento-card:hover {
 
 article.bento-card {
   cursor: default;
-}
-
-.bento-card--tall {
-  min-height: 260px;
 }
 
 .bento-card--stripe {

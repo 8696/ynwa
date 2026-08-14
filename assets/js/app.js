@@ -35,6 +35,7 @@ function App() {
           <ReactRouterDOM.Route path="/category/:id" element={<Category />} />
           <ReactRouterDOM.Route path="/tag/:id" element={<Tag />} />
           <ReactRouterDOM.Route path="/search" element={<Search />} />
+          <ReactRouterDOM.Route path="/works" element={<Works />} />
           <ReactRouterDOM.Route path="*" element={<NotFound />} />
         </ReactRouterDOM.Routes>
       </div>

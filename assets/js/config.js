@@ -74,12 +74,12 @@ var SITE_WORKS = [
     href: '/ai-page/construct-art/index.html',
   }
 ]
-/** 「更多」卡文案；href 留空则不可点（完整列表页之后再接） */
+/** 「更多」卡文案；href 指向完整作品集页 /works（SPA 内路由） */
 var SITE_WORKS_MORE = {
   title: '更多',
-  kicker: 'Coming soon',
+  kicker: '全部作品',
   summary: '后面做的 AI 页面会继续放到这里。',
-  href: '',
+  href: '/works',
 }
 
 /** 全站元数据 JSON；须与静态目录 assets/data/db.json 一致 */

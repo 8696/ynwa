@@ -599,6 +599,52 @@ function Search() {
   )
 }
 
+/**
+ * 完整作品集页 /works。渲染 SITE_WORKS 全部条目，不分页；
+ * 复用首页 WorksSection 的 bento-card 卡片样式（WorksCard / buildWorksLooks 在 components.js）。
+ */
+function Works() {
+  var source = Array.isArray(SITE_WORKS) ? SITE_WORKS : []
+  var items = source.filter(function (item) {
+    return item && item.title
+  })
+  var looks = React.useMemo(function () {
+    return buildWorksLooks(items.length)
+  }, [items.length])
+
+  React.useEffect(function () {
+    document.title = '作品集 · ' + SITE_NAME
+  }, [])
+
+  return (
+    <main className="page">
+      <section className="works works--full" aria-labelledby="works-full-title">
+        <div className="works-head">
+          <span className="eyebrow">Works · 作品</span>
+          <h1 id="works-full-title" className="works-title">AI 页面作品集</h1>
+          <p className="works-lede">用 AI 搭过的独立页面，全部在这里。点开一张卡片就能看。</p>
+        </div>
+        {items.length ? (
+          <div className="bento">
+            {items.map(function (item, i) {
+              return (
+                <WorksCard
+                  key={item.href || item.title}
+                  item={item}
+                  index={i}
+                  look={looks[i]}
+                />
+              )
+            })}
+          </div>
+        ) : (
+          <div className="status">还没有作品，先去首页看看吧。</div>
+        )}
+      </section>
+    </main>
+  )
+}
+
 /** 未匹配路由的占位页 */
 function NotFound() {
   React.useEffect(function () {
