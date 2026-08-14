@@ -45,24 +45,7 @@ var SITE_WORKS_MORE = {
   href: '/works',
 }
 
-/**
- * 全站主题调色板。每次访问随机挑一组写入 <html data-theme>，
- * style.css 按 [data-theme=xx] 覆盖强调色变量。改色/加组只动这里。
- * 命名 = 主题名 = data-theme 值（kebab-case）。
- */
-var SITE_THEMES = [
-  { name: 'yellow',  label: '经典黄',  vars: { accent: '#ffe135', accentSoft: '#fff8d6', accent2: '#ff5a47' } },
-  { name: 'blue',    label: '克莱因蓝', vars: { accent: '#2f6bd8', accentSoft: '#dce9fb', accent2: '#ffe135' } },
-  { name: 'green',   label: '薄荷绿',  vars: { accent: '#2ec27e', accentSoft: '#d9f2e4', accent2: '#ffe135' } },
-  { name: 'pink',    label: '荧光粉',  vars: { accent: '#ff7eb6', accentSoft: '#ffdeee', accent2: '#2f6bd8' } },
-  { name: 'purple',  label: '紫罗兰',  vars: { accent: '#9b7ede', accentSoft: '#e9e2fb', accent2: '#ffe135' } },
-  { name: 'orange',  label: '活力橙',  vars: { accent: '#ff8a3d', accentSoft: '#ffe5d3', accent2: '#2f6bd8' } },
-  { name: 'cyan',    label: '青瓷',   vars: { accent: '#00c2d1', accentSoft: '#d2f4f7', accent2: '#ffe135' } },
-  { name: 'lime',    label: '青柠',   vars: { accent: '#a8e10c', accentSoft: '#effbd2', accent2: '#ff5a47' } },
-  { name: 'red',     label: '信号红',  vars: { accent: '#ff3b30', accentSoft: '#ffd9d6', accent2: '#2f6bd8' } },
-  { name: 'magenta', label: '洋红',   vars: { accent: '#e6399f', accentSoft: '#fbd8ee', accent2: '#7ed0ff' } },
-  { name: 'coffee',  label: '咖啡',   vars: { accent: '#8d6748', accentSoft: '#eadfd2', accent2: '#ffe135' } },
-]
+/** 主题调色板在 themes.js（须在 CSS 前加载），不放这里以免和首屏抢时序。 */
 
 /** 全站元数据 JSON；须与静态目录 assets/data/db.json 一致 */
 var DB_URL = '/assets/data/db.json'
@@ -88,6 +71,7 @@ var FOOTER_ICP = '粤ICP备17039322号-3'
 /** 工信部备案查询入口 */
 var FOOTER_ICP_LINK = 'https://beian.miit.gov.cn'
 
+// 首屏先用站点名；进文章/分类后再由对应页面改 document.title。meta 与 index.html 占位保持一致。
 document.title = SITE_NAME
 var _metaDesc = document.querySelector('meta[name="description"]')
 if (_metaDesc && SITE_DESCRIPTION) _metaDesc.setAttribute('content', SITE_DESCRIPTION)

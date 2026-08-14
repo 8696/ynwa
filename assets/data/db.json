@@ -1,39 +1,39 @@
 {
   "nav": [
     {
-      "type": "category",
       "label": "AI",
-      "value": "AI"
+      "value": "/category/AI",
+      "target": ""
     },
     {
-      "type": "category",
       "label": "技术实践",
-      "value": "engineering"
+      "value": "/category/engineering",
+      "target": ""
     },
     {
-      "type": "category",
       "label": "生活记录",
-      "value": "life"
+      "value": "/category/life",
+      "target": ""
     },
     {
-      "type": "category",
       "label": "随便写写",
-      "value": "writing"
+      "value": "/category/writing",
+      "target": ""
     },
     {
-      "type": "link",
       "label": "AI作品集",
-      "value": "/works"
+      "value": "/works",
+      "target": ""
     },
     {
-      "type": "anchor",
       "label": "关于",
-      "value": "#about"
+      "value": "#about",
+      "target": ""
     },
     {
-      "type": "anchor",
       "label": "联系",
-      "value": "#contact"
+      "value": "#contact",
+      "target": ""
     }
   ],
   "categories": [
@@ -61,39 +61,48 @@
   "tags": [
     {
       "id": "AI",
-      "name": "AI"
+      "name": "AI",
+      "description": "围绕 AI 的工具、机制与实践"
     },
     {
       "id": "Hermes-Agent",
-      "name": "Hermes Agent"
+      "name": "Hermes Agent",
+      "description": "Hermes Agent 源码、工作流与自学习机制"
     },
     {
       "id": "frontend",
-      "name": "前端"
+      "name": "前端",
+      "description": "前端界面、工程与交互"
     },
     {
       "id": "javascript",
-      "name": "JavaScript"
+      "name": "JavaScript",
+      "description": "JavaScript 语言与运行时"
     },
     {
       "id": "性能优化",
-      "name": "性能优化"
+      "name": "性能优化",
+      "description": "加载、渲染与缓存相关的优化"
     },
     {
       "id": "productivity",
-      "name": "效率"
+      "name": "效率",
+      "description": "工作流、工具链与效率方法"
     },
     {
       "id": "writing",
-      "name": "写作"
+      "name": "写作",
+      "description": "写作与表达"
     },
     {
       "id": "life",
-      "name": "生活"
+      "name": "生活",
+      "description": "日常观察与生活记录"
     },
     {
       "id": "skill",
-      "name": "Skill"
+      "name": "Skill",
+      "description": "Agent Skill 与工具编排"
     }
   ],
   "articles": [

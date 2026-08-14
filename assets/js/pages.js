@@ -1,3 +1,8 @@
+/**
+ * 路由页面。数据一律 useDB()，不直接 fetch db.json。
+ * 文章正文仅详情页按 articles[].file 再 fetch Markdown；搜索只扫 title / summary。
+ */
+
 /** 首页 Hero：高亮标题、最近一篇侧卡、计数、分类/标签跑马灯 */
 function HomeHero(props) {
   var db = props.db
@@ -7,6 +12,7 @@ function HomeHero(props) {
 
   var latest = React.useMemo(function () {
     if (!articles.length) return null
+    // DBProvider 已按 date 倒序，这里再排一次以免 Hero 依赖调用方是否排过
     return articles.slice().sort(function (a, b) {
       return new Date(b.date) - new Date(a.date)
     })[0]
@@ -17,6 +23,7 @@ function HomeHero(props) {
   var marqueeBits = React.useMemo(function () {
     var names = categories.map(function (c) { return c.name })
       .concat(tags.map(function (t) { return t.name }))
+    // db 还没来或目录为空时用站点名占位，避免跑马灯空白
     if (!names.length) names = [SITE_NAME, '技术', '思考', '生活']
     return names
   }, [categories, tags])
@@ -36,6 +43,7 @@ function HomeHero(props) {
             {SITE_DESCRIPTION}{SITE_SLOGAN ? '。' + SITE_SLOGAN : ''}
           </p>
           <div className="home-hero-actions">
+            {/* 同页锚点用 <a href>：Router Link 对 #articles 不会滚，App 只处理首页 hash 且要等 rAF */}
             <a className="btn" href="#articles">看文章 ↓</a>
             <ReactRouterDOM.Link className="btn btn-ghost" to="/search">搜索</ReactRouterDOM.Link>
           </div>
@@ -73,15 +81,16 @@ function HomeHero(props) {
             <p>有想法就写下来。第一篇可以很短。</p>
           )}
           <svg className="hero-deco hero-deco-star" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
-            <path d="M26 2 L31 19 L48 19 L34 30 L39 47 L26 37 L13 47 L18 30 L4 19 L21 19 Z" fill="#FFE135" stroke="#000" strokeWidth="2.5"></path>
+            <path d="M26 2 L31 19 L48 19 L34 30 L39 47 L26 37 L13 47 L18 30 L4 19 L21 19 Z" fill="var(--accent)" stroke="var(--black)" strokeWidth="2.5"></path>
           </svg>
           <svg className="hero-deco hero-deco-zig" width="80" height="26" viewBox="0 0 80 26" aria-hidden="true">
-            <path d="M2 22 L14 4 L26 22 L38 4 L50 22 L62 4 L74 22" fill="none" stroke="#000" strokeWidth="3"></path>
+            <path d="M2 22 L14 4 L26 22 L38 4 L50 22 L62 4 L74 22" fill="none" stroke="var(--black)" strokeWidth="3"></path>
           </svg>
         </div>
       </div>
       <div className="marquee" aria-hidden="true">
         <div className="marquee-track">
+          {/* 两份相同文案首尾相接，CSS 位移 50% 时看起来像无限循环 */}
           <span>{marqueeText}</span>
           <span>{marqueeText}</span>
         </div>
@@ -112,7 +121,7 @@ function Home() {
       <div className="page">
         <div className="home-posts-head" id="articles">
           <span className="eyebrow">Posts · 文章</span>
-          <h2 className="home-posts-title">最近写下的</h2>
+          <h2 className="section-title section-title--lg">最近写下的</h2>
         </div>
 
         {!db ? (
@@ -127,6 +136,7 @@ function Home() {
                 : <div className="status">暂无文章</div>
               }
             </div>
+            {/* 第 1 页写成 / 而不是 /?page=1，分享首页地址更干净 */}
             <Pagination
               current={paged.current}
               totalPages={paged.totalPages}
@@ -228,6 +238,7 @@ function Article() {
   return (
     <main className="page">
       <div className="page-hero">
+        {/* 有站内历史则返回上一页；新标签直达时 length 往往为 1，改链到首页以免 navigate(-1) 离开本站 */}
         {window.history.length > 1 ? (
           <a
             onClick={function (e) { e.preventDefault(); navigate(-1) }}
@@ -346,6 +357,7 @@ function Category() {
         }
       </div>
 
+      {/* 分类 id 在路径里；页码进查询串。第 1 页也带 ?page=1，与首页「第 1 页写成 /」不同 */}
       <Pagination
         current={paged.current}
         totalPages={paged.totalPages}
@@ -407,7 +419,7 @@ function Tag() {
       <div className="page-hero">
         <p className="eyebrow">标签</p>
         <h1 className="page-title">{tag.name}</h1>
-        <p className="page-desc">含此标签的文章</p>
+        {tag.description ? <p className="page-desc">{tag.description}</p> : <p className="page-desc">含此标签的文章</p>}
       </div>
 
       <div className="article-list">
@@ -419,6 +431,7 @@ function Tag() {
         }
       </div>
 
+      {/* 与分类页相同：路径留 tag id，翻页只改 ?page= */}
       <Pagination
         current={paged.current}
         totalPages={paged.totalPages}
@@ -433,84 +446,25 @@ var SEARCH_MAX_RESULTS = 50
 
 /**
  * 单条搜索结果。标题/摘要 HTML 来自 highlightOne（已转义再包 <mark>）。
- * 使用原生 <a target=_blank>，方便对照阅读而不离开搜索页。
+ * 新窗口打开，方便对照阅读而不离开搜索页。
  */
 function SearchResultRow(props) {
   var post = props.post
   var query = props.query
-  var db = props.db
-  var href = '/article/' + encodeURIComponent(post.id)
-  var catList = React.useMemo(function () {
-    return getCategoryList(db, post.categories)
-  }, [db, post.categories])
-  var highlightedTitle = React.useMemo(function () {
+  var titleHtml = React.useMemo(function () {
     return highlightOne(post.title || '', query)
   }, [post.title, query])
-  var highlightedSummary = React.useMemo(function () {
-    return highlightOne(post.summary, query)
+  var summaryHtml = React.useMemo(function () {
+    return post.summary ? highlightOne(post.summary, query) : ''
   }, [post.summary, query])
-  var tags = React.useMemo(function () {
-    return (post.tags || []).map(function (tagId) {
-      var t = db.tags.find(function (x) { return x.id === tagId })
-      return { id: tagId, label: t ? t.name : tagId }
-    })
-  }, [db.tags, post.tags])
-
   return (
-    <article className="article-card">
-      <div>
-        <h2 className="article-card-title">
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            dangerouslySetInnerHTML={{ __html: highlightedTitle }}
-          />
-        </h2>
-        {post.summary && (
-          <p
-            className="article-summary"
-            dangerouslySetInnerHTML={{ __html: highlightedSummary }}
-          />
-        )}
-        <div className="article-meta">
-          <time className="article-date">{formatDate(post.date)}</time>
-          {catList.map(function (c) {
-            return (
-              <a
-                key={c.id}
-                href={'/category/' + c.id}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="chip"
-              >
-                {c.name}
-              </a>
-            )
-          })}
-          <div className="tag-list">
-            {tags.map(function (tag) {
-              return (
-                <a
-                  key={tag.id}
-                  href={'/tag/' + tag.id}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="tag-link"
-                >
-                  {tag.label}
-                </a>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-      <div className="article-more">
-        <a href={href} target="_blank" rel="noopener noreferrer" className="article-more-link">
-          阅读全文 →
-        </a>
-      </div>
-    </article>
+    <ArticleCard
+      post={post}
+      db={props.db}
+      openInNewTab
+      titleHtml={titleHtml}
+      summaryHtml={summaryHtml}
+    />
   )
 }
 
@@ -545,6 +499,7 @@ function Search() {
   }, [])
 
   var updateURL = React.useCallback(function (q) {
+    // replace 而不是 push：分享链接仍带 ?q=，但连续输入不会堆一串搜索历史
     setSearchParams(q ? { q: q } : {}, { replace: true })
   }, [setSearchParams])
 
@@ -552,6 +507,7 @@ function Search() {
     var v = e.target.value
     setQuery(v)
     if (timerRef.current) clearTimeout(timerRef.current)
+    // 输入框立刻变，URL 等 200ms：每次按键都 replace 会把中文 IME 组字写进历史
     timerRef.current = setTimeout(function () {
       updateURL(v.trim())
     }, 200)
@@ -615,7 +571,7 @@ function Search() {
 }
 
 /**
- * 完整作品集页 /works。渲染 db.json works 全部条目，不分页；
+ * 完整作品集页 /works。渲染 db.json works 全部条目，不分页、也不再塞「更多」卡（那张只在首页）。
  * 复用首页 WorksSection 的 bento-card 卡片样式（WorksCard / buildWorksLooks 在 components.js）。
  */
 function Works() {
@@ -667,7 +623,7 @@ function Works() {
   )
 }
 
-/** 未匹配路由的占位页 */
+/** 未匹配路由的占位页。不猜「返回上一页」，避免外链直达时 navigate(-1) 离开本站 */
 function NotFound() {
   React.useEffect(function () {
     document.title = '404 · ' + SITE_NAME

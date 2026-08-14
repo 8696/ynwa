@@ -1,5 +1,5 @@
 /**
- * 全站 db.json 的 React Context。
+ * 全站 db.json 的唯一数据入口。页面/组件只通过 useDB() 读，禁止自己 fetch 这份 JSON。
  * 默认 loadDB 直接 reject，用于在未包 DBProvider 时尽早暴露接入错误。
  */
 var DBContext = React.createContext({
@@ -76,6 +76,7 @@ function DBProvider(props) {
     var p = (function () {
       var hostname = window.location.hostname
       var cacheDisabled = applyCacheDisableFromUrl()
+      // 本机预览永远拉新：改 db.json 后不必等 TTL，也不必每次加 ?nocache=1
       var forceFresh =
         cacheDisabled || hostname === 'localhost' || hostname === '127.0.0.1'
 
