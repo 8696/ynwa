@@ -45,6 +45,13 @@ var SITE_WORKS = [
     summary: 'Neo-Brutalism 风格的个人站：技能、项目 Bento、经历时间线。纯 HTML / CSS，没用框架。',
     tags: ['HTML', 'CSS'],
     href: '/ai-page/candy-house/index.html',
+  },
+  {
+    title: '墨叙工作室 / MUXU STUDIO',
+    kicker: 'Editorial 工作室单页',
+    summary: '杂志/策展式品牌设计工作室样板页：8 大区块、Editorial 排版、交互式合作评估器、IntersectionObserver 逐块揭示。React 19 + Tailwind v4 + Google Fonts。',
+    tags: ['React 19', 'Tailwind v4', 'Editorial'],
+    href: '/ai-page/muxu-studio/index.html',
   }
 ]
 /** 「更多」卡文案；href 留空则不可点（完整列表页之后再接） */
