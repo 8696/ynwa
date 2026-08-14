@@ -52,6 +52,13 @@ var SITE_WORKS = [
     summary: '杂志/策展式品牌设计工作室样板页：8 大区块、Editorial 排版、交互式合作评估器、IntersectionObserver 逐块揭示。React 19 + Tailwind v4 + Google Fonts。',
     tags: ['React 19', 'Tailwind v4', 'Editorial'],
     href: '/ai-page/muxu-studio/index.html',
+  },
+  {
+    title: '构形实验室 / FORM-GRID',
+    kicker: 'Swiss Grid 工作室单页',
+    summary: '瑞士网格 × 包豪斯构成风的设计工作室样板页：可见网格线、Bauhaus 三原色高对比、巨型字构图、Bento 作品 Bento、交互式服务评估器、几何时间线、纯黑 Footer 实时 GMT 时钟。React 19 + Tailwind v4 + Google Fonts。',
+    tags: ['React 19', 'Tailwind v4', 'Swiss Grid'],
+    href: '/ai-page/form-grid/index.html',
   }
 ]
 /** 「更多」卡文案；href 留空则不可点（完整列表页之后再接） */
