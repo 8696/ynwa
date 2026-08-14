@@ -44,7 +44,7 @@ var SITE_WORKS = [
     kicker: '个人作品集',
     summary: 'Neo-Brutalism 风格的个人站：技能、项目 Bento、经历时间线。纯 HTML / CSS，没用框架。',
     tags: ['HTML', 'CSS'],
-    href: '/ai-agent/candy-house/',
+    href: '/ai-agent/candy-house/index.html',
   }
 ]
 /** 「更多」卡文案；href 留空则不可点（完整列表页之后再接） */
