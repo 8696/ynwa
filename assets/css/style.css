@@ -206,6 +206,17 @@ h1, h2, h3, h4 {
   padding: 48px 0;
 }
 
+/* 加载失败文案 + 重试按钮：文案与按钮留出呼吸间距，按钮不撑满整行 */
+.status p {
+  margin: 0 0 16px;
+}
+
+.status .status-retry {
+  margin-top: 4px;
+  font-size: 14px;
+  padding: 10px 24px;
+}
+
 .back-link {
   display: inline-flex;
   align-items: center;

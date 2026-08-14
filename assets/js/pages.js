@@ -94,7 +94,8 @@ function HomeHero(props) {
 function Home() {
   var db = useDB().db
   var searchParams = ReactRouterDOM.useSearchParams()[0]
-  var page = parseInt(searchParams.get('page') || '1', 10)
+  // ?page=abc 会 parseInt 成 NaN；兜底回第 1 页，避免分页夹取失效渲染空列表
+  var page = parseInt(searchParams.get('page') || '1', 10) || 1
 
   React.useEffect(function () {
     document.title = SITE_NAME
@@ -115,7 +116,7 @@ function Home() {
         </div>
 
         {!db ? (
-          <div className="status">加载中…</div>
+          <DbState />
         ) : (
           <React.Fragment>
             <div className="article-list">
@@ -155,9 +156,18 @@ function Article() {
 
   var post = db && db.articles.find(function (p) { return p.id === id })
 
+  /** 正文重试计数：bump 后重跑下方 effect 重新 fetch */
+  var _retryState = React.useState(0)
+  var reloadCount = _retryState[0]
+  var bumpReload = _retryState[1]
+
   React.useEffect(function () {
     if (!post) return
     document.title = post.title + ' · ' + SITE_NAME
+
+    // 切换文章或重试时先清旧正文/旧错误，避免上一篇的内容在新标题下短暂残留
+    setContent(null)
+    setError(null)
 
     var cancelled = false
     function load() {
@@ -181,7 +191,7 @@ function Article() {
     }
     load()
     return function () { cancelled = true }
-  }, [post])
+  }, [post, reloadCount])
 
   // 消毒后的 HTML 入 DOM 后再做高亮和外链新窗口；依赖 content 以免容器尚未挂载
   React.useEffect(function () {
@@ -200,7 +210,7 @@ function Article() {
   if (!db) {
     return (
       <main className="page">
-        <div className="status">加载中…</div>
+        <DbState />
       </main>
     )
   }
@@ -253,7 +263,10 @@ function Article() {
       </div>
 
       {error ? (
-        <div className="status">文章内容加载失败：{error}</div>
+        <div className="status">
+          <p>文章内容加载失败：{error}</p>
+          <button type="button" className="btn status-retry" onClick={function () { bumpReload(function (n) { return n + 1 }) }}>重试</button>
+        </div>
       ) : content ? (
         <div
           id="post-content"
@@ -274,7 +287,8 @@ function Category() {
   var catId = ReactRouterDOM.useParams().id || ''
   var db = useDB().db
   var searchParams = ReactRouterDOM.useSearchParams()[0]
-  var page = parseInt(searchParams.get('page') || '1', 10)
+  // ?page=abc 会 parseInt 成 NaN；兜底回第 1 页，避免分页夹取失效渲染空列表
+  var page = parseInt(searchParams.get('page') || '1', 10) || 1
 
   var cat = React.useMemo(function () {
     return db && db.categories.find(function (c) { return c.id === catId })
@@ -298,7 +312,7 @@ function Category() {
   if (!db) {
     return (
       <main className="page">
-        <div className="status">加载中…</div>
+        <DbState />
       </main>
     )
   }
@@ -346,7 +360,8 @@ function Tag() {
   var tagId = ReactRouterDOM.useParams().id || ''
   var db = useDB().db
   var searchParams = ReactRouterDOM.useSearchParams()[0]
-  var page = parseInt(searchParams.get('page') || '1', 10)
+  // ?page=abc 会 parseInt 成 NaN；兜底回第 1 页，避免分页夹取失效渲染空列表
+  var page = parseInt(searchParams.get('page') || '1', 10) || 1
 
   var tag = React.useMemo(function () {
     return db && db.tags.find(function (t) { return t.id === tagId })
@@ -370,7 +385,7 @@ function Tag() {
   if (!db) {
     return (
       <main className="page">
-        <div className="status">加载中…</div>
+        <DbState />
       </main>
     )
   }
@@ -570,13 +585,13 @@ function Search() {
           className="search-input"
         />
         <p className="search-hint">
-          <code>结果最多显示 50 条</code>
+          <code>结果最多显示 {SEARCH_MAX_RESULTS} 条</code>
         </p>
       </div>
 
       <div className="search-results">
         {!db ? (
-          <div className="status status--compact">加载中…</div>
+          <DbState compact />
         ) : !query.trim() ? null : rows.length === 0 ? (
           <div className="status status--compact">未找到匹配项</div>
         ) : (

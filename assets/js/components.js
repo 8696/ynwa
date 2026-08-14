@@ -103,13 +103,6 @@ function Header() {
     return 'nav-mobile-link' + (isActive ? ' nav-mobile-link--active' : '')
   }
 
-  var searchIcon = (
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-      <circle cx="11" cy="11" r="7"></circle>
-      <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
-    </svg>
-  )
-
   return (
     <header className="site-header">
       <div className="site-header-inner">
@@ -139,16 +132,13 @@ function Header() {
             )
           })}
           <ReactRouterDOM.Link to="/search" className={navClass(activeNav.type === 'search') + ' nav-link--search'} aria-label="搜索" title="搜索">
-            <svg aria-hidden="true" viewBox="0 0 24 24" className="nav-search-icon" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <circle cx="11" cy="11" r="7"></circle>
-              <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
-            </svg>
+            <SearchIcon className="nav-search-icon" />
           </ReactRouterDOM.Link>
         </nav>
 
         <div className="header-tools">
           <ReactRouterDOM.Link to="/search" className="icon-btn" aria-label="搜索" title="搜索">
-            {searchIcon}
+            <SearchIcon />
           </ReactRouterDOM.Link>
           <button
             type="button"
@@ -239,6 +229,33 @@ function Footer() {
         {FOOTER_ICP}
       </a>
     </footer>
+  )
+}
+
+/** 放大镜图标；桌面导航与头部工具按钮共用，className 透传控制尺寸 */
+function SearchIcon(props) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={props.className} fill="none" stroke="currentColor" strokeWidth="2.5">
+      <circle cx="11" cy="11" r="7"></circle>
+      <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
+    </svg>
+  )
+}
+
+/**
+ * db 加载态统一出口：加载中/失败展示对应文案，失败附重试按钮。
+ * 各页面「db 未就绪」的分支都用它，避免断网时永远停在「加载中…」且无路可走。
+ */
+function DbState(props) {
+  var ctx = useDB()
+  if (ctx.db) return null
+  var cls = props.compact ? 'status status--compact' : 'status'
+  if (!ctx.error) return <div className={cls}>加载中…</div>
+  return (
+    <div className={cls}>
+      <p>数据加载失败：{ctx.error}</p>
+      <button type="button" className="btn status-retry" onClick={ctx.retryDB}>重试</button>
+    </div>
   )
 }
 

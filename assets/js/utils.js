@@ -33,14 +33,6 @@ function getCategoryList(db, categories) {
   })
 }
 
-/** 标签 ID → 可读名称；未知 ID 原样返回，保证链接仍可点 */
-function getTagNames(db, ids) {
-  return (ids || []).map(function (id) {
-    var t = db.tags.find(function (x) { return x.id === id })
-    return t ? t.name : id
-  })
-}
-
 /**
  * 对文章列表分页。current 会被夹在 [1, totalPages]，避免 ?page=0 或超大页码越界。
  * totalPages 至少为 1，空列表时分页器仍可按「第 1 页」处理。
