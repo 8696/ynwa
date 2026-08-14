@@ -1,174 +1,191 @@
 # YNWA
 
-个人博客：**无需构建、无打包器**。浏览器直接加载 HTML / CSS / JSX，运行时库全部来自 jsDelivr。
+无构建步骤的个人博客 SPA。浏览器直接吃 HTML / CSS / JSX，运行时库全部来自 jsDelivr UMD。
 
-YNWA 取自利物浦队歌 *You'll Never Walk Alone*。站点记录技术、思考与生活。
+YNWA 取自利物浦队歌 *You'll Never Walk Alone*。
 
-- 在线仓库：[github.com/8696/ynwa](https://github.com/8696/ynwa)
-- 内容源：`assets/data/db.json`（导航、分类、标签、文章元数据）
-- 正文：`assets/articles/` 下的 Markdown
-
----
-
-## 特点
-
-- 单页应用：React 18 + React Router 6，`index.html` 挂载即可
-- JSX 由 Babel Standalone 在浏览器内转换，本地零依赖
-- Markdown → HTML（`marked`）后经 `DOMPurify` 消毒，代码块用 `highlight.js` 高亮
-- 生产环境用 `localStorage` 缓存 `db.json`（1 小时）；本地开发始终拉最新
-- 首页含 Hero、文章列表、关于、联系区；内页为分类 / 标签 / 搜索 / 文章详情
-
----
-
-## 快速开始
-
-必须用 HTTP 服务打开。`file://` 无法加载 Babel 的 `src` 脚本，也无法 `fetch` `db.json`。
+本地必须走 HTTP（`file://` 加载不了 Babel 的 `src` 脚本，也 `fetch` 不了 `db.json`）：
 
 ```bash
 npx --yes serve -s . -l 3000
 ```
 
-或：
-
-```bash
-npx --yes http-server ./ -c-1
-```
-
-浏览器访问提示的本地地址。`serve -s` 会把未知路径回退到 `index.html`，刷新 `/article/:id` 等内页不会 404。
-
-强制跳过数据缓存（写入 localStorage 后会一直生效，直到手动清存储）：
-
-```
-http://localhost:3000/?nocache=1
-```
+`serve -s` 把未知路径回退到 `index.html`，这是 `BrowserRouter` 能刷新内页的前提。
 
 ---
 
-## 项目结构
+## 约束
 
-```
-ynwa/
-├── index.html                 # 入口：CDN 脚本 + 站点脚本
-├── README.md
-└── assets/
-    ├── css/style.css          # 全站样式
-    ├── data/db.json           # 导航 / 分类 / 标签 / 文章元数据
-    ├── articles/              # 文章 Markdown
-    └── js/
-        ├── config.js          # 站点常量（名称、分页、缓存、页脚）
-        ├── utils.js           # 纯函数：日期、分页、搜索、资源 URL
-        ├── db-context.js      # DBProvider：加载并缓存 db.json
-        ├── components.js      # Header、Footer、卡片、分页等
-        ├── pages.js           # 各路由页面 + 首页关于/联系区
-        └── app.js             # 路由表与挂载
-```
+站点按静态文件部署（OSS / 任意静态托管），因此刻意不做这些事：
 
-加载顺序固定在 `index.html`：React → Router → marked / DOMPurify / highlight.js → Babel → `config.js` / `utils.js` → 带 JSX 的脚本。不要调换。
+- 没有打包器、没有 `node_modules`、没有构建产物
+- React 19 / React Router 7 没有浏览器 UMD，运行时钉在 React 18.3.1 + RR 6.30.1
+- 所有站内资源用根绝对路径（`/assets/...`），避免 `/article/:id` 把相对 URL 解析错
+- 脚本顺序写死在 `index.html`，调换即挂
 
 ---
 
-## 路由
+## 运行时引导
 
-定义在 `assets/js/app.js`：
+```
+index.html
+  ├─ CDN UMD：React → ReactDOM → Remix Router → react-router → react-router-dom
+  ├─ CDN UMD：marked / DOMPurify / highlight.js / Babel Standalone
+  ├─ 经典脚本：config.js → utils.js          （无 JSX，注入全局）
+  └─ Babel 脚本：db-context → components → pages → app
+```
 
-| 路径 | 页面 |
+两层脚本不能混：
+
+| 层 | 加载方式 | 为什么 |
+| --- | --- | --- |
+| `config.js` / `utils.js` | 普通 `<script>` | 常量与纯函数先挂到 `window`，后面的 JSX 文件直接当全局用 |
+| `db-context.js` 起 | `type="text/babel" data-presets="react"` | 浏览器内编译 JSX；`data-presets="react"` 避免再套 env |
+| `app.js` | 最后执行 | 依赖前面所有全局函数已存在，再 `createRoot` 挂载 |
+
+CDN 版本钉在 URL 上，不走「最新」。highlight.js 主题 stylesheet 必须先于 `style.css`，否则 `.markdown-body` 盖不住代码块背景。
+
+---
+
+## 分层
+
+```
+┌─────────────────────────────────────────────┐
+│  app.js          壳：路由表、滚动、挂载      │
+├─────────────────────────────────────────────┤
+│  pages.js        路由页面（读 db + URL）     │
+│  components.js   可复用块（Header / 卡片 /  │
+│                  作品集 / 关于 / 联系 / 分页）│
+├─────────────────────────────────────────────┤
+│  db-context.js   唯一数据入口 + 缓存策略     │
+├─────────────────────────────────────────────┤
+│  utils.js        纯函数，无 React            │
+│  config.js       运行时常量                  │
+└─────────────────────────────────────────────┘
+```
+
+调用方向只允许从上往下。页面不直接 `fetch` `db.json`；卡片不自己拼资源 URL，一律走 `resolvePublicAssetUrl`。
+
+组件树：
+
+```
+StrictMode
+  BrowserRouter
+    DBProvider          ← 必须在 Router 内，才能读 ?nocache=
+      App
+        Header
+        Routes          ← Home / Article / Category / Tag / Search / *
+        WorksSection    ┐
+        AboutSection    ├ 仅 pathname === '/'
+        ContactCta      ┘
+        Footer
+```
+
+首页区块不塞进 `Home`，是因为它们在路由出口之外：列表分页只影响 `#main`，作品集 / 关于 / 联系始终贴在列表下面。
+
+---
+
+## 数据从哪来
+
+三份数据，职责拆开，避免把正文塞进索引。
+
+```
+config.js          站点身份、作品集、缓存键、页脚
+     │
+db.json            nav / categories / tags / articles 元数据
+     │  DBProvider 一次加载，Context 下发
+     ▼
+Markdown           articles[].file 指向的正文；进入详情才 fetch
+```
+
+| 源 | 形态 | 何时读 |
+| --- | --- | --- |
+| `config.js` | 全局变量 | 脚本加载时立刻生效（含改 `<title>` / meta description） |
+| `db.json` | 一份 JSON 索引 | 应用启动时由 `DBProvider` 拉一次，列表 / 导航 / 搜索都吃这份内存 |
+| Markdown | 独立文件 | `/article/:id` 按 `post.file` 再请求；不进索引、不进 localStorage |
+
+`db.json` 进内存后按 `date` 倒序。分类 / 标签页是对这份数组的过滤；搜索只扫 `title` 和 `summary`，不打开正文。
+
+作品集（`SITE_WORKS`）不走 `db.json`：那些页面是站根下独立的 `ai-agent/<目录>/`，不进 React 树，本仓库也不收它们。
+
+---
+
+## 缓存
+
+只缓存索引，不缓存 Markdown。
+
+```
+loadDB()
+  ├─ localhost / 127.0.0.1     → 始终 fetch
+  ├─ ?nocache=1                → 写入永久禁用标记，清掉旧缓存，之后一直 fetch
+  └─ 生产
+        ├─ TTL 内且 JSON 合法  → 读 localStorage
+        └─ 过期 / 损坏 / 未命中 → fetch，再写回
+```
+
+请求 URL 带 `?_=<timestamp>`，降低 CDN / 浏览器把 `db.json` 当长期静态文件的概率。并发的 `useDB()` 共用同一个 in-flight Promise，避免 StrictMode 双调用打两次。
+
+`?nocache=1` 是粘性开关：值必须是字面量 `1`，写入后即使去掉查询参数也继续拉新，直到清存储。
+
+---
+
+## 正文管道
+
+详情页只认 `articles[].id`，正文路径由元数据给出：
+
+```
+:id
+  → db.articles.find
+  → resolvePublicAssetUrl(post.file)
+  → fetch 文本
+  → marked.parse（GFM）
+  → DOMPurify.sanitize
+  → dangerouslySetInnerHTML
+  → highlight.js 扫 <pre><code>
+  → http(s) 锚点补 target=_blank + rel
+```
+
+消毒白名单只放常见文档协议和相对路径，挡住 `javascript:`。切文章或卸载时用 `cancelled` 丢弃过期响应，避免旧正文写进新页。
+
+`PUBLIC_ASSET_BASE` 把相对 `file` / `cover` 指到别的域名（例如 OSS）；已是 `http(s)` 的 URL 原样保留。空则按站内绝对路径请求。
+
+---
+
+## 路由与导航
+
+| 路径 | 页面做什么 |
 | --- | --- |
-| `/` | 首页（Hero + 文章列表，分页 `?page=`） |
-| `/article/:id` | 文章详情（拉取 Markdown 并渲染） |
-| `/category/:id` | 按分类筛选 |
-| `/tag/:id` | 按标签筛选 |
-| `/search` | 搜索标题 / 摘要（`?q=`，不含正文） |
+| `/` | 全站文章分页；`?page=`，第 1 页写成 `/` |
+| `/article/:id` | 元数据 + 正文管道 |
+| `/category/:id` / `/tag/:id` | 过滤后再分页 |
+| `/search?q=` | `searchArticles` 扫标题 / 摘要 |
 | `*` | 404 |
 
-首页额外渲染关于区与联系区；其它路由只有顶栏、主内容、页脚。
+滚动策略在壳上统一处理，页面不管：
 
----
+- `PUSH` / `REPLACE` 且无 hash → 滚到顶部
+- `POP`（后退 / 前进）→ 保持原位
+- 首页带 hash → `scrollIntoView` 对应 `id`（`#articles` / `#works` / `#about` / `#contact`）
 
-## 站点配置
+顶栏不写死栏目，由 `db.nav[]` 分发：
 
-编辑 `assets/js/config.js`：
-
-| 变量 | 说明 |
+| `type` | 去哪 |
 | --- | --- |
-| `SITE_NAME` / `SITE_SLOGAN` / `SITE_DESCRIPTION` | 站点名、口号、简介（写入 `<title>` 与 meta description） |
-| `SITE_EMAIL` / `SITE_AUTHOR` / `SITE_CITY` | 联系邮箱、关于区作者信息 |
-| `SITE_ABOUT_*` | 关于区正文与标签；作者相关字段全空则不渲染该区块 |
-| `PUBLIC_ASSET_BASE` | 可选。文章 `file`、`cover` 为相对路径且资源在其他域名时的公网根 URL（无尾斜杠）。留空则按站内路径请求 |
-| `PAGE_SIZE` | 列表每页条数 |
-| `CACHE_*` | `db.json` 的 localStorage 键、TTL、`?nocache=1` 开关 |
-| `FOOTER_*` | 版权起始年、ICP 备案号与链接 |
+| `category` / `tag` | `/category/:id`、`/tag/:id` |
+| `anchor` | `{ pathname: '/', hash }`，跨页也能回到首页再锚定 |
+| `link` | 外链；`target=_blank` 时补 `rel` |
 
----
+高亮规则：分类 / 标签页对 `value`；文章页取该文第一个分类（db 未就绪时不高亮，避免先闪「首页」）。「首页」和搜索是顶栏固定项，不进 `nav`。
 
-## 数据与缓存
-
-`DBProvider`（`assets/js/db-context.js`）请求 `/assets/data/db.json`，并按环境决定是否读缓存：
-
-| 环境 | 行为 |
-| --- | --- |
-| `localhost` / `127.0.0.1` | 每次强制拉取最新 |
-| `?nocache=1` | 写入永久禁用标记，之后即使去掉参数也继续拉新 |
-| 生产 | TTL（默认 1 小时）内优先读缓存，过期或损坏再请求 |
-
-文章列表在内存中按 `date` 倒序。请求 URL 会追加时间戳，降低中间层把 `db.json` 当成长期静态文件的概率。
-
----
-
-## 内容管理
-
-站点没有后台。改 Markdown 和 `db.json` 即可。
-
-### 新增文章
-
-1. 在 `assets/articles/` 下新增 Markdown，例如 `assets/articles/engineering/my-article.md`。
-2. 在 `assets/data/db.json` 的 `articles` 数组追加一条记录。`id` 建议用 UUID，且全站唯一：
-
-```json
-{
-  "id": "3e4de540-55bd-41e6-ab7a-e8654dd70059",
-  "title": "文章标题",
-  "categories": ["engineering"],
-  "tags": ["javascript", "frontend"],
-  "date": "2026-05-01",
-  "summary": "一句话摘要。",
-  "file": "/assets/articles/engineering/my-article.md",
-  "cover": ""
-}
-```
-
-`categories` / `tags` 必须对应 `db.json` 里已有的 `id`。`file`、`cover` 可以是站内绝对路径或完整 `http(s)` URL。
-
-### 顶部导航
-
-由 `db.json` 的 `nav` 数组驱动：
-
-| `type` | 行为 |
-| --- | --- |
-| `category` | 跳转到 `/category/<value>` |
-| `tag` | 跳转到 `/tag/<value>` |
-| `link` | 外链；可配 `target: "_blank"` |
-
-联系区与页脚会自动识别 label 为 `GitHub` 或 URL 含 `github.com` 的外链。
-
----
-
-## CDN 依赖
-
-版本钉在 `index.html` 的 script / link 地址上。React 19 与 React Router 7 没有浏览器 UMD，因此钉在 18.3.1 / 6.30.1。
-
-| 库 | 版本 | 用途 |
-| --- | --- | --- |
-| react / react-dom | 18.3.1 | UI 渲染（UMD） |
-| @remix-run/router / react-router / react-router-dom | 6.30.1 | 前端路由 |
-| marked | 15.0.7 | Markdown → HTML |
-| DOMPurify | 3.4.2 | 文章 HTML 消毒 |
-| highlight.js | 11.11.1 | 代码高亮 |
-| @babel/standalone | 7.28.5 | 浏览器内编译 JSX |
+联系区 / 页脚的 GitHub 按钮不是第二份配置，而是从 `nav` 里找 `label === GitHub` 或 URL 含 `github.com` 的 `link`。找不到就不渲染。
 
 ---
 
 ## 部署
 
-把 `index.html` 与 `assets/` 放到任意静态托管即可。服务器必须配置 **SPA fallback**：未知路径回退到 `index.html`，否则刷新内页会 404。
+静态托管即可，但必须满足：
 
-若 Markdown 或封面不在本站，在 `config.js` 里设置 `PUBLIC_ASSET_BASE`。
+1. **SPA fallback**：未知路径 → `index.html`，否则刷新 `/article/:id` 会 404
+2. 站点脚本与样式走根路径 `/assets/...`
+3. 正文或封面若在站外，设 `PUBLIC_ASSET_BASE`
+4. `ai-agent/` 与 SPA 同域部署，但不进本仓库、不进 React 路由

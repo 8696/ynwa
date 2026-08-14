@@ -38,6 +38,7 @@ function App() {
           <ReactRouterDOM.Route path="*" element={<NotFound />} />
         </ReactRouterDOM.Routes>
       </div>
+      {isHome ? <WorksSection /> : null}
       {isHome ? <AboutSection /> : null}
       {isHome ? <ContactCta /> : null}
       <Footer />

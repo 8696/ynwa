@@ -242,6 +242,142 @@ function Footer() {
   )
 }
 
+/** Bento 卡角落箭头，作品卡与「更多」共用 */
+function WorksCardArrow() {
+  return (
+    <svg className="bento-arrow" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+      <path d="M6 28 L28 6 M14 6 h14 v14" fill="none" stroke="currentColor" strokeWidth="3.5"></path>
+    </svg>
+  )
+}
+
+/** 作品卡配色；相邻卡不会抽到同一色 */
+var WORKS_TONES = ['yellow', 'white', 'soft', 'ink', 'red', 'blue']
+
+/**
+ * 为 n 张卡抽一版外观：色、高低。固定两列，不做通栏。
+ * 相邻不同色。
+ */
+function buildWorksLooks(count) {
+  var looks = []
+  var prevTone = ''
+
+  for (var i = 0; i < count; i++) {
+    var pool = WORKS_TONES.filter(function (t) { return t !== prevTone })
+    var tone = pool[Math.floor(Math.random() * pool.length)]
+    prevTone = tone
+    looks.push({
+      tone: tone,
+      tall: Math.random() < 0.45,
+      stripe: Math.random() < 0.32,
+      showNum: i !== count - 1 && Math.random() < 0.6,
+      numLeft: Math.random() < 0.45,
+    })
+  }
+  return looks
+}
+
+/**
+ * 单张作品卡。外链新窗口打开；无 href 时降级为 <article>，避免空链。
+ */
+function WorksCard(props) {
+  var item = props.item
+  var look = props.look || {}
+  var index = props.index
+  var isMore = !!props.isMore
+  var href = item.href ? String(item.href).trim() : ''
+  var tags = Array.isArray(item.tags) ? item.tags : []
+  var num = look.showNum && index != null ? String(index + 1).padStart(2, '0') : ''
+  var className = [
+    'bento-card',
+    'bento-card--' + (look.tone || 'white'),
+    look.tall ? 'bento-card--tall' : '',
+    look.stripe ? 'bento-card--stripe' : '',
+    look.numLeft ? 'bento-card--num-left' : '',
+    isMore ? 'bento-card--more' : '',
+  ].filter(Boolean).join(' ')
+  var inner = (
+    <React.Fragment>
+      {look.stripe ? <div className="bento-stripe" aria-hidden="true"></div> : null}
+      {num ? <span className="bento-num" aria-hidden="true">{num}</span> : null}
+      {item.kicker ? <span className="chip chip--static">{item.kicker}</span> : null}
+      <h3>{item.title}</h3>
+      {item.summary ? <p>{item.summary}</p> : null}
+      {tags.length ? (
+        <div className="bento-tags">
+          {tags.map(function (tag) {
+            return <span key={tag} className="chip chip--static">{tag}</span>
+          })}
+        </div>
+      ) : null}
+      {href ? <WorksCardArrow /> : null}
+    </React.Fragment>
+  )
+
+  if (href) {
+    var external = /^https?:\/\//i.test(href) || href.indexOf('/ai-agent/') === 0
+    return (
+      <a
+        className={className}
+        href={href}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
+        aria-label={item.title}
+      >
+        {inner}
+      </a>
+    )
+  }
+
+  return <article className={className}>{inner}</article>
+}
+
+/**
+ * 首页 AI 页面作品集。条目来自 SITE_WORKS；末卡固定为「更多」。
+ * 总数上限 SITE_WORKS_MAX（含「更多」），与模板 Bento 的 6 格对齐。
+ * 卡片色块 / 高度在每次挂载时抽一版，刷新即换。固定两列一行。
+ */
+function WorksSection() {
+  var max = typeof SITE_WORKS_MAX === 'number' && SITE_WORKS_MAX > 1 ? SITE_WORKS_MAX : 6
+  var source = Array.isArray(SITE_WORKS) ? SITE_WORKS : []
+  var items = source.filter(function (item) {
+    return item && item.title
+  }).slice(0, max - 1)
+  var more = SITE_WORKS_MORE && SITE_WORKS_MORE.title ? SITE_WORKS_MORE : {
+    title: '更多',
+    kicker: 'Coming soon',
+    summary: '后面做的 AI 页面会继续放到这里。',
+  }
+  var looks = React.useMemo(function () {
+    return buildWorksLooks(items.length + 1)
+  }, [items.length])
+
+  return (
+    <section className="works" id="works" aria-labelledby="works-title">
+      <div className="wrap">
+        <div className="works-head">
+          <span className="eyebrow">Works · 作品</span>
+          <h2 id="works-title" className="works-title">AI 页面作品集</h2>
+          <p className="works-lede">用 AI 搭过的独立页面。先放几个，后面继续往这里加。</p>
+        </div>
+        <div className="bento">
+          {items.map(function (item, i) {
+            return (
+              <WorksCard
+                key={item.href || item.title}
+                item={item}
+                index={i}
+                look={looks[i]}
+              />
+            )
+          })}
+          <WorksCard item={more} isMore look={looks[items.length]} />
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /**
  * 「屏幕之外的我」。文案来自 SITE_AUTHOR / SITE_CITY / SITE_ABOUT_BIO / SITE_ABOUT_TAGS。
  */

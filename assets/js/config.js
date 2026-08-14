@@ -32,6 +32,29 @@ var SITE_ABOUT_TAGS = [
   { name: '足球', desc: '利物浦。跌倒了还一起走。' },
   { name: '脑洞', desc: '用不上的想法，也得有地方放。' },
 ]
+/**
+ * 首页「AI 页面作品集」。条目对应独立 HTML 页（部署在 /ai-agent/<目录>/）。
+ * 首页最多展示 SITE_WORKS_MAX 张卡，最后一张固定为「更多」；多出的条目先不渲染。
+ * 全空则仍渲染该区块（只显示「更多」占位）。
+ */
+var SITE_WORKS_MAX = 6
+var SITE_WORKS = [
+  {
+    title: '糖果屋',
+    kicker: '个人作品集',
+    summary: 'Neo-Brutalism 风格的个人站：技能、项目 Bento、经历时间线。纯 HTML / CSS，没用框架。',
+    tags: ['HTML', 'CSS'],
+    href: '/ai-agent/candy-house/',
+  }
+]
+/** 「更多」卡文案；href 留空则不可点（完整列表页之后再接） */
+var SITE_WORKS_MORE = {
+  title: '更多',
+  kicker: 'Coming soon',
+  summary: '后面做的 AI 页面会继续放到这里。',
+  href: '',
+}
+
 /** 全站元数据 JSON；须与静态目录 assets/data/db.json 一致 */
 var DB_URL = '/assets/data/db.json'
 /** 列表页每页条数 */
