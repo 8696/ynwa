@@ -10,6 +10,18 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github.min.css" />
   <!-- 使用站点根绝对路径，避免 /article/:id 等子路由把相对 URL 解析错 -->
   <link rel="stylesheet" href="/assets/css/style.css" />
+  <script>
+    // 主题随机（经典脚本，须在样式渲染前执行）：从 config.js 的 SITE_THEMES 随机抽一组，
+    // 写 <html data-theme>。style.css 按 [data-theme=xx] 覆盖强调色变量；yellow 是默认主题不写值。
+    // 站内导航属于 MPA 跳转（页面重载），每次访问都会重新随机。
+    ;(function () {
+      var names = ['yellow', 'blue', 'green', 'pink', 'purple', 'orange', 'cyan', 'lime', 'red', 'magenta', 'coffee'] // 与 config.js SITE_THEMES 同步（全部主题参与随机）
+      try {
+        var pick = names[Math.floor(Math.random() * names.length)]
+        if (pick) document.documentElement.setAttribute('data-theme', pick)
+      } catch (e) { /* 随机主题失败不影响渲染 */ }
+    })()
+  </script>
 </head>
 <body>
   <div id="root"></div>

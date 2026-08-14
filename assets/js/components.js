@@ -268,8 +268,8 @@ function WorksCardArrow() {
   )
 }
 
-/** 作品卡配色；相邻卡不会抽到同一色 */
-var WORKS_TONES = ['yellow', 'white', 'soft', 'ink', 'red', 'blue']
+/** 作品卡配色；相邻卡不会抽到同一色。tone 吃主题变量，随 [data-theme] 一起换装 */
+var WORKS_TONES = ['accent', 'white', 'accent-soft', 'ink', 'accent-2']
 
 /**
  * 为 n 张卡抽一版外观：色、条纹、编号。固定两列瀑布流，高度由内容决定。
@@ -540,13 +540,19 @@ function TagLinks(props) {
 function ArticleCard(props) {
   var post = props.post
   var db = props.db
+  // 斑马线条：与作品卡同款随机皮肤（约 32% 出条），条纹色吃 --accent 随主题换装。
+  // keyed post.id：同一张卡在同一次挂载内重渲（db 就绪/翻页）不重抽。
+  var look = React.useMemo(function () {
+    return { stripe: Math.random() < 0.32 }
+  }, [post.id])
   var catList = getCategoryList(db, post.categories)
   var dateStr = formatDate(post.date)
   var coverRaw = typeof post.cover === 'string' ? post.cover.trim() : ''
   var cover = coverRaw ? resolvePublicAssetUrl(coverRaw) : ''
 
   return (
-    <article className="article-card">
+    <article className={look.stripe ? 'article-card article-card--stripe' : 'article-card'}>
+      {look.stripe ? <div className="article-stripe" aria-hidden="true"></div> : null}
       <div className={cover ? 'article-card-row article-card-row--with-cover' : ''}>
         <div className={cover ? 'article-card-main' : ''}>
           <h2 className="article-card-title">
