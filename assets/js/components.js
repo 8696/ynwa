@@ -344,7 +344,7 @@ function WorksCard(props) {
  * 卡片色块在每次挂载时抽一版，刷新即换。两列瀑布流，高度由内容决定。
  */
 function WorksSection() {
-  var max = typeof SITE_WORKS_MAX === 'number' && SITE_WORKS_MAX > 1 ? SITE_WORKS_MAX : 6
+  var max = typeof SITE_WORKS_MAX === 'number' && SITE_WORKS_MAX > 1 ? SITE_WORKS_MAX : 4
   var source = Array.isArray(SITE_WORKS) ? SITE_WORKS : []
   var items = source.filter(function (item) {
     return item && item.title

@@ -618,12 +618,12 @@ function Works() {
 
   return (
     <main className="page">
-      <section className="works works--full" aria-labelledby="works-full-title">
-        <div className="works-head">
-          <span className="eyebrow">Works · 作品</span>
-          <h1 id="works-full-title" className="works-title">AI 页面作品集</h1>
-          <p className="works-lede">用 AI 搭过的独立页面，全部在这里。点开一张卡片就能看。</p>
-        </div>
+      <div className="page-hero">
+        <p className="eyebrow">Works · 作品</p>
+        <h1 className="page-title">AI 页面作品集</h1>
+        <p className="page-desc">用 AI 搭过的独立页面，全部在这里。点开一张卡片就能看。</p>
+      </div>
+      <section className="works works--full" aria-label="AI 页面作品集">
         {items.length ? (
           <div className="bento">
             {items.map(function (item, i) {

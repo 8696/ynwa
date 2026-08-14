@@ -36,7 +36,7 @@ var SITE_ABOUT_TAGS = [
  * 首页「AI 页面作品集」。条目对应独立 HTML 页（部署在 /ai-page/<目录>/）。
  * 最多展示 SITE_WORKS_MAX 张卡；仅当作品数超过该上限（溢出）时才追加末尾「更多」卡。
  */
-var SITE_WORKS_MAX = 6
+var SITE_WORKS_MAX = 4
 var SITE_WORKS = [
   {
     title: '糖果屋',

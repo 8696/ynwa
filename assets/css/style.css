@@ -767,6 +767,12 @@ a.site-footer-brand:hover {
   line-height: 1.65;
 }
 
+/* 完整作品集页：页头已由 page-hero 承担，去掉首页区块的大内边距和分割线 */
+.works--full {
+  padding: 0 0 56px;
+  border-top: none;
+}
+
 /* 瀑布流：多列布局，卡片高度由内容决定，各列独立堆叠 */
 .bento {
   column-count: 1;
@@ -946,7 +952,7 @@ article.bento-card {
 }
 
 @media (min-width: 768px) {
-  .works {
+  .works:not(.works--full) {
     padding: 72px 0;
   }
 }
