@@ -315,7 +315,7 @@ function WorksCard(props) {
   )
 
   if (href) {
-    var external = /^https?:\/\//i.test(href) || href.indexOf('/ai-agent/') === 0
+    var external = /^https?:\/\//i.test(href) || href.indexOf('/ai-page/') === 0
     return (
       <a
         className={className}

@@ -106,7 +106,7 @@ Markdown           articles[].file 指向的正文；进入详情才 fetch
 
 `db.json` 进内存后按 `date` 倒序。分类 / 标签页是对这份数组的过滤；搜索只扫 `title` 和 `summary`，不打开正文。
 
-作品集（`SITE_WORKS`）不走 `db.json`：那些页面是站根下独立的 `ai-agent/<目录>/`，不进 React 树，本仓库也不收它们。
+作品集（`SITE_WORKS`）不走 `db.json`：那些页面是站根下独立的 `ai-page/<目录>/`，不进 React 树，本仓库也不收它们。
 
 ---
 
@@ -188,4 +188,4 @@ loadDB()
 1. **SPA fallback**：未知路径 → `index.html`，否则刷新 `/article/:id` 会 404
 2. 站点脚本与样式走根路径 `/assets/...`
 3. 正文或封面若在站外，设 `PUBLIC_ASSET_BASE`
-4. `ai-agent/` 与 SPA 同域部署，但不进本仓库、不进 React 路由
+4. `ai-page/` 与 SPA 同域部署，但不进本仓库、不进 React 路由

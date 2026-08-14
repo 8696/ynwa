@@ -9,7 +9,7 @@
 - 不要用 ES modules：`import` / `export` 在本仓库不工作。所有 JS 通过 `<script>` 顺序加载，符号挂在全局。
 - 不要用相对资源路径。站内 URL 一律根绝对路径：`/assets/...`。
 - 不要调换 `index.html` 里的脚本顺序。
-- 不要把 `ai-agent/` 页面收进本仓库或塞进 React 路由。作品集只在 `config.js` 的 `SITE_WORKS` 里挂外链。
+- 不要把 `ai-page/` 页面收进本仓库或塞进 React 路由。作品集只在 `config.js` 的 `SITE_WORKS` 里挂外链。
 
 本地预览必须走 HTTP（`file://` 加载不了 Babel `src`，也 `fetch` 不了 `db.json`）：
 
