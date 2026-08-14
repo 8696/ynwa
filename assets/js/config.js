@@ -59,6 +59,13 @@ var SITE_WORKS = [
     summary: '瑞士网格 × 包豪斯构成风的设计工作室样板页：可见网格线、Bauhaus 三原色高对比、巨型字构图、Bento 作品 Bento、交互式服务评估器、几何时间线、纯黑 Footer 实时 GMT 时钟。React 19 + Tailwind v4 + Google Fonts。',
     tags: ['React 19', 'Tailwind v4', 'Swiss Grid'],
     href: '/ai-page/form-grid/index.html',
+  },
+  {
+    title: '浮岛 / Floating Island',
+    kicker: '创意工作室作品集',
+    summary: '立体剪纸 × 柔和有机风格创意工作室作品集单页：品牌理念、作品、项目预估、历程、FAQ。莫兰迪大地色系，多层 box-shadow 模拟厚纸板质感。纯 HTML / CSS / JS。',
+    tags: ['HTML', 'CSS', 'Papercut'],
+    href: '/ai-page/floating-island/index.html',
   }
 ]
 /** 「更多」卡文案；href 留空则不可点（完整列表页之后再接） */
