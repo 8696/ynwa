@@ -65,6 +65,13 @@ var SITE_WORKS = [
     summary: '立体剪纸 × 柔和有机风格创意工作室作品集单页：品牌理念、作品、项目预估、历程、FAQ。莫兰迪大地色系，多层 box-shadow 模拟厚纸板质感。纯 HTML / CSS / JS。',
     tags: ['HTML', 'CSS', 'Papercut'],
     href: '/ai-page/floating-island/index.html',
+  },
+  {
+    title: '构象艺术 / CONSTRUCT-ART',
+    kicker: 'Avant-Garde 雕塑风作品集',
+    summary: '前卫孟菲斯 × 高级雕塑风先锋艺术工作室单页：克莱因蓝点缀、巨型几何构图、重型实体阴影、拱门 FAQ、交互式预算估算器、锯齿时间线、纯黑 Footer 实时 GMT 时钟。纯 HTML / CSS / JS。',
+    tags: ['HTML', 'CSS', 'Memphis'],
+    href: '/ai-page/construct-art/index.html',
   }
 ]
 /** 「更多」卡文案；href 留空则不可点（完整列表页之后再接） */
