@@ -21,6 +21,11 @@
       "value": "writing"
     },
     {
+      "type": "link",
+      "label": "AI作品集",
+      "value": "/works"
+    },
+    {
       "type": "anchor",
       "label": "关于",
       "value": "#about"
