@@ -80,6 +80,8 @@ function Header() {
     } else if (item.type === 'tag') {
       to = '/tag/' + item.value
       isActive = activeNav.type === 'tag' && activeNav.value === item.value
+    } else if (item.type === 'anchor') {
+      to = { pathname: '/', hash: item.value }
     } else if (item.type === 'link') {
       to = item.value || '#'
       external = true
@@ -143,8 +145,6 @@ function Header() {
             </svg>
           </ReactRouterDOM.Link>
         </nav>
-        <ReactRouterDOM.Link className="nav-link nav-link--about" to={{ pathname: '/', hash: 'about' }}>关于</ReactRouterDOM.Link>
-        <ReactRouterDOM.Link className="nav-link nav-link--about" to={{ pathname: '/', hash: 'contact' }}>联系</ReactRouterDOM.Link>
 
         <div className="header-tools">
           <ReactRouterDOM.Link to="/search" className="icon-btn" aria-label="搜索" title="搜索">
@@ -210,20 +210,6 @@ function Header() {
               </ReactRouterDOM.Link>
             )
           })}
-          <ReactRouterDOM.Link
-            to={{ pathname: '/', hash: 'about' }}
-            className="nav-mobile-link"
-            onClick={function () { setMenuOpen(false) }}
-          >
-            关于
-          </ReactRouterDOM.Link>
-          <ReactRouterDOM.Link
-            to={{ pathname: '/', hash: 'contact' }}
-            className="nav-mobile-link"
-            onClick={function () { setMenuOpen(false) }}
-          >
-            联系
-          </ReactRouterDOM.Link>
         </nav>
       )}
     </header>

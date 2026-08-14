@@ -5,6 +5,14 @@
 function App() {
   var location = ReactRouterDOM.useLocation()
   var isHome = location.pathname === '/'
+  var navType = ReactRouterDOM.useNavigationType()
+
+  React.useEffect(function () {
+    // PUSH（进入新页面）/ REPLACE → 滚到顶部；POP（后退/前进）保持原位
+    if (navType !== 'POP' && !location.hash) {
+      window.scrollTo(0, 0)
+    }
+  }, [location.pathname, navType])
 
   React.useEffect(function () {
     if (!isHome || !location.hash) return

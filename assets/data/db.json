@@ -21,10 +21,14 @@
       "value": "writing"
     },
     {
-      "type": "link",
-      "label": "GitHub",
-      "value": "https://github.com/8696",
-      "target": "_blank"
+      "type": "anchor",
+      "label": "关于",
+      "value": "#about"
+    },
+    {
+      "type": "anchor",
+      "label": "联系",
+      "value": "#contact"
     }
   ],
   "categories": [
