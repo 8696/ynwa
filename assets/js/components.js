@@ -333,8 +333,9 @@ function WorksCard(props) {
 }
 
 /**
- * 首页 AI 页面作品集。条目来自 SITE_WORKS；末卡固定为「更多」。
- * 总数上限 SITE_WORKS_MAX（含「更多」），与模板 Bento 的 6 格对齐。
+ * 首页 AI 页面作品集。条目来自 SITE_WORKS。
+ * 可展示卡位上限 SITE_WORKS_MAX（与模板 Bento 的 6 格对齐）。
+ * 仅当作品数超过可展示上限（溢出）时才追加末尾「更多」卡。
  * 卡片色块 / 高度在每次挂载时抽一版，刷新即换。固定两列一行。
  */
 function WorksSection() {
@@ -342,15 +343,18 @@ function WorksSection() {
   var source = Array.isArray(SITE_WORKS) ? SITE_WORKS : []
   var items = source.filter(function (item) {
     return item && item.title
-  }).slice(0, max - 1)
+  })
+  var overflow = items.length > max - 1
+  var visible = items.slice(0, max - 1)
   var more = SITE_WORKS_MORE && SITE_WORKS_MORE.title ? SITE_WORKS_MORE : {
     title: '更多',
     kicker: 'Coming soon',
     summary: '后面做的 AI 页面会继续放到这里。',
   }
+  var cardCount = visible.length + (overflow ? 1 : 0)
   var looks = React.useMemo(function () {
-    return buildWorksLooks(items.length + 1)
-  }, [items.length])
+    return buildWorksLooks(cardCount)
+  }, [cardCount])
 
   return (
     <section className="works" id="works" aria-labelledby="works-title">
@@ -361,7 +365,7 @@ function WorksSection() {
           <p className="works-lede">用 AI 搭过的独立页面。先放几个，后面继续往这里加。</p>
         </div>
         <div className="bento">
-          {items.map(function (item, i) {
+          {visible.map(function (item, i) {
             return (
               <WorksCard
                 key={item.href || item.title}
@@ -371,7 +375,7 @@ function WorksSection() {
               />
             )
           })}
-          <WorksCard item={more} isMore look={looks[items.length]} />
+          {overflow ? <WorksCard item={more} isMore look={looks[visible.length]} /> : null}
         </div>
       </div>
     </section>
