@@ -19,7 +19,11 @@
     { name: 'lime',    accent: '#a8e10c', soft: '#effbd2', accent2: '#ff5a47', onAccent: ink,   onAccent2: ink },
     { name: 'red',     accent: '#c8102e', soft: '#f5d4d9', accent2: '#f6eb61', onAccent: paper, onAccent2: ink },
     { name: 'magenta', accent: '#e6399f', soft: '#fbd8ee', accent2: '#7ed0ff', onAccent: ink,   onAccent2: ink },
-    { name: 'coffee',  accent: '#8d6748', soft: '#eadfd2', accent2: '#ffe135', onAccent: paper, onAccent2: ink }
+    { name: 'coffee',  accent: '#8d6748', soft: '#eadfd2', accent2: '#ff9f1c', onAccent: paper, onAccent2: ink },
+    { name: 'indigo',  accent: '#4338ca', soft: '#e3e1f7', accent2: '#ffd166', onAccent: paper, onAccent2: ink },
+    { name: 'forest',  accent: '#2d6a4f', soft: '#d9efe2', accent2: '#ff9f1c', onAccent: paper, onAccent2: ink },
+    { name: 'sky',     accent: '#4cc9f0', soft: '#dcf4fc', accent2: '#f72585', onAccent: ink,   onAccent2: paper },
+    { name: 'ink',     accent: '#1f1f1f', soft: '#e9e9e9', accent2: '#ffe135', onAccent: paper, onAccent2: ink }
   ]
   try {
     var day = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000)   // 本地今日零点 → 天数，本地日历翻页才换色
