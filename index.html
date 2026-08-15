@@ -6,6 +6,8 @@
   <meta name="description" content="记录技术、思考与生活" />
   <!-- title / description 会在 config.js 加载后被 SITE_NAME、SITE_DESCRIPTION 覆盖 -->
   <title>YNWA</title>
+  <!-- 根绝对路径，否则 /article/:id 等子路由下会解析错 -->
+  <link rel="icon" href="/assets/favicon.ico" sizes="64x64" />
   <!-- 须在 style.css 前执行，避免首屏闪默认黄。改色只动 themes.js。 -->
   <script src="/assets/js/themes.js"></script>
   <!-- highlight.js 主题须先于正文样式，便于 .markdown-body 覆盖其背景 -->

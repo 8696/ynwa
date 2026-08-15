@@ -1089,11 +1089,15 @@ article.bento-card {
   font-weight: 800;
 }
 
+/* 卡底是 --accent，深强调色时文字走 --on-accent（浅色）。
+   这里不能写死 --c-secondary 深灰，否则深色主题下看不见——
+   继承 --on-accent 再用透明度做次要层级。 */
 .about-fact-desc {
   margin: 4px 0 0;
   font-size: 13px;
   line-height: 1.5;
-  color: var(--c-secondary);
+  color: inherit;
+  opacity: 0.78;
   font-weight: 400;
 }
 
