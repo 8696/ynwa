@@ -1,0 +1,130 @@
+/* ---------- 关于 ---------- */
+
+.about {
+  background: var(--accent-soft);
+  border-top: var(--stroke);
+  padding: 56px 0;
+}
+
+.about-head {
+  margin-bottom: 32px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.about-portrait {
+  border: var(--stroke);
+  box-shadow: var(--shadow-lg);
+  background: var(--accent);
+  color: var(--on-accent);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-portrait-dots {
+  height: 96px;
+  border-bottom: var(--stroke);
+  background:
+    radial-gradient(circle at 4px 4px, var(--black) 2.5px, transparent 0) 0 0 / 22px 22px,
+    var(--accent);
+}
+
+.about-portrait-body {
+  padding: 24px;
+}
+
+.about-portrait-body h3 {
+  font-size: 26px;
+  margin: 0 0 6px;
+}
+
+.about-city {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+.about-facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 15px;
+}
+
+.about-facts li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.about-facts li::before {
+  content: "▸";
+  font-weight: 800;
+  flex: none;
+  margin-top: 1px;
+}
+
+.about-fact-name {
+  font-weight: 800;
+}
+
+/* 卡底是 --accent，深强调色时文字走 --on-accent（浅色）。
+   这里不能写死 --c-secondary 深灰，否则深色主题下看不见——
+   继承 --on-accent 再用透明度做次要层级。 */
+.about-fact-desc {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: inherit;
+  opacity: 0.78;
+  font-weight: 400;
+}
+
+.about-text {
+  border: var(--stroke);
+  box-shadow: var(--shadow);
+  background: var(--white);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.about-text h3 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.about-text p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--c-secondary);
+}
+
+.about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+@media (min-width: 768px) {
+  .about {
+    padding: 72px 0;
+  }
+
+  .about-grid {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}

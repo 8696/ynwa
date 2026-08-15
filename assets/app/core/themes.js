@@ -1,5 +1,5 @@
 /**
- * 全站强调色。须在 style.css 之前以经典脚本加载，把变量写到 <html>，
+ * 全站强调色。须在 base.css 及一切站点 CSS 之前以经典脚本加载，把变量写到 <html>，
  * 避免首屏先画出 :root 默认黄。浅强调色配 ink，深强调色配 paper。改色/加组只动这张表。
  * 选取规则：按「当天日期的天数 % 主题数」顺序轮换——同一天所有访客、所有刷新
  * 都是同一组（各看各的本地日历，不做时区换算），次日换下一组，15 组一轮永不连色。
@@ -42,5 +42,5 @@
     root.style.setProperty('--accent-2', pick.accent2)
     root.style.setProperty('--on-accent', pick.onAccent)
     root.style.setProperty('--on-accent-2', pick.onAccent2)
-  } catch (e) { /* 失败则沿用 style.css :root 默认黄 */ }
+  } catch (e) { /* 失败则沿用 base.css :root 默认黄 */ }
 })()

@@ -45,10 +45,8 @@ var SITE_WORKS_MORE = {
   href: '/works',
 }
 
-/** 主题调色板在 themes.js（须在 CSS 前加载），不放这里以免和首屏抢时序。 */
-
-/** 全站元数据 JSON；须与静态目录 assets/data/db.json 一致 */
-var DB_URL = '/assets/data/db.json'
+/** 全站元数据 JSON；须与静态目录 assets/app/db.json 一致 */
+var DB_URL = '/assets/app/db.json'
 /** 列表页每页条数 */
 var PAGE_SIZE = 10
 /** localStorage：缓存的 db.json 正文 */

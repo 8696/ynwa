@@ -1,0 +1,70 @@
+/* ---------- 联系 CTA ---------- */
+
+.cta {
+  position: relative;
+  overflow: hidden;
+  background: var(--accent);
+  color: var(--on-accent);
+  border-top: var(--stroke);
+  padding: 72px 16px;
+  text-align: center;
+}
+
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 30px,
+    rgba(0, 0, 0, 0.05) 30px 38px
+  );
+}
+
+.cta-inner {
+  position: relative;
+}
+
+.cta-lede {
+  font-size: 17px;
+  max-width: 28em;
+  margin: 0 auto 28px;
+  color: var(--on-accent);
+  line-height: 1.65;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-deco {
+  position: absolute;
+  pointer-events: none;
+}
+
+.cta-deco-mail {
+  left: 4%;
+  top: 18%;
+}
+
+.cta-deco-circle {
+  right: 6%;
+  bottom: 12%;
+}
+
+@media (max-width: 640px) {
+  .cta-deco-mail,
+  .cta-deco-circle {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .cta {
+    padding: 88px 32px;
+  }
+}

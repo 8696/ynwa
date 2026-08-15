@@ -8,12 +8,38 @@
   <title>YNWA</title>
   <!-- 根绝对路径，否则 /article/:id 等子路由下会解析错 -->
   <link rel="icon" href="/assets/favicon.ico" sizes="64x64" />
-  <!-- 须在 style.css 前执行，避免首屏闪默认黄。改色只动 themes.js。 -->
-  <script src="/assets/js/themes.js"></script>
+  <!-- 须在 CSS 前执行，避免首屏闪默认黄。改色只动 themes.js。 -->
+  <script src="/assets/app/core/themes.js"></script>
   <!-- highlight.js 主题须先于正文样式，便于 .markdown-body 覆盖其背景 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github.min.css" />
-  <!-- 使用站点根绝对路径，避免 /article/:id 等子路由把相对 URL 解析错 -->
-  <link rel="stylesheet" href="/assets/css/style.css" />
+  <!--
+    CSS 与同名 JS 同目录：base → components/* → pages/*。
+    根绝对路径，避免 /article/:id 等子路由把相对 URL 解析错。
+    后加载可覆盖先加载；共用变量/按钮/chip 只在 base.css。
+  -->
+  <link rel="stylesheet" href="/assets/app/core/base.css" />
+  <link rel="stylesheet" href="/assets/app/components/SearchIcon.css" />
+  <link rel="stylesheet" href="/assets/app/components/Header.css" />
+  <link rel="stylesheet" href="/assets/app/components/Footer.css" />
+  <link rel="stylesheet" href="/assets/app/components/DbState.css" />
+  <link rel="stylesheet" href="/assets/app/components/WorksCardArrow.css" />
+  <link rel="stylesheet" href="/assets/app/components/buildWorksLooks.css" />
+  <link rel="stylesheet" href="/assets/app/components/WorksCard.css" />
+  <link rel="stylesheet" href="/assets/app/components/WorksSection.css" />
+  <link rel="stylesheet" href="/assets/app/components/AboutSection.css" />
+  <link rel="stylesheet" href="/assets/app/components/ContactCta.css" />
+  <link rel="stylesheet" href="/assets/app/components/TagLinks.css" />
+  <link rel="stylesheet" href="/assets/app/components/ArticleCard.css" />
+  <link rel="stylesheet" href="/assets/app/components/Pagination.css" />
+  <link rel="stylesheet" href="/assets/app/pages/HomeHero.css" />
+  <link rel="stylesheet" href="/assets/app/pages/Home.css" />
+  <link rel="stylesheet" href="/assets/app/pages/Article.css" />
+  <link rel="stylesheet" href="/assets/app/pages/Category.css" />
+  <link rel="stylesheet" href="/assets/app/pages/Tag.css" />
+  <link rel="stylesheet" href="/assets/app/pages/SearchResultRow.css" />
+  <link rel="stylesheet" href="/assets/app/pages/Search.css" />
+  <link rel="stylesheet" href="/assets/app/pages/Works.css" />
+  <link rel="stylesheet" href="/assets/app/pages/NotFound.css" />
 </head>
 <body>
   <div id="root"></div>
@@ -35,12 +61,37 @@
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.28.5/babel.min.js"></script>
 
   <!-- 无 JSX 的配置/工具先以经典脚本注入全局，供后续 Babel 脚本直接调用 -->
-  <script src="/assets/js/config.js"></script>
-  <script src="/assets/js/utils.js"></script>
-  <!-- Babel 按文档顺序编译并执行；组件须先于页面、页面须先于挂载 -->
-  <script type="text/babel" data-presets="react" src="/assets/js/db-context.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/js/components.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/js/pages.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/js/app.js"></script>
+  <script src="/assets/app/core/config.js"></script>
+  <script src="/assets/app/core/utils.js"></script>
+  <!--
+    Babel 按文档顺序编译并执行。组件/页面已拆成单文件；依赖方必须排在被依赖方之后。
+    顺序约定：core/db-context → components/*（叶子先）→ pages/*（叶子先）→ core/main。
+  -->
+  <script type="text/babel" data-presets="react" src="/assets/app/core/db-context.js"></script>
+  <!-- components：无依赖的叶子 → 依赖它们的组合件 -->
+  <script type="text/babel" data-presets="react" src="/assets/app/components/SearchIcon.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/Header.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/Footer.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/DbState.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/WorksCardArrow.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/buildWorksLooks.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/WorksCard.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/WorksSection.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/AboutSection.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/ContactCta.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/TagLinks.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/ArticleCard.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/components/Pagination.js"></script>
+  <!-- pages：HomeHero / SearchResultRow 等叶子先于使用它们的页面 -->
+  <script type="text/babel" data-presets="react" src="/assets/app/pages/HomeHero.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/pages/Home.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/pages/Article.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/pages/Category.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/pages/Tag.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/pages/SearchResultRow.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/pages/Search.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/pages/Works.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/pages/NotFound.js"></script>
+  <script type="text/babel" data-presets="react" src="/assets/app/core/main.js"></script>
 </body>
 </html>

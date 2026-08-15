@@ -6,14 +6,15 @@ YNWA 取自利物浦队歌 *You'll Never Walk Alone*。
 
 线上预览：[http://www.icode.link/](http://www.icode.link/)
 
-改功能或发文章请先读 [`AGENTS.md`](AGENTS.md)。本文件讲架构和内容约定。注意：当前有一篇文章的 `file` 指向本文件 `/README.md`，改这里等于改那篇正文。
+改功能或发文章请先读 [`AGENTS.md`](AGENTS.md)（操作手册：找文件、逐步清单、翻车对照）。本文件讲**架构与内容约定**。注意：当前有一篇文章的 `file` 指向本文件 `/README.md`，改这里等于改那篇正文。
 
 站点按静态文件部署（OSS / 任意静态托管），因此刻意不做这些事：
 
 - 没有打包器、没有 `node_modules`、没有构建产物
 - React 19 / React Router 7 没有浏览器 UMD，运行时钉在 React 18.3.1 + RR 6.30.1
 - 所有站内资源用根绝对路径（`/assets/...`），避免 `/article/:id` 把相对 URL 解析错
-- 脚本顺序写死在 `index.html`，调换即挂
+- 脚本与样式顺序写死在 `index.html`，调换即挂
+- 前端代码集中在 `assets/app/`：`core/`（内核）+ `components/` + `pages/` + `db.json`；同名 `.js` 与 `.css` 成对同目录
 
 ---
 
@@ -25,9 +26,9 @@ YNWA 取自利物浦队歌 *You'll Never Walk Alone*。
 npx --yes serve -s . -l 3000
 ```
 
-`serve -s` 把未知路径回退到 `index.html`，这是 `BrowserRouter` 能刷新内页（例如 `/article/:id`）的前提。
+`serve -s` 把未知路径回退到 `index.html`，这是 `BrowserRouter` 能刷新内页（例如 `/article/:id`）的前提。其它静态托管（Nginx、OSS 静态网站、Cloudflare Pages…）也必须配置同等 SPA fallback。
 
-开发时改 `db.json` 立刻生效：本机 `localhost` / `127.0.0.1` 永远拉最新，不走 localStorage 缓存。生产环境强制刷新见下方「缓存」。
+开发时改 `assets/app/db.json` 立刻生效：本机 `localhost` / `127.0.0.1` 永远拉最新，不走 localStorage 缓存。生产环境强制刷新见下方「缓存」。改完前端脚本后建议硬刷新，避免浏览器缓存旧的 Babel 编译结果。
 
 ---
 
@@ -35,52 +36,99 @@ npx --yes serve -s . -l 3000
 
 ```
 .
-├── index.html                 入口：CDN 库 + 站点脚本顺序
+├── index.html                 入口：CDN 库 + 全部 <link> / <script> 顺序
 ├── README.md                  架构与内容约定（亦是一篇已发布文章的正文）
 ├── AGENTS.md                  给 Agent 的改功能 / 发文章手册
 ├── assets/
-│   ├── css/style.css          全站样式；强调色变量由 themes.js 写入
-│   ├── data/db.json           全站内容索引（导航 / 分类 / 标签 / 文章 / 作品）
 │   ├── articles/              Markdown 正文；路径写在 articles[].file
-│   └── js/
-│       ├── themes.js          强调色调色板；须在 style.css 前加载
-│       ├── config.js          站点身份、缓存键、页脚（无 JSX）
-│       ├── utils.js           纯函数（无 JSX）
-│       ├── db-context.js      唯一数据入口 + 缓存
-│       ├── components.js      Header / 卡片 / 作品集 / 关于 / 联系 / 分页
-│       ├── pages.js           路由页面
-│       └── app.js             壳：路由表、滚动、挂载
+│   └── app/                   前端应用根（路径前缀 /assets/app/）
+│       ├── db.json            全站内容索引（nav / categories / tags / articles / works）
+│       ├── core/              主题、配置、工具、数据入口、基础样式、应用入口
+│       │   ├── themes.js      强调色；须在一切站点 CSS 之前加载
+│       │   ├── base.css       变量兜底 / reset / 共用 .page .btn .chip …
+│       │   ├── config.js      站点身份、DB_URL、缓存键、页脚（无 JSX）
+│       │   ├── utils.js       纯函数（无 JSX）
+│       │   ├── db-context.js  唯一数据入口 + 缓存（DBProvider / useDB）
+│       │   └── main.js        入口：路由表、滚动、createRoot 挂载
+│       ├── components/        可复用块：同名 .js + .css 成对
+│       └── pages/             路由页 / 页内子块：同名 .js + .css 成对
 └── ai-page/                   独立静态作品页（同域部署，不进本仓库、不进 React 树）
 ```
 
 `ai-page/<目录>/index.html` 是完整 HTML 页，点作品卡会新窗口打开。本仓库不收这些文件，但 `db.json` 的 `works[].href` 必须指向它们实际部署后的路径。
 
+### `components/` 与 `pages/` 里有什么
+
+每个逻辑单元一个全局函数，文件名与函数名一致；样式在同目录同名 `.css`。无独立样式时 CSS 文件保留注释占位，不删除。
+
+**components（可复用 UI）**
+
+| 文件 | 职责 |
+| --- | --- |
+| `SearchIcon` | 顶栏放大镜 SVG |
+| `Header` | 顶栏：站点名、`db.nav`、搜索、汉堡菜单 |
+| `Footer` | 页脚版权、ICP、可选 GitHub（从 `nav` 解析） |
+| `DbState` | db 加载中 / 失败 + 重试 |
+| `WorksCardArrow` / `buildWorksLooks` / `WorksCard` | 作品卡箭头、随机配色、单卡 |
+| `WorksSection` | 首页 `#works`（含末尾「更多」） |
+| `AboutSection` / `ContactCta` | 首页 `#about` / `#contact` |
+| `TagLinks` | 标签 id → `/tag/:id` |
+| `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`） |
+| `Pagination` | 分页；`buildUrl(n)` 由页面传入 |
+
+**pages（路由与页内子块）**
+
+| 文件 | 路由 / 用途 |
+| --- | --- |
+| `HomeHero` | 首页 Hero（非独立路由） |
+| `Home` | `/` |
+| `Article` | `/article/:id` |
+| `Category` / `Tag` | `/category/:id`、`/tag/:id` |
+| `SearchResultRow` / `Search` | 搜索结果行、`/search` |
+| `Works` | `/works` |
+| `NotFound` | `*` |
+
+改功能时按文件下手的对照表见 `AGENTS.md`。
+
 ---
 
 ## 运行时引导
 
+浏览器打开站点后，实际顺序是：
+
 ```
 index.html
-  ├─ themes.js（head）：按当天日期轮换一组主题，把 --accent 等写到 <html>
-  ├─ highlight.js CSS → style.css     （主题脚本必须在这之前）
-  ├─ CDN UMD：React → ReactDOM → Remix Router → react-router → react-router-dom
-  ├─ CDN UMD：marked / DOMPurify / highlight.js / Babel Standalone
-  ├─ 经典脚本：config.js → utils.js          （无 JSX，注入全局）
-  └─ Babel 脚本：db-context → components → pages → app
+  head:
+    ├─ core/themes.js                 按本地日历天数选一组主题，写 CSS 变量到 <html>
+    ├─ highlight.js 主题 CSS
+    ├─ core/base.css                  变量兜底、reset、共用控件
+    ├─ components/*.css               与 JS 同序：叶子先于组合件
+    └─ pages/*.css
+  body 末尾:
+    ├─ CDN：React → ReactDOM → Remix Router → react-router → react-router-dom
+    ├─ CDN：marked → DOMPurify → highlight.js → Babel Standalone
+    ├─ 经典脚本：core/config.js → core/utils.js
+    ├─ Babel：core/db-context.js
+    ├─ Babel：components/*.js（叶子先）
+    ├─ Babel：pages/*.js（叶子先）
+    └─ Babel：core/main.js            createRoot 挂载
 ```
-
-脚本分层不能混：
 
 | 层 | 加载方式 | 为什么 |
 | --- | --- | --- |
-| `themes.js` | 普通 `<script>`，且在 `style.css` 之前 | 先写强调色变量，避免首屏闪默认黄 |
-| `config.js` / `utils.js` | 普通 `<script>` | 常量与纯函数先挂到 `window`，后面的 JSX 文件直接当全局用 |
-| `db-context.js` 起 | `type="text/babel" data-presets="react"` | 浏览器内编译 JSX；`data-presets="react"` 避免再套 env |
-| `app.js` | 最后执行 | 依赖前面所有全局函数已存在，再 `createRoot` 挂载 |
+| `core/themes.js` | 普通 `<script>`，且在一切站点 CSS 之前 | 先写强调色，避免首屏闪 `base.css` `:root` 默认黄 |
+| `core/config.js` / `core/utils.js` | 普通 `<script>` | 常量与纯函数先挂到 `window`，后面的 JSX 文件当全局调用 |
+| `core/db-context.js` 起 | `type="text/babel" data-presets="react"` | 浏览器内编译 JSX；`data-presets="react"` 避免再套 env |
+| `core/main.js` | 最后执行 | 依赖前面所有全局函数已存在，再挂载 |
 
-CDN 版本钉在 URL 上，不走「最新」。highlight.js 主题 stylesheet 必须先于 `style.css`，否则 `.markdown-body` 盖不住代码块背景。
+补充约定：
 
-主题按「本地日期天数 % 主题数」轮换：同一天所有访客、所有刷新都是同一组，本地次日零点换下一组；SPA 的 `Link` 不重载文档，跨天停留的旧页刷新后才换色。调色板只在 `themes.js` 里维护（含 `--on-accent` / `--on-accent-2`），该脚本必须在 `style.css` 之前加载；`:root` 只作脚本失败时的黄底兜底。
+- CDN 版本钉在 URL 上，不走「最新」
+- highlight.js 主题 stylesheet 必须先于含 `.markdown-body` 的 `pages/Article.css`，否则盖不住代码块背景
+- 无打包、无 `import`/`export`：依赖关系完全由 `index.html` 里的标签顺序表达
+- 被调用的全局函数所在脚本，必须排在调用方之前（例如 `TagLinks` 先于 `ArticleCard`，`HomeHero` 先于 `Home`）
+
+当前 `index.html` 里 components / pages 的具体顺序与 `AGENTS.md`「加载顺序」一致。
 
 ---
 
@@ -88,69 +136,91 @@ CDN 版本钉在 URL 上，不走「最新」。highlight.js 主题 stylesheet �
 
 ```
 ┌─────────────────────────────────────────────┐
-│  app.js          壳：路由表、滚动、挂载      │
+│  core/main.js    入口：路由表、滚动、挂载    │
 ├─────────────────────────────────────────────┤
-│  pages.js        路由页面（读 db + URL）     │
-│  components.js   可复用块（Header / 卡片 /  │
-│                  作品集 / 关于 / 联系 / 分页）│
+│  pages/*         路由页面（.js + 同名 .css） │
+│  components/*    可复用块（.js + 同名 .css） │
 ├─────────────────────────────────────────────┤
-│  db-context.js   唯一数据入口 + 缓存策略     │
+│  core/db-context.js  唯一数据入口 + 缓存     │
 ├─────────────────────────────────────────────┤
-│  utils.js        纯函数，无 React            │
-│  config.js       运行时常量                  │
-│  themes.js       强调色（CSS 前执行）        │
+│  core/utils.js · config.js · base.css ·      │
+│  themes.js（均在 assets/app/core/）          │
 └─────────────────────────────────────────────┘
 ```
 
 调用方向只允许从上往下。页面不直接 `fetch` `db.json`；卡片不自己拼资源 URL，一律走 `resolvePublicAssetUrl`。
 
-组件树：
+### 组件树
 
 ```
 StrictMode
   BrowserRouter
     DBProvider          ← 必须在 Router 内，才能读 ?nocache=
-      App
+      App（定义在 core/main.js）
         Header
-        Routes          ← Home / Article / Category / Tag / Search / Works / *
+        #main
+          Routes        ← Home / Article / Category / Tag / Search / Works / *
         WorksSection    ┐
         AboutSection    ├ 仅 pathname === '/'
         ContactCta      ┘
         Footer
 ```
 
-首页区块不塞进 `Home`，是因为它们在路由出口之外：列表分页只影响 `#main`，作品集 / 关于 / 联系始终贴在列表下面。
+首页区块不塞进 `Home`，是因为它们在路由出口之外：列表分页只换 `#main` 里的内容，作品集 / 关于 / 联系始终贴在列表下面，不会随翻页卸载。锚点：`#articles`、`#works`、`#about`、`#contact`。
+
+### 同名 JS + CSS
+
+- 每个组件/页面一个 `.js`，样式在同目录同名 `.css`
+- 跨组件共用的变量、reset、`.page`、`.btn`、`.chip`、`.section-title` 放在 `core/base.css`
+- 正文 Markdown 排版只在 `pages/Article.css` 的 `.markdown-body`
+- 新增文件必须在 `index.html` 同时登记 `<link>` 与 `<script>`
 
 ---
 
 ## 数据从哪来
 
-职责拆开，避免把正文塞进索引；强调色也不进内容库。
+职责拆开：强调色不进内容库；正文不进索引；站点身份不进 `db.json`。
 
 ```
-themes.js          强调色调色板（须在 style.css 前加载）
-config.js          站点身份、关于区、缓存键、页脚、「更多」卡文案
+core/themes.js     强调色调色板（须在站点 CSS 前加载）
+core/config.js     站点身份、关于区、缓存键、页脚、「更多」卡、DB_URL
      │
-db.json            nav / categories / tags / articles / works
-     │  DBProvider 一次加载，Context 下发
+assets/app/db.json nav / categories / tags / articles / works
+     │  DBProvider 一次加载，Context 下发；列表/导航/搜索/作品都吃这份内存
      ▼
-Markdown           articles[].file 指向的正文；进入详情才 fetch
+Markdown           articles[].file 指向的正文；进入 /article/:id 才 fetch
 ```
 
-| 源 | 形态 | 何时读 |
-| --- | --- | --- |
-| `themes.js` | 经典脚本，写 CSS 变量 | `style.css` 之前；失败则沿用 `:root` 默认黄 |
-| `config.js` | 全局变量 | 脚本加载时立刻生效（含改 `<title>` / meta description） |
-| `db.json` | 一份 JSON 索引 | 应用启动时由 `DBProvider` 拉一次，列表 / 导航 / 搜索 / 作品都吃这份内存 |
-| Markdown | 独立文件 | `/article/:id` 按 `post.file` 再请求；不进索引、不进 localStorage |
+| 源 | 路径 | 形态 | 何时读 |
+| --- | --- | --- | --- |
+| 主题 | `assets/app/core/themes.js` | 经典脚本，写 CSS 变量 | 站点 CSS 之前；失败则沿用 `base.css` `:root` 默认黄 |
+| 配置 | `assets/app/core/config.js` | 全局 `var` | 脚本加载时立刻生效（含改 `<title>` / meta description） |
+| 索引 | `assets/app/db.json`（`DB_URL`） | 一份 JSON | 应用启动时由 `DBProvider` 拉一次 |
+| 正文 | `articles[].file` | Markdown 文件或 URL | 详情页再请求；不进索引、不进 localStorage |
 
-`db.json` 进内存后按 `date` 倒序。分类 / 标签页是对这份数组的过滤；搜索只扫 `title` 和 `summary`，不打开正文。
+`db.json` 进内存后按 `date` 倒序。分类 / 标签页是对这份数组的过滤；搜索只扫 `title` 和 `summary`，不打开正文。页面通过 `useDB()` 拿到 `{ db, loadDB, error, retryDB }`；加载失败时走 `DbState`（加载中 / 错误 + 重试）。
+
+---
+
+## 主题系统
+
+调色板只在 `assets/app/core/themes.js` 维护，不要写进 `config.js` 或组件 CSS。
+
+选取规则：按「本地日历的日期天数 % 主题数」顺序轮换——同一天所有访客、所有刷新都是同一组（各看各的本地日历，不做时区换算），次日换下一组。当前约 15 组一轮。SPA 的 `Link` 不重载文档，跨天停留的旧页要**刷新**后才换色。
+
+每组字段：`name`、`accent`、`soft`、`accent2`、`onAccent`、`onAccent2`。脚本会写入：
+
+- `--accent` / `--accent-soft` / `--accent-2`
+- `--on-accent` / `--on-accent-2`（按钮、CTA 上的字色；深色强调时用浅色纸色）
+- `data-theme="<name>"` 挂在 `<html>`
+
+`base.css` 的 `:root` 只作脚本失败时的黄底兜底。业务样式一律吃变量，不要写死 `#ffe135`。
 
 ---
 
 ## `db.json`：全站内容索引
 
-路径：`/assets/data/db.json`（常量 `DB_URL`）。这是站点的**唯一内容数据库**：顶栏栏目、分类页、标签页、文章列表、搜索、作品集全部读它。改内容几乎只改这一份文件 + 对应 Markdown / 静态页。
+路径：`/assets/app/db.json`（常量 `DB_URL`，定义在 `core/config.js`）。这是站点的**唯一内容数据库**：顶栏栏目、分类页、标签页、文章列表、搜索、作品集全部读它。改内容几乎只改这一份文件 + 对应 Markdown / 静态页。
 
 顶层五个数组，缺一不可（可以是空数组 `[]`，不要删键）：
 
@@ -164,15 +234,13 @@ Markdown           articles[].file 指向的正文；进入详情才 fetch
 }
 ```
 
-页面通过 `useDB()` 拿到整份对象。加载失败时各页走 `DbState`（加载中 / 错误 + 重试），不会永远停在空白。
-
 ### 关系一览
 
 ```
 nav[].value
   ├─ /category/{categories[].id}     顶栏栏目 → 分类页
   ├─ /works                          作品集页（读 works[]）
-  ├─ #about / #contact               回首页滚锚点（文案在 config.js）
+  ├─ #about / #contact / #works      回首页滚锚点（关于/联系统文案在 config.js）
   └─ https://… 或 target=_blank      外链
 
 categories[].id  ←── articles[].categories[]     一篇文可挂多个分类
@@ -211,7 +279,7 @@ works[].href         独立静态页或 SPA 内路径
 - 文章详情页映射到**该文第一个分类**的 `/category/:id`，与 nav 里写的分类路径对齐
 - `db` 未就绪时不高亮，避免先闪「首页」
 
-联系区 / 页脚的 GitHub 按钮不是第二份配置：从 `nav` 里找 `label === "GitHub"`（大小写不敏感）或 `value` 含 `github.com` 的项。找不到就不渲染。页脚的邮箱入口已移除（保留 brand + slogan、可选 GitHub 行、ICP 版权），联系区邮箱仍由 `SITE_EMAIL` 驱动；页脚 slogan 来自 `SITE_SLOGAN`。
+联系区 / 页脚的 GitHub 按钮不是第二份配置：从 `nav` 里找 `label === "GitHub"`（大小写不敏感）或 `value` 含 `github.com` 的项。找不到就不渲染。页脚展示 brand + slogan、可选 GitHub、ICP 版权；联系区邮箱由 `SITE_EMAIL` 驱动；页脚 slogan 来自 `SITE_SLOGAN`。
 
 锚点区块只挂在首页：`#articles`（文章列表）、`#works`（作品集）、`#about`、`#contact`。
 
@@ -301,7 +369,7 @@ JSON 里的书写顺序无所谓，进内存后一律按日期新→旧。
 | 相对路径 `"assets/articles/..."`（缺前导 `/`） | 会被规范成 `/assets/articles/...` |
 | `https://...` | 原样请求，不拼站点根 |
 
-`PUBLIC_ASSET_BASE`（`config.js`）非空时，非 http(s) 的路径会拼到那个根下，方便正文/封面放 OSS。已是 `http(s)` 的 URL 不改。
+`PUBLIC_ASSET_BASE`（`assets/app/core/config.js`）非空时，非 http(s) 的路径会拼到那个根下，方便正文/封面放 OSS。已是 `http(s)` 的 URL 不改。
 
 约定目录（可按分类分子目录，不是强制）：
 
@@ -333,7 +401,7 @@ Markdown 只在进入 `/article/:id` 时请求，不进 `db.json` 缓存、不�
 
 #### 搜索行为
 
-`searchArticles` 对 `title` 和 `summary` 做大小写不敏感子串匹配，**不扫正文、不扫标签名**。摘要写清楚，搜索才找得到。结果最多展示 50 条。
+`searchArticles`（`core/utils.js`）对 `title` 和 `summary` 做大小写不敏感子串匹配，**不扫正文、不扫标签名**。摘要写清楚，搜索才找得到。结果最多展示 50 条（`SEARCH_MAX_RESULTS`，在 `pages/Search.js`）。
 
 ---
 
@@ -357,7 +425,7 @@ Markdown 只在进入 `/article/:id` 时请求，不进 `db.json` 缓存、不�
 | `https://...` | 新窗口打开外链 |
 | 其它站内路径，如 `/works` | SPA `Link`（首页「更多」卡用这个） |
 
-首页最多展示 `SITE_WORKS_MAX`（默认 4）张卡，其中**最后一张永远是「更多」**，所以作品只切前 `max - 1` 条。`SITE_WORKS_MORE` 的文案和 `href: "/works"` 写在 `config.js`，不在 `db.json`。完整列表在 `/works`，不分页、也不再塞「更多」。
+首页最多展示 `SITE_WORKS_MAX`（默认 4）张卡，其中**最后一张永远是「更多」**，所以作品只切前 `max - 1` 条。`SITE_WORKS_MORE` 的文案和 `href: "/works"` 写在 `core/config.js`，不在 `db.json`。完整列表在 `/works`，不分页、也不再塞「更多」。
 
 数组顺序 = 展示顺序（与文章不同，**不按日期排**）。想置顶就把条目挪到前面。
 
@@ -367,55 +435,39 @@ Markdown 只在进入 `/article/:id` 时请求，不进 `db.json` 缓存、不�
 
 ### 增删改清单
 
+逐步操作与自检清单以 `AGENTS.md` 为准；这里只列原则。
+
 **发一篇新文章**
 
-1. 把 Markdown 放到 `assets/articles/.../xxx.md`（或 OSS，再配 `PUBLIC_ASSET_BASE`）
-2. 确认要用的分类 / 标签已在词典里，没有就先加词典（以及可选的 nav）
-3. 在 `articles` 末尾（或任意位置）追加：
+1. Markdown 放到 `assets/articles/.../xxx.md`（或 OSS + `PUBLIC_ASSET_BASE`）
+2. 确认分类 / 标签已在词典里（可选再加 `nav`）
+3. 在 `articles[]` 追加元数据（`id` 用 UUID，`date` 用 `YYYY-MM-DD HH:MM`，无封面 `cover: ""`）
+4. 本地 `serve` 确认列表、分类、标签、搜索、详情
+5. 生产若被缓存：`/?nocache=1` 或等 TTL
 
-```json
-{
-  "id": "用 uuidgen 或同类工具生成",
-  "title": "标题",
-  "categories": ["engineering"],
-  "tags": ["frontend"],
-  "date": "2026-08-14 21:00",
-  "summary": "会出现在列表和搜索里的一句话。",
-  "file": "/assets/articles/engineering/xxx.md",
-  "cover": ""
-}
-```
+**改 / 下线**
 
-4. 本地 `serve` 打开首页，确认列表、分类、标签、搜索、详情正文都通
-5. 生产环境若被缓存，用 `/?nocache=1` 或等一小时 TTL
+- 只改正文：编辑 `.md`
+- 改标题、摘要、分类、标签、日期、封面：改 JSON 字段；**不要改已发布 `id`**
+- 下线：从 `articles[]` 删除对象；`.md` 可留着
 
-**改一篇已发布的文章**
+**加作品**
 
-- 只改正文：编辑 `.md`，不必动 JSON（注意 CDN / 浏览器对 `.md` 的缓存）
-- 改标题、摘要、分类、标签、日期、封面：改对应字段
-- **不要改 `id`**，否则旧 `/article/:id` 全部失效
-
-**下线一篇文章**
-
-从 `articles` 删掉该对象即可。Markdown 文件可留着，站点不会再列出。
-
-**加一个作品**
-
-1. 把独立页部署到同域 `/ai-page/<目录>/index.html`（或外链）
-2. 在 `works` 里追加 `title` / `kicker` / `summary` / `tags` / `href`
-3. 首页默认只露出前 3 个作品 + 「更多」；第 4 个起要进 `/works` 才看得到（或调大 `SITE_WORKS_MAX`）
+1. 独立页部署到同域 `/ai-page/<目录>/index.html`
+2. `works[]` 追加 `title` / `kicker` / `summary` / `tags` / `href`
+3. 首页默认前 3 个作品 + 「更多」；完整列表在 `/works`
 
 **加分类 / 标签**
 
-先加词典，再在文章里引用 id。分类若要出现在顶栏，还要加 `nav` 项，`value` 写成 `/category/{id}`。
+先加词典，再在文章里引用 id。分类若要出现在顶栏，还要加 `nav`，`value` 写成 `/category/{id}`。
 
-JSON 必须合法：末项不要逗号、字符串用双引号。坏掉的话 `DBProvider` 会失败，全站列表变「数据加载失败」。
+JSON 必须合法：末项不要逗号、字符串用双引号。坏掉的话全站列表变「数据加载失败」。
 
 ---
 
 ## 缓存
 
-只缓存索引，不缓存 Markdown。
+只缓存索引（`db.json`），不缓存 Markdown。
 
 ```
 loadDB()
@@ -428,7 +480,9 @@ loadDB()
 
 请求 URL 带 `?_=<timestamp>`，降低 CDN / 浏览器把 `db.json` 当长期静态文件的概率。并发的 `useDB()` 共用同一个 in-flight Promise，避免 StrictMode 双调用打两次。
 
-`?nocache=1` 是粘性开关：值必须是字面量 `1`，写入后即使去掉查询参数也继续拉新，直到清站点存储（键名 `DA_CACHE_DISABLED` / `DA_CACHE_KEY` / `DA_CACHE_TS_KEY`）。TTL 默认 1 小时（`CACHE_TTL_MS`）。
+`?nocache=1` 是粘性开关：值必须是字面量 `1`，写入后即使去掉查询参数也继续拉新，直到清站点存储。相关键名在 `core/config.js`：`CACHE_DISABLED_KEY`（`DA_CACHE_DISABLED`）、`CACHE_KEY`（`DA_CACHE_KEY`）、`CACHE_TS_KEY`（`DA_CACHE_TS_KEY`）。TTL 默认 1 小时（`CACHE_TTL_MS`）。
+
+实现集中在 `assets/app/core/db-context.js`，页面不要自己再写一套缓存。
 
 ---
 
@@ -443,53 +497,74 @@ loadDB()
   → fetch 文本
   → marked.parse（GFM）
   → DOMPurify.sanitize
-  → dangerouslySetInnerHTML
+  → dangerouslySetInnerHTML（#post-content.markdown-body）
   → highlight.js 扫 <pre><code>
   → http(s) 锚点补 target=_blank + rel
 ```
 
-消毒白名单只放常见文档协议和相对路径，挡住 `javascript:`。切文章或卸载时用 `cancelled` 丢弃过期响应，避免旧正文写进新页。加载失败可点重试。
+消毒白名单只放常见文档协议和相对路径，挡住 `javascript:`。切文章或卸载时用 `cancelled` 丢弃过期响应，避免旧正文写进新页。加载失败可点重试。正文样式只在 `pages/Article.css`。
 
 ---
 
 ## 路由与滚动
 
-| 路径 | 页面做什么 |
-| --- | --- |
-| `/` | 全站文章分页；`?page=`，第 1 页写成 `/` |
-| `/article/:id` | 元数据 + 正文管道 |
-| `/category/:id` / `/tag/:id` | 过滤后再分页；第 1 页也带 `?page=1` |
-| `/search?q=` | 扫标题 / 摘要；输入 200ms 防抖后 `replace` 写入 URL |
-| `/works` | `works[]` 全部卡片，不分页 |
-| `*` | 404 |
+| 路径 | 页面 | 做什么 |
+| --- | --- | --- |
+| `/` | `Home` + `HomeHero` | 全站文章分页；`?page=`，第 1 页写成 `/` |
+| `/article/:id` | `Article` | 元数据 + 正文管道 |
+| `/category/:id` | `Category` | 过滤后再分页；第 1 页也带 `?page=1` |
+| `/tag/:id` | `Tag` | 同上 |
+| `/search?q=` | `Search` | 扫标题 / 摘要；输入 200ms 防抖后 `replace` 写入 URL |
+| `/works` | `Works` | `works[]` 全部卡片，不分页、无「更多」 |
+| `*` | `NotFound` | 404 |
 
-每页条数 `PAGE_SIZE`（默认 10）。总页数 ≤7 时页码全列；否则保留首页、末页、当前页 ±1，中间省略。
+每页条数 `PAGE_SIZE`（默认 10，`core/config.js`）。总页数 ≤7 时页码全列；否则保留首页、末页、当前页 ±1，中间省略（`buildPageRange`）。
 
-滚动策略在壳上统一处理，页面不管：
+滚动策略在 `core/main.js` 统一处理，页面不管：
 
 - `PUSH` / `REPLACE` 且无 hash → 滚到顶部
 - `POP`（后退 / 前进）→ 保持原位
-- 首页带 hash → `scrollIntoView` 对应 `id`
+- 首页带 hash → `requestAnimationFrame` 后再 `scrollIntoView`（等区块挂上）
 
-搜索结果复用列表里的 `ArticleCard`（含封面、条纹），点进文章会新窗口打开（`openInNewTab`），方便对照阅读而不离开搜索页。
+搜索结果复用 `ArticleCard`（含封面、条纹），点进文章会新窗口打开（`openInNewTab`），方便对照阅读而不离开搜索页。
 
 ---
 
 ## `config.js` 里改什么
 
-不进 `db.json`、改完刷新即生效的站点身份：
+路径：`assets/app/core/config.js`。不进 `db.json`、改完刷新即生效的站点身份与运行参数：
 
 | 常量 | 作用 |
 | --- | --- |
-| `SITE_NAME` / `SITE_SLOGAN` / `SITE_DESCRIPTION` | 标题、Hero、meta；`SITE_SLOGAN` 还在页脚 `SITE_NAME` 旁出同行副标题 |
-| `SITE_EMAIL` | 联系区 / 页脚 mailto |
+| `SITE_NAME` / `SITE_SLOGAN` / `SITE_DESCRIPTION` | 标题、Hero、meta；`SITE_SLOGAN` 还在页脚 brand 旁 |
+| `SITE_EMAIL` | 联系区 mailto |
 | `SITE_AUTHOR` / `SITE_CITY` / `SITE_ABOUT_*` | 关于区；名字、介绍、「为什么叫 YNWA」全空则整段不渲染 |
-| `SITE_WORKS_MAX` / `SITE_WORKS_MORE` | 首页作品卡上限与「更多」文案 |
+| `SITE_WORKS_MAX` / `SITE_WORKS_MORE` | 首页作品卡上限与「更多」文案 / 链接 |
 | `PUBLIC_ASSET_BASE` | 正文 / 封面的公网根；空则站内路径 |
-| `PAGE_SIZE` / `CACHE_*` | 分页与缓存 |
-| `FOOTER_*` | 版权起始年、ICP |
+| `DB_URL` | 索引地址，默认 `/assets/app/db.json` |
+| `PAGE_SIZE` | 列表分页大小 |
+| `CACHE_*` | localStorage 键名、禁用参数名、TTL |
+| `FOOTER_*` | 版权起始年、ICP 文案与链接 |
 
-作品条目本身在 `db.json` 的 `works`，不要写回 `config.js`。强调色调色板在 `themes.js`，改色只动那张表。
+脚本末尾会立刻把 `document.title` 和 meta description 设成站点默认值；进入文章 / 分类后再由对应页面覆盖。
+
+作品条目本身在 `db.json` 的 `works`，不要写回 `config.js`。强调色调色板在 `assets/app/core/themes.js`，改色只动那张表。
+
+---
+
+## 样式约定（架构侧）
+
+- 强调色：`--accent` / `--accent-soft` / `--accent-2` / `--on-accent` / `--on-accent-2`
+- 内容宽：`.page` / `.wrap` / `.site-header-inner`（最大宽 `--page-max`）
+- 硬阴影与描边：`--stroke`、`--shadow`、`--shadow-sm` / `--md` / `--lg`
+- 斑马条纹：`--stripe`（随主题换装）
+- 区块标题：`.section-title`（`--lg` / `--display`）
+- 按钮：`.btn` / `.btn--sm` / `.btn-ghost` / `.btn-ink`
+- 正文：只走 `.markdown-body`
+- 断点：作品瀑布流 `640px`，其余布局 `768px`
+- `prefers-reduced-motion`：缩短动画，并去掉卡片/按钮的位移 hover
+
+共用规则进 `core/base.css`；组件/页面私有规则进各自同名 CSS。
 
 ---
 
@@ -498,7 +573,10 @@ loadDB()
 静态托管即可，但必须满足：
 
 1. **SPA fallback**：未知路径 → `index.html`，否则刷新 `/article/:id` 会 404
-2. 站点脚本与样式走根路径 `/assets/...`
+2. 站点脚本与样式走根路径 `/assets/...`（含 `/assets/app/...`）
 3. 正文或封面若在站外，设 `PUBLIC_ASSET_BASE`
 4. `ai-page/` 与 SPA 同域部署，但不进本仓库、不进 React 路由
 5. 更新 `db.json` 后，访客可能仍吃一小时内的 localStorage 缓存；需要立刻看见可让他们打开 `/?nocache=1`
+6. 若改过 `index.html` 脚本列表，确认每个 `components/*`、`pages/*` 的 `.js` / `.css` 都已挂上，且依赖顺序正确
+
+动手改功能、发文章、加路由的逐步清单与翻车对照，见 [`AGENTS.md`](AGENTS.md)。

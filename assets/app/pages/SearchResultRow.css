@@ -1,0 +1,7 @@
+/* SearchResultRow：高亮 mark（卡片样式复用 ArticleCard.css） */
+
+.search-mark {
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0 2px;
+}

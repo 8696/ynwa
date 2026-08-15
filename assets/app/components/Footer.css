@@ -1,0 +1,65 @@
+/* ---------- 页脚 ---------- */
+
+.site-footer {
+  background: var(--ink);
+  color: var(--accent);
+  padding: 0 16px 56px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* footer 顶部斑马线：吃 --stripe，随强调色换装 */
+.site-footer::before {
+  content: '';
+  display: block;
+  height: 12px;
+  margin: 0 -16px 60px;
+  border-bottom: var(--stroke);
+  background: var(--stripe);
+}
+
+.site-footer-brand-line {
+  display: block;
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.site-footer-copy {
+  margin: 0 0 6px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.site-footer-brand {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.site-footer-links {
+  margin: 0 0 14px;
+  font-size: 13px;
+}
+
+/* 链接间的间隔点用主题色，黑底上的 accent 信号 */
+.site-footer-links span[aria-hidden='true'] {
+  color: var(--accent);
+}
+
+.site-footer a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}

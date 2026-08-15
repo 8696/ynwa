@@ -44,7 +44,7 @@ function applyCacheDisableFromUrl() {
 }
 
 /**
- * 从 /assets/data/db.json 加载全站数据，并按环境使用 localStorage：
+ * 从 /assets/app/db.json 加载全站数据，并按环境使用 localStorage：
  * - localhost / 127.0.0.1：始终拉最新，避免开发时被旧缓存卡住
  * - ?nocache=1 或本地已有禁用标识：永久跳过读写缓存
  * - 生产：TTL 内优先读缓存，过期或解析失败再请求
