@@ -25,11 +25,54 @@ assets/
     │   ├── utils.js          纯函数（日期、搜索、URL、分页…）
     │   ├── db-context.js     唯一读 db.json 的地方：DBProvider / useDB
     │   └── main.js           路由表、滚动、createRoot 挂载
-    ├── components/           可复用块：同名 .js + .css 成对
-    └── pages/                路由页 / 页内子块：同名 .js + .css 成对
+    ├── components/           可复用块与页内子块：同名 .js + .css 成对
+    └── pages/                仅 Routes 登记的路由页：同名 .js + .css 成对
 ```
 
 仓库根还有 `index.html`（CDN + 全部 `<link>` / `<script>` 顺序）、`AGENTS.md`、`README.md`。独立作品页在同域 `/ai-page/<目录>/`，**不进本仓库、不进 React 路由**。
+
+### `pages/` 与 `components/` 各干什么
+
+| 目录 | 作用 | 放什么 | 不放什么 |
+| --- | --- | --- | --- |
+| **`pages/`** | 路由级页面：每个文件对应 `core/main.js` 里 `<Routes>` 的一条路由 | `Home`、`Article`、`Category`、`Tag`、`Search`、`Works`、`NotFound`（及同名 `.css`） | 只被某个页面用到的子块、可复用卡片、顶栏/页脚 |
+| **`components/`** | 可复用 UI，以及**不是独立路由**的页内子块 | `Header`、`ArticleCard`、`HomeHero`、`SearchResultRow`、`WorksSection`…（及同名 `.css`） | 带自己 URL、在 `<Routes>` 里登记的整页 |
+
+**怎么判断放哪：**
+
+1. 有没有独立 URL、要不要写进 `main.js` 的 `<Routes>`？  
+   - **要** → `pages/`（例如 `/search` → `pages/Search.js`）  
+   - **不要** → `components/`（例如首页 Hero、搜索结果行）
+2. 会不会被多个页面或壳层复用？  
+   - **会** → 一定在 `components/`（例如 `ArticleCard`、`Pagination`、`DbState`）
+3. 首页底下的 `#works` / `#about` / `#contact` 挂在路由出口外，也算组件，**不进** `pages/`。
+
+两边都是「一个全局函数 + 同名 `.css`」；差别只在是否对应一条路由。
+
+### `core/` 各文件约束
+
+`core/` 是应用内核：无业务列表 UI、无路由页。六个文件职责互斥，**不要把 A 该管的东西塞进 B**。改内核前先对一下本表与磁盘上的现文件。
+
+| 文件 | 作用 | 放什么（以现文件为准） | 不放什么 |
+| --- | --- | --- | --- |
+| **`themes.js`** | 首屏前写入强调色 | 仅：IIFE 内的 `themes` 表 + 按本地日历日 `% length` 选色；写 `--accent` / `--accent-soft` / `--accent-2` / `--on-accent` / `--on-accent-2` 与 `data-theme` | `SITE_*` 文案、`db`、任何 React/JSX、读 `localStorage`；不要把色值再抄进 `config.js` 或组件 CSS |
+| **`base.css`** | 全站共用样式与变量兜底 | 仅：`:root` 兜底（含 `--accent*`）、reset、`body` 条纹底、`.skip-link` / `.page` / `.wrap` / `.site-header-inner`、`.btn*` / `.chip*` / `.section-title*` / `.eyebrow` / `.page-title` / `.page-desc`、`prefers-reduced-motion` | `Header`/`ArticleCard`/`Works*` 等私有布局（进同名 `.css`）；`.markdown-body`（进 `pages/Article.css`）；不要在这里「业务写死」某天的强调色 |
+| **`config.js`** | 站点身份与运行常量 | 仅：`PUBLIC_ASSET_BASE`、`SITE_*`（含 `SITE_ABOUT_*` / `SITE_WORKS_*`）、`DB_URL`、`PAGE_SIZE`、`CACHE_*`、`FOOTER_*`；可顺带设默认 `document.title` / `meta description` | `articles[]`/`nav[]`/`works[]` 等列表（进 `db.json`）；`themes` 表；缓存读写/`fetch`（进 `db-context.js`）；JSX / React |
+| **`utils.js`** | 纯函数工具箱 | 仅全局纯函数：`formatDate`、`getCategoryName`、`getCategoryList`、`paginate`、`buildPageRange`、`escapeHtml`、`highlightOne`、`searchArticles`、`normalizeArticleFilePath`、`resolvePublicAssetUrl`、`getGithubNav` | `React.*`、JSX、`createRoot`、DOM 副作用、`fetch(DB_URL)`、站点文案常量（进 `config.js`） |
+| **`db-context.js`** | `db.json` 唯一入口 | 仅：`DBContext`、`DBProvider`、`useDB`，以及本文件私有的缓存辅助（`isCacheDisable*` / `applyCacheDisableFromUrl`）；读 `config` 的 `DB_URL`/`CACHE_*`；排序后写入内存的 `db` | 第二个 `fetch(DB_URL)`；页面/卡片 UI；在别处再定义一份 `CACHE_KEY`；改 `DB_URL` 字符串本身（那是 `config.js`） |
+| **`main.js`** | 应用壳 + 挂载 | 仅：`App`（`Header` + `<Routes>` + 首页路由外 `#works/#about/#contact` + `Footer` + skip-link）、滚动策略、`createRoot` 包 `BrowserRouter`/`DBProvider` | 具体页面 JSX（进 `pages/`）；卡片/子块 DOM（进 `components/`）；`loadDB` 实现（进 `db-context.js`）；新业务常量（进 `config.js`） |
+
+**加载形态（不可混）：**
+
+| 文件 | `index.html` 里怎么挂 |
+| --- | --- |
+| `themes.js` | 普通 `<script>`，**一切站点 CSS 之前** |
+| `base.css` | `<link>`，在 `themes.js` 之后、组件/页面 CSS 之前 |
+| `config.js` → `utils.js` | 普通 `<script>`，在 Babel 脚本之前（`config` 必须先于 `utils` / `db-context`） |
+| `db-context.js` | 第一个 `type="text/babel"`（之后才是 components / pages） |
+| `main.js` | **最后一个** Babel 脚本 |
+
+**互相引用方向：** `main` / `pages` / `components` → `useDB` / `utils` 函数 / `config` 常量；`themes` 不给 React 读；`utils` 不依赖 React、不读 DOM；`db-context` 只读 `config` 里的 `DB_URL`/`CACHE_*`，不反向改配置文件结构；`base.css` 只消费 `themes` 已写入的变量，不反向驱动 JS。
 
 ---
 
@@ -68,8 +111,9 @@ assets/
 4. **`index.html` 脚本与样式顺序不能调换。** 见下一节「加载顺序」。
 5. **数据只从 `useDB()` 来。** 禁止在页面或卡片里再 `fetch('/assets/app/db.json')`。资源 URL 一律 `resolvePublicAssetUrl`。
 6. **调用方向只允许从上往下：** `core/main.js` → `pages/*` / `components/*` → `core/db-context.js` → `core/utils.js` / `core/config.js`。`core/themes.js` 只在 CSS 前执行，不要让 React 代码去读它。无 `import`/`export`，依赖靠 `index.html` 加载顺序把全局函数挂好。
-7. **JSON 必须合法。** 末项禁止逗号，字符串用双引号。`db.json` 坏掉时全站列表变成「数据加载失败」。
-8. **本机预览必须走 HTTP**（`file://` 加载不了 Babel 的 `src`，也 `fetch` 不了 `db.json`）。
+7. **`core/` 六文件职责互斥。** 主题只进 `themes.js`，常量只进 `config.js`，纯函数只进 `utils.js`，读 `db.json` 只进 `db-context.js`，共用样式只进 `base.css`，壳与挂载只进 `main.js`。详见「`core/` 各文件约束」。
+8. **JSON 必须合法。** 末项禁止逗号，字符串用双引号。`db.json` 坏掉时全站列表变成「数据加载失败」。
+9. **本机预览必须走 HTTP**（`file://` 加载不了 Babel 的 `src`，也 `fetch` 不了 `db.json`）。
 
 更完整的分层图见 `README.md` 的「运行时引导」「分层」。
 
@@ -97,13 +141,15 @@ body 末尾:
 
 **components 推荐顺序（与当前 `index.html` 一致）：**
 
-`SearchIcon` → `Header` → `Footer` → `DbState` → `WorksCardArrow` → `buildWorksLooks` → `WorksCard` → `WorksSection` → `AboutSection` → `ContactCta` → `TagLinks` → `ArticleCard` → `Pagination`
+`SearchIcon` → `Header` → `Footer` → `DbState` → `WorksCardArrow` → `buildWorksLooks` → `WorksCard` → `WorksSection` → `AboutSection` → `ContactCta` → `TagLinks` → `ArticleCard` → `SearchResultRow` → `Pagination` → `HomeHero`
 
-**pages 推荐顺序：**
+**pages 推荐顺序（仅 Routes 登记的页面）：**
 
-`HomeHero` → `Home` → `Article` → `Category` → `Tag` → `SearchResultRow` → `Search` → `Works` → `NotFound`
+`Home` → `Article` → `Category` → `Tag` → `Search` → `Works` → `NotFound`
 
-依赖规则：被调用的全局函数所在脚本，必须排在调用方之前。例如 `ArticleCard` 用 `TagLinks`，则 `TagLinks.js` 在前；`Search` 用 `SearchResultRow`，则 `SearchResultRow.js` 在前。
+依赖规则：被调用的全局函数所在脚本，必须排在调用方之前。例如 `ArticleCard` 用 `TagLinks`，则 `TagLinks.js` 在前；`Search` 用 `SearchResultRow`，则 `SearchResultRow.js` 在前（后者属于 `components/`）。
+
+**约定：`pages/` 只放 `core/main.js` 的 `<Routes>` 里登记的页面。** 页内子块（如首页 Hero、搜索结果行）放 `components/`。详见上文「`pages/` 与 `components/` 各干什么」。
 
 ---
 
@@ -114,14 +160,14 @@ body 末尾:
 | 文件 | 放什么 | 写法 |
 | --- | --- | --- |
 | `db.json` | 导航、分类、标签、文章元数据、作品列表 | 合法 JSON；字段见 README |
-| `core/themes.js` | 强调色表 + 按本地日期天数 % 主题数轮换 | 经典脚本，IIFE，无 JSX |
-| `core/config.js` | 站点身份常量、`DB_URL`、缓存键 | 经典脚本，`var` 全局；无 JSX |
-| `core/utils.js` | 纯函数 | 经典脚本，`function foo()` 挂到全局；无 JSX |
-| `core/db-context.js` | `DBProvider` / `useDB` | `type="text/babel"`，可用 JSX |
-| `core/base.css` | 变量兜底、reset、跨组件共用样式 | 颜色/阴影走 CSS 变量 |
-| `core/main.js` | 路由表、滚动、挂载 | 新路由只在这里的 `<Routes>` 加 |
-| `components/<Name>.js` + `<Name>.css` | 一个可复用组件（或纯 UI 助手）及其样式 | 同目录同名；无独立样式时 CSS 留注释占位 |
-| `pages/<Name>.js` + `<Name>.css` | 一个路由页或仅被某页使用的子块及其样式 | 同上；正文 Markdown 样式在 `pages/Article.css` |
+| `core/themes.js` | **仅**强调色表 + 按日轮换写 CSS 变量 | 经典脚本，IIFE，无 JSX；细则见「`core/` 各文件约束」 |
+| `core/config.js` | **仅**站点身份与运行常量（含 `DB_URL` / `CACHE_*`） | 经典脚本，`var` 全局；无 JSX；列表数据不进这里 |
+| `core/utils.js` | **仅**纯函数 | 经典脚本，`function foo()`；无 React / 无 JSX |
+| `core/db-context.js` | **仅** `DBProvider` / `useDB` + 缓存 | `type="text/babel"`；全站唯一读 `db.json` |
+| `core/base.css` | **仅**变量兜底、reset、跨组件共用样式 | 组件私有布局 / `.markdown-body` 不在这里 |
+| `core/main.js` | **仅**壳：`Routes`、滚动、挂载、首页外挂区块 | 页面实现与卡片 DOM 不写这里 |
+| `components/<Name>.js` + `<Name>.css` | 可复用组件或页内子块（非路由）及其样式 | 同目录同名；无独立样式时 CSS 留注释占位 |
+| `pages/<Name>.js` + `<Name>.css` | **仅** `main.js` `<Routes>` 登记的路由页及其样式 | 同上；正文 Markdown 样式在 `pages/Article.css` |
 
 ### 现有 components（文件名 = 全局函数名）
 
@@ -139,20 +185,20 @@ body 末尾:
 | `ContactCta` | 首页 `#contact` |
 | `TagLinks` | 标签 id → `/tag/:id` 链接 |
 | `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`） |
+| `SearchResultRow` | 搜索结果行（内部复用 `ArticleCard`） |
 | `Pagination` | 分页；`buildUrl(n)` 由页面传入 |
+| `HomeHero` | 首页 Hero 区块 |
 
-### 现有 pages
+### 现有 pages（仅 Routes 登记的页面）
 
-| 文件 | 路由 / 用途 |
+| 文件 | 路由 |
 | --- | --- |
-| `HomeHero` | 首页 Hero（非独立路由） |
-| `Home` | `/` 文章列表 + 分页 |
-| `Article` | `/article/:id` 详情 + Markdown |
+| `Home` | `/` |
+| `Article` | `/article/:id` |
 | `Category` | `/category/:id` |
 | `Tag` | `/tag/:id` |
-| `SearchResultRow` | 搜索结果行（非独立路由） |
 | `Search` | `/search` |
-| `Works` | `/works` 完整作品集 |
+| `Works` | `/works` |
 | `NotFound` | `*` |
 
 无独立样式的文件（如 `buildWorksLooks.css`、`Category.css`、`Tag.css`）保留一行注释占位，**不要删**，以免与 JS 一一对应关系断裂。
@@ -292,7 +338,7 @@ npx --yes serve -s . -l 3000
 3. 在 `index.html`：
    - `<head>` 里、其它 pages CSS 附近加 `<link rel="stylesheet" href="/assets/app/pages/<Name>.css" />`
    - `<body>` 里、`core/main.js` **之前**加 `<script type="text/babel" data-presets="react" src="/assets/app/pages/<Name>.js"></script>`
-   - 若依赖其它 `pages/*` 叶子（如 `Home` 依赖 `HomeHero`），叶子脚本排前面
+   - 若依赖其它组件叶子（如 `Home` 依赖 `HomeHero`），对应 `components/*` 脚本须已先加载
 4. 在 `core/main.js` 的 `<Routes>` 加一条，放在 `path="*"` **之前**
 5. 需要顶栏入口 → `db.json` `nav[]`
 6. `document.title` 在该页 `useEffect` 里改，参考现有页面
@@ -334,6 +380,7 @@ npx --yes serve -s . -l 3000
 | 分类/标签页「不存在」 | 文章写了展示名而不是词典 `id` |
 | 深色主题按钮看不清 | 该主题的 `onAccent` / `onAccent2` 没配浅色字 |
 | 改了组件但样式没变 | 忘了加/改同名 `.css`，或忘了在 `index.html` 加 `<link>` |
+| 内核职责混乱 | 把列表数据塞进 `config.js`、在页面里 `fetch db.json`、把路由页写进 `main.js`、把组件私有 CSS 塞进 `base.css`（违反「`core/` 各文件约束」） |
 
 ---
 

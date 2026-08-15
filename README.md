@@ -50,18 +50,51 @@ npx --yes serve -s . -l 3000
 │       │   ├── utils.js       纯函数（无 JSX）
 │       │   ├── db-context.js  唯一数据入口 + 缓存（DBProvider / useDB）
 │       │   └── main.js        入口：路由表、滚动、createRoot 挂载
-│       ├── components/        可复用块：同名 .js + .css 成对
-│       └── pages/             路由页 / 页内子块：同名 .js + .css 成对
+│       ├── components/        可复用块与页内子块：同名 .js + .css 成对
+│       └── pages/             仅 Routes 登记的路由页：同名 .js + .css 成对
 └── ai-page/                   独立静态作品页（同域部署，不进本仓库、不进 React 树）
 ```
 
 `ai-page/<目录>/index.html` 是完整 HTML 页，点作品卡会新窗口打开。本仓库不收这些文件，但 `db.json` 的 `works[].href` 必须指向它们实际部署后的路径。
 
-### `components/` 与 `pages/` 里有什么
+### `pages/` 与 `components/` 的分工
+
+这两个目录都是「一个全局函数 + 同名 `.css`」，差别在**是否对应一条路由**。
+
+| 目录 | 作用 | 放什么 | 不放什么 |
+| --- | --- | --- | --- |
+| **`pages/`** | 路由级页面。每个文件对应 `core/main.js` 里 `<Routes>` 的一条 `path` | 整页：读 URL / `useDB()`、改 `document.title`、拼该路由的布局 | 只被某一页用到的局部 UI、全站壳（顶栏/页脚）、可复用卡片 |
+| **`components/`** | 可复用 UI，以及**没有独立 URL** 的页内子块 | 顶栏、页脚、列表卡、分页、首页 Hero、搜索结果行、首页底部 `#works` / `#about` / `#contact` 等 | 在 `<Routes>` 里登记、有自己路径的整页 |
+
+**判定口诀：**
+
+- 要进 `<Routes>`、有自己的路径（`/`、`/article/:id`、`/search`…）→ **`pages/`**
+- 被页面或壳引用、自己没有路由 → **`components/`**
+- 不确定时：若拆出去后不能单独作为「打开某个 URL 看到的那一屏」，就放 `components/`
+
+当前路由页只有：`Home`、`Article`、`Category`、`Tag`、`Search`、`Works`、`NotFound`。  
+`HomeHero`、`SearchResultRow` 等虽名字像页面，但是子块，在 `components/`。
+
+### `core/` 各文件约束
+
+`core/` 是应用内核（无业务列表 UI、无路由页）。六个文件职责互斥，以磁盘现文件为准：
+
+| 文件 | 作用 | 放什么（现文件） | 不放什么 |
+| --- | --- | --- | --- |
+| **`themes.js`** | 首屏前写强调色 | IIFE：`themes` 表 + 本地日历日 `% length`；写 `--accent*` / `--on-accent*` 与 `data-theme` | `SITE_*`、`db`、React/JSX、`localStorage`；色值不要抄进 `config.js` 或组件 CSS |
+| **`base.css`** | 共用样式与变量兜底 | `:root` 兜底、reset、条纹底、`.skip-link` / `.page*` / `.wrap` / `.btn*` / `.chip*` / `.section-title*` / `.eyebrow` 等 | 组件私有布局；`.markdown-body`（`pages/Article.css`）；不要业务写死某天强调色 |
+| **`config.js`** | 站点身份与运行常量 | `PUBLIC_ASSET_BASE`、`SITE_*`（含 `SITE_ABOUT_*` / `SITE_WORKS_*`）、`DB_URL`、`PAGE_SIZE`、`CACHE_*`、`FOOTER_*`；默认可设 `document.title` / meta | 列表数据（`db.json`）；`themes` 表；缓存/`fetch` 实现；JSX |
+| **`utils.js`** | 纯函数工具箱 | `formatDate`、`getCategoryName`/`List`、`paginate`、`buildPageRange`、`escapeHtml`、`highlightOne`、`searchArticles`、`normalizeArticleFilePath`、`resolvePublicAssetUrl`、`getGithubNav` | React/JSX、DOM 副作用、`fetch(DB_URL)`、文案常量 |
+| **`db-context.js`** | `db.json` 唯一入口 | `DBProvider` / `useDB`（+ 本文件私有缓存辅助）；读 `config` 的 `DB_URL`/`CACHE_*` | 第二处 `fetch(DB_URL)`；UI；在别处再定义 `CACHE_KEY` |
+| **`main.js`** | 壳 + 挂载 | `App`（`Header` + `<Routes>` + 首页外挂 `#works/#about/#contact` + `Footer`）、滚动、`createRoot` | 页面实现（`pages/`）；卡片 DOM（`components/`）；`loadDB` 实现 |
+
+加载：`themes.js`（一切站点 CSS 前）→ `base.css` → … → `config.js` → `utils.js` → `db-context.js` → components → pages → **`main.js` 最后**。调用只能从上往下；`themes` 不给 React 读；`utils` 不依赖 React。操作细则见 `AGENTS.md` 同名小节。
+
+### `components/` 与 `pages/` 清单
 
 每个逻辑单元一个全局函数，文件名与函数名一致；样式在同目录同名 `.css`。无独立样式时 CSS 文件保留注释占位，不删除。
 
-**components（可复用 UI）**
+**components（可复用 UI / 页内子块）**
 
 | 文件 | 职责 |
 | --- | --- |
@@ -74,17 +107,18 @@ npx --yes serve -s . -l 3000
 | `AboutSection` / `ContactCta` | 首页 `#about` / `#contact` |
 | `TagLinks` | 标签 id → `/tag/:id` |
 | `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`） |
+| `SearchResultRow` | 搜索结果行（复用 `ArticleCard`） |
 | `Pagination` | 分页；`buildUrl(n)` 由页面传入 |
+| `HomeHero` | 首页 Hero |
 
-**pages（路由与页内子块）**
+**pages（路由页）**
 
-| 文件 | 路由 / 用途 |
+| 文件 | 路由 |
 | --- | --- |
-| `HomeHero` | 首页 Hero（非独立路由） |
 | `Home` | `/` |
 | `Article` | `/article/:id` |
 | `Category` / `Tag` | `/category/:id`、`/tag/:id` |
-| `SearchResultRow` / `Search` | 搜索结果行、`/search` |
+| `Search` | `/search` |
 | `Works` | `/works` |
 | `NotFound` | `*` |
 
@@ -126,7 +160,7 @@ index.html
 - CDN 版本钉在 URL 上，不走「最新」
 - highlight.js 主题 stylesheet 必须先于含 `.markdown-body` 的 `pages/Article.css`，否则盖不住代码块背景
 - 无打包、无 `import`/`export`：依赖关系完全由 `index.html` 里的标签顺序表达
-- 被调用的全局函数所在脚本，必须排在调用方之前（例如 `TagLinks` 先于 `ArticleCard`，`HomeHero` 先于 `Home`）
+- 被调用的全局函数所在脚本，必须排在调用方之前（例如 `TagLinks` 先于 `ArticleCard`，`HomeHero` 先于 `Home`；页内子块在 `components/`）
 
 当前 `index.html` 里 components / pages 的具体顺序与 `AGENTS.md`「加载顺序」一致。
 
@@ -138,8 +172,8 @@ index.html
 ┌─────────────────────────────────────────────┐
 │  core/main.js    入口：路由表、滚动、挂载    │
 ├─────────────────────────────────────────────┤
-│  pages/*         路由页面（.js + 同名 .css） │
-│  components/*    可复用块（.js + 同名 .css） │
+│  pages/*         路由页（仅 Routes 登记）    │
+│  components/*    可复用 UI / 页内子块         │
 ├─────────────────────────────────────────────┤
 │  core/db-context.js  唯一数据入口 + 缓存     │
 ├─────────────────────────────────────────────┤
@@ -171,6 +205,7 @@ StrictMode
 ### 同名 JS + CSS
 
 - 每个组件/页面一个 `.js`，样式在同目录同名 `.css`
+- **`pages/` = 路由页；`components/` = 非路由 UI**（分工见上文「`pages/` 与 `components/` 的分工」）
 - 跨组件共用的变量、reset、`.page`、`.btn`、`.chip`、`.section-title` 放在 `core/base.css`
 - 正文 Markdown 排版只在 `pages/Article.css` 的 `.markdown-body`
 - 新增文件必须在 `index.html` 同时登记 `<link>` 与 `<script>`
@@ -204,7 +239,7 @@ Markdown           articles[].file 指向的正文；进入 /article/:id 才 fet
 
 ## 主题系统
 
-调色板只在 `assets/app/core/themes.js` 维护，不要写进 `config.js` 或组件 CSS。
+调色板**只**在 `assets/app/core/themes.js` 维护：不要写进 `config.js`、`base.css` 业务规则或组件 CSS。该文件须在一切站点 CSS 之前以经典脚本加载。
 
 选取规则：按「本地日历的日期天数 % 主题数」顺序轮换——同一天所有访客、所有刷新都是同一组（各看各的本地日历，不做时区换算），次日换下一组。当前约 15 组一轮。SPA 的 `Link` 不重载文档，跨天停留的旧页要**刷新**后才换色。
 
@@ -510,7 +545,7 @@ loadDB()
 
 | 路径 | 页面 | 做什么 |
 | --- | --- | --- |
-| `/` | `Home` + `HomeHero` | 全站文章分页；`?page=`，第 1 页写成 `/` |
+| `/` | `Home`（含 `HomeHero`） | 全站文章分页；`?page=`，第 1 页写成 `/` |
 | `/article/:id` | `Article` | 元数据 + 正文管道 |
 | `/category/:id` | `Category` | 过滤后再分页；第 1 页也带 `?page=1` |
 | `/tag/:id` | `Tag` | 同上 |
@@ -532,7 +567,8 @@ loadDB()
 
 ## `config.js` 里改什么
 
-路径：`assets/app/core/config.js`。不进 `db.json`、改完刷新即生效的站点身份与运行参数：
+路径：`assets/app/core/config.js`。**只放常量**，不进 `db.json`、不含 JSX、不实现缓存读写（缓存逻辑在 `db-context.js`）。改完刷新即生效：
+
 
 | 常量 | 作用 |
 | --- | --- |
