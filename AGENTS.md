@@ -53,7 +53,7 @@
 
 | 文件 | 放什么 | 写法 |
 | --- | --- | --- |
-| `themes.js` | 强调色表 + 随机写入 CSS 变量 | 经典脚本，IIFE，无 JSX |
+| `themes.js` | 强调色表 + 按本地日期天数 % 主题数轮换写入 CSS 变量（同一天全球访客同色，次日换下一组） | 经典脚本，IIFE，无 JSX |
 | `config.js` | 站点身份常量 | 经典脚本，`var` 全局；无 JSX |
 | `utils.js` | 纯函数 | 经典脚本，`function foo()` 挂到全局；无 JSX |
 | `db-context.js` | `DBProvider` / `useDB` | `type="text/babel"`，可用 JSX |

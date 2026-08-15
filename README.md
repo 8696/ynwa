@@ -61,7 +61,7 @@ npx --yes serve -s . -l 3000
 
 ```
 index.html
-  ├─ themes.js（head）：随机抽一组主题，把 --accent 等写到 <html>
+  ├─ themes.js（head）：按当天日期轮换一组主题，把 --accent 等写到 <html>
   ├─ highlight.js CSS → style.css     （主题脚本必须在这之前）
   ├─ CDN UMD：React → ReactDOM → Remix Router → react-router → react-router-dom
   ├─ CDN UMD：marked / DOMPurify / highlight.js / Babel Standalone
@@ -80,7 +80,7 @@ index.html
 
 CDN 版本钉在 URL 上，不走「最新」。highlight.js 主题 stylesheet 必须先于 `style.css`，否则 `.markdown-body` 盖不住代码块背景。
 
-整页加载时抽一次主题；SPA 的 `Link` 不重载文档，主题保持到下次刷新。调色板只在 `themes.js` 里维护（含 `--on-accent` / `--on-accent-2`），该脚本必须在 `style.css` 之前加载；`:root` 只作脚本失败时的黄底兜底。
+主题按「本地日期天数 % 主题数」轮换：同一天所有访客、所有刷新都是同一组，本地次日零点换下一组；SPA 的 `Link` 不重载文档，跨天停留的旧页刷新后才换色。调色板只在 `themes.js` 里维护（含 `--on-accent` / `--on-accent-2`），该脚本必须在 `style.css` 之前加载；`:root` 只作脚本失败时的黄底兜底。
 
 ---
 

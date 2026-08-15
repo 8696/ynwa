@@ -1,7 +1,9 @@
 /**
  * 全站强调色。须在 style.css 之前以经典脚本加载，把变量写到 <html>，
- * 避免首屏先画出 :root 默认黄。SPA 的 Link 不重载文档，主题保持到下次刷新。
- * 浅强调色配 ink，深强调色配 paper。改色/加组只动这张表。
+ * 避免首屏先画出 :root 默认黄。浅强调色配 ink，深强调色配 paper。改色/加组只动这张表。
+ * 选取规则：按「当天日期的天数 % 主题数」顺序轮换——同一天所有访客、所有刷新
+ * 都是同一组（各看各的本地日历，不做时区换算），次日换下一组，11 组一轮永不连色。
+ * SPA 的 Link 不重载文档，跨天停留的旧页要刷新后才换色。
  */
 ;(function () {
   var paper = '#f5f5f0'
@@ -20,7 +22,8 @@
     { name: 'coffee',  accent: '#8d6748', soft: '#eadfd2', accent2: '#ffe135', onAccent: paper, onAccent2: ink }
   ]
   try {
-    var pick = themes[Math.floor(Math.random() * themes.length)]
+    var day = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000)   // 本地今日零点 → 天数，本地日历翻页才换色
+    var pick = themes[day % themes.length]
     if (!pick) return
     var root = document.documentElement
     root.setAttribute('data-theme', pick.name)
