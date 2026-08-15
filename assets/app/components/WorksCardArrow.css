@@ -1,0 +1,12 @@
+/* WorksCardArrow */
+
+.bento-arrow {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  color: var(--ink);
+}
+
+.bento-card--ink .bento-arrow {
+  color: var(--accent);
+}

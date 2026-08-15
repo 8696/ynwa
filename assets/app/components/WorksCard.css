@@ -1,0 +1,154 @@
+/* WorksCard（含 buildWorksLooks 抽出的 tone/stripe/num class） */
+
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 180px;
+  padding: 24px;
+  border: var(--stroke);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  break-inside: avoid;
+  margin-bottom: 20px;
+}
+
+.bento-card:last-child {
+  margin-bottom: 0;
+}
+
+a.bento-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-lg);
+}
+
+article.bento-card {
+  cursor: default;
+}
+
+.bento-card--stripe {
+  padding-top: 0;
+}
+
+.bento-stripe {
+  height: 14px;
+  margin: 0 -24px 10px;
+  border-bottom: var(--stroke);
+  background: var(--stripe);
+}
+
+.bento-card--ink .bento-stripe {
+  background: var(--stripe-on-ink);
+}
+
+.bento-card > .chip {
+  align-self: flex-start;
+  position: relative;
+}
+
+.bento-card--accent {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.bento-card--white {
+  background: var(--white);
+}
+
+.bento-card--accent-soft {
+  background: var(--accent-soft);
+}
+
+.bento-card--accent-2 {
+  background: var(--accent-2);
+  color: var(--on-accent-2);
+}
+
+.bento-card--ink {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.bento-card--ink .chip {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.bento-card h3 {
+  font-size: clamp(20px, 2.4vw, 28px);
+  margin: 0;
+  position: relative;
+  line-height: 1.2;
+}
+
+.bento-card p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--c-secondary);
+  max-width: 36em;
+  position: relative;
+}
+
+.bento-card--accent p {
+  color: var(--on-accent);
+  opacity: 0.8;
+}
+
+.bento-card--accent-2 p {
+  color: var(--on-accent-2);
+  opacity: 0.8;
+}
+
+.bento-card--ink p {
+  color: var(--on-ink-muted);
+}
+
+.bento-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 8px;
+  position: relative;
+}
+
+.bento-num {
+  position: absolute;
+  right: 12px;
+  top: 0;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 96px;
+  line-height: 1;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.bento-card--num-left .bento-num {
+  right: auto;
+  left: 10px;
+}
+
+.bento-card--more::after {
+  content: "+";
+  position: absolute;
+  right: 16px;
+  top: -6px;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 88px;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.bento-card--more:not(.bento-card--ink)::after {
+  color: var(--ink);
+  opacity: 0.12;
+}

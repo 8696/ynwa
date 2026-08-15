@@ -1,5 +1,5 @@
 /**
- * 应用壳：顶栏 + 路由出口 + 页脚。
+ * 应用入口：顶栏 + 路由出口 + 页脚，并 createRoot 挂载。
  * 未匹配路径走 * → NotFound。BrowserRouter 依赖静态服务器把未知路径回退到 index.html，
  * 否则刷新 /article/:id 会 404。
  */

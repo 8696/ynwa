@@ -1,0 +1,7 @@
+/* Works 完整作品集页：去掉首页区块大内边距 */
+
+/* 完整作品集页：页头已由 page-hero 承担，去掉首页区块的大内边距和分割线 */
+.works--full {
+  padding: 0 0 56px;
+  border-top: none;
+}
