@@ -211,7 +211,7 @@ works[].href         独立静态页或 SPA 内路径
 - 文章详情页映射到**该文第一个分类**的 `/category/:id`，与 nav 里写的分类路径对齐
 - `db` 未就绪时不高亮，避免先闪「首页」
 
-联系区 / 页脚的 GitHub 按钮不是第二份配置：从 `nav` 里找 `label === "GitHub"`（大小写不敏感）或 `value` 含 `github.com` 的项。找不到就不渲染。当前这份 `db.json` 没有 GitHub 项，所以页脚和联系区只出邮箱。
+联系区 / 页脚的 GitHub 按钮不是第二份配置：从 `nav` 里找 `label === "GitHub"`（大小写不敏感）或 `value` 含 `github.com` 的项。找不到就不渲染。页脚的邮箱入口已移除（保留 brand + slogan、可选 GitHub 行、ICP 版权），联系区邮箱仍由 `SITE_EMAIL` 驱动；页脚 slogan 来自 `SITE_SLOGAN`。
 
 锚点区块只挂在首页：`#articles`（文章列表）、`#works`（作品集）、`#about`、`#contact`。
 
@@ -481,7 +481,7 @@ loadDB()
 
 | 常量 | 作用 |
 | --- | --- |
-| `SITE_NAME` / `SITE_SLOGAN` / `SITE_DESCRIPTION` | 标题、Hero、meta |
+| `SITE_NAME` / `SITE_SLOGAN` / `SITE_DESCRIPTION` | 标题、Hero、meta；`SITE_SLOGAN` 还在页脚 `SITE_NAME` 旁出同行副标题 |
 | `SITE_EMAIL` | 联系区 / 页脚 mailto |
 | `SITE_AUTHOR` / `SITE_CITY` / `SITE_ABOUT_*` | 关于区；名字、介绍、「为什么叫 YNWA」全空则整段不渲染 |
 | `SITE_WORKS_MAX` / `SITE_WORKS_MORE` | 首页作品卡上限与「更多」文案 |

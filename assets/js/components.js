@@ -224,22 +224,24 @@ function Footer() {
   var github = getGithubNav(useDB().db)
   return (
     <footer className="site-footer">
-      <ReactRouterDOM.Link to="/" className="site-footer-brand">{SITE_NAME}</ReactRouterDOM.Link>
-      <p className="site-footer-links">
-        {SITE_EMAIL ? (
-          <a href={'mailto:' + SITE_EMAIL}>{SITE_EMAIL}</a>
-        ) : null}
-        {SITE_EMAIL && github ? <span aria-hidden="true"> · </span> : null}
-        {github ? (
+      <div className="site-footer-brand-line">
+        <span className="site-footer-brand">
+          {SITE_NAME}{SITE_SLOGAN ? ' · ' + SITE_SLOGAN : ''}
+        </span>
+      </div>
+      <p className="site-footer-copy">
+        © {FOOTER_COPYRIGHT_START}–{y} ·{' '}
+        <a href={FOOTER_ICP_LINK} target="_blank" rel="noopener noreferrer">
+          {FOOTER_ICP}
+        </a>
+      </p>
+      {github ? (
+        <p className="site-footer-links">
           <a href={github.value} target="_blank" rel="noopener noreferrer">
             {github.label || 'GitHub'} ↗
           </a>
-        ) : null}
-      </p>
-      © {FOOTER_COPYRIGHT_START}–{y} ·{' '}
-      <a href={FOOTER_ICP_LINK} target="_blank" rel="noopener noreferrer">
-        {FOOTER_ICP}
-      </a>
+        </p>
+      ) : null}
     </footer>
   )
 }

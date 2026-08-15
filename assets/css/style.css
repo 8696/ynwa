@@ -740,7 +740,7 @@ h1, h2, h3, h4 {
 .site-footer {
   background: var(--ink);
   color: var(--accent);
-  padding: 0 16px 32px;
+  padding: 0 16px 56px;
   text-align: center;
   font-family: var(--font-mono);
   font-size: 12px;
@@ -753,25 +753,31 @@ h1, h2, h3, h4 {
   content: '';
   display: block;
   height: 12px;
-  margin: 0 -16px 26px;
+  margin: 0 -16px 60px;
   border-bottom: var(--stroke);
   background: var(--stripe);
 }
 
+.site-footer-brand-line {
+  display: block;
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.site-footer-copy {
+  margin: 0 0 6px;
+  font-size: 13px;
+  text-align: center;
+}
+
 .site-footer-brand {
   display: inline-block;
-  margin: 0 0 10px;
   font-family: var(--font-head);
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--accent);
-}
-
-a.site-footer-brand:hover {
-  color: var(--accent);
-  border-bottom-color: transparent;
-  opacity: 0.8;
+  text-transform: uppercase;
 }
 
 .site-footer-links {
