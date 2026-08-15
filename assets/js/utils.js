@@ -1,5 +1,6 @@
 /**
  * 纯函数工具。无 React 依赖，由经典脚本加载后挂到全局。
+ * 本文件不能用 import/export，也不能出现 JSX；调用方是 Babel 脚本里的组件/页面。
  */
 
 /**
@@ -30,14 +31,6 @@ function getCategoryList(db, categories) {
   return ids.map(function (id) {
     var cat = db.categories.find(function (c) { return c.id === id })
     return { id: id, name: cat ? cat.name : id }
-  })
-}
-
-/** 标签 ID → 可读名称；未知 ID 原样返回，保证链接仍可点 */
-function getTagNames(db, ids) {
-  return (ids || []).map(function (id) {
-    var t = db.tags.find(function (x) { return x.id === id })
-    return t ? t.name : id
   })
 }
 
@@ -148,7 +141,7 @@ function getGithubNav(db) {
   if (!db || !Array.isArray(db.nav)) return null
   var found = null
   db.nav.forEach(function (item) {
-    if (found || !item || item.type !== 'link' || !item.value) return
+    if (found || !item || !item.value) return
     var label = String(item.label || '').toLowerCase()
     var value = String(item.value || '').toLowerCase()
     if (label === 'github' || value.indexOf('github.com') >= 0) found = item

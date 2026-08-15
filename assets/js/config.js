@@ -32,6 +32,21 @@ var SITE_ABOUT_TAGS = [
   { name: '足球', desc: '利物浦。跌倒了还一起走。' },
   { name: '脑洞', desc: '用不上的想法，也得有地方放。' },
 ]
+/**
+ * 首页「AI 页面作品集」。条目数据在 db.json 的 works 数组（blog.mjs add-work 管理）。
+ * 最多展示 SITE_WORKS_MAX 张卡；仅当作品数超过该上限（溢出）时才追加末尾「更多」卡。
+ */
+var SITE_WORKS_MAX = 4
+/** 「更多」卡文案；href 指向完整作品集页 /works（SPA 内路由） */
+var SITE_WORKS_MORE = {
+  title: '更多',
+  kicker: '全部作品',
+  summary: '后面做的 AI 页面会继续放到这里。',
+  href: '/works',
+}
+
+/** 主题调色板在 themes.js（须在 CSS 前加载），不放这里以免和首屏抢时序。 */
+
 /** 全站元数据 JSON；须与静态目录 assets/data/db.json 一致 */
 var DB_URL = '/assets/data/db.json'
 /** 列表页每页条数 */
@@ -56,6 +71,7 @@ var FOOTER_ICP = '粤ICP备17039322号-3'
 /** 工信部备案查询入口 */
 var FOOTER_ICP_LINK = 'https://beian.miit.gov.cn'
 
+// 首屏先用站点名；进文章/分类后再由对应页面改 document.title。meta 与 index.html 占位保持一致。
 document.title = SITE_NAME
 var _metaDesc = document.querySelector('meta[name="description"]')
 if (_metaDesc && SITE_DESCRIPTION) _metaDesc.setAttribute('content', SITE_DESCRIPTION)

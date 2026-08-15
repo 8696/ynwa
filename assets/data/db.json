@@ -1,30 +1,39 @@
 {
   "nav": [
     {
-      "type": "category",
       "label": "AI",
-      "value": "AI"
+      "value": "/category/AI",
+      "target": ""
     },
     {
-      "type": "category",
       "label": "技术实践",
-      "value": "engineering"
+      "value": "/category/engineering",
+      "target": ""
     },
     {
-      "type": "category",
       "label": "生活记录",
-      "value": "life"
+      "value": "/category/life",
+      "target": ""
     },
     {
-      "type": "category",
       "label": "随便写写",
-      "value": "writing"
+      "value": "/category/writing",
+      "target": ""
     },
     {
-      "type": "link",
-      "label": "GitHub",
-      "value": "https://github.com/8696",
-      "target": "_blank"
+      "label": "AI作品集",
+      "value": "/works",
+      "target": ""
+    },
+    {
+      "label": "关于",
+      "value": "#about",
+      "target": ""
+    },
+    {
+      "label": "联系",
+      "value": "#contact",
+      "target": ""
     }
   ],
   "categories": [
@@ -52,39 +61,48 @@
   "tags": [
     {
       "id": "AI",
-      "name": "AI"
+      "name": "AI",
+      "description": "围绕 AI 的工具、机制与实践"
     },
     {
       "id": "Hermes-Agent",
-      "name": "Hermes Agent"
+      "name": "Hermes Agent",
+      "description": "Hermes Agent 源码、工作流与自学习机制"
     },
     {
       "id": "frontend",
-      "name": "前端"
+      "name": "前端",
+      "description": "前端界面、工程与交互"
     },
     {
       "id": "javascript",
-      "name": "JavaScript"
+      "name": "JavaScript",
+      "description": "JavaScript 语言与运行时"
     },
     {
       "id": "性能优化",
-      "name": "性能优化"
+      "name": "性能优化",
+      "description": "加载、渲染与缓存相关的优化"
     },
     {
       "id": "productivity",
-      "name": "效率"
+      "name": "效率",
+      "description": "工作流、工具链与效率方法"
     },
     {
       "id": "writing",
-      "name": "写作"
+      "name": "写作",
+      "description": "写作与表达"
     },
     {
       "id": "life",
-      "name": "生活"
+      "name": "生活",
+      "description": "日常观察与生活记录"
     },
     {
       "id": "skill",
-      "name": "Skill"
+      "name": "Skill",
+      "description": "Agent Skill 与工具编排"
     }
   ],
   "articles": [
@@ -167,6 +185,62 @@
       "summary": "每轮对话都重发系统提示词，差一个字符缓存就失效。本文从 v0.20.0 源码拆解 Hermes Agent 的四层缓存防线：stable/context/volatile 三段式拼接保证最长公共前缀命中、记忆冻结快照消除逐字漂移、时间戳精度主动降级、Anthropic 四断点精算。整套设计让前缀缓存命中率逼近 100%，把系统提示词的重复 token 开销压到最低。",
       "file": "/assets/articles/ai/hermes/system-prompt-prefix-caching.md",
       "cover": ""
+    }
+  ],
+  "works": [
+    {
+      "title": "糖果屋",
+      "kicker": "个人作品集",
+      "summary": "Neo-Brutalism 风格的个人主页：技能清单、项目 Bento、经历时间线三段式。纯 HTML / CSS 手写，零框架。",
+      "tags": [
+        "HTML",
+        "CSS"
+      ],
+      "href": "/ai-page/candy-house/index.html"
+    },
+    {
+      "title": "墨叙工作室 / MUXU STUDIO",
+      "kicker": "Editorial 工作室单页",
+      "summary": "杂志策展式品牌设计工作室样板页：8 大区块 Editorial 排版，带交互式合作评估器和逐块揭示动效。React 19 + Tailwind v4。",
+      "tags": [
+        "React 19",
+        "Tailwind v4",
+        "Editorial"
+      ],
+      "href": "/ai-page/muxu-studio/index.html"
+    },
+    {
+      "title": "构形实验室 / FORM-GRID",
+      "kicker": "Swiss Grid 工作室单页",
+      "summary": "瑞士网格 × 包豪斯构成风工作室样板页：可见网格线、三原色高对比、巨型字构图、几何时间线、纯黑 Footer 实时时钟。React 19 + Tailwind v4。",
+      "tags": [
+        "React 19",
+        "Tailwind v4",
+        "Swiss Grid"
+      ],
+      "href": "/ai-page/form-grid/index.html"
+    },
+    {
+      "title": "浮岛 / Floating Island",
+      "kicker": "创意工作室作品集",
+      "summary": "立体剪纸风创意工作室作品集：品牌理念、项目预估、历程与 FAQ。莫兰迪大地色，多层 box-shadow 堆出厚纸板质感。纯 HTML / CSS / JS。",
+      "tags": [
+        "HTML",
+        "CSS",
+        "Papercut"
+      ],
+      "href": "/ai-page/floating-island/index.html"
+    },
+    {
+      "title": "构象艺术 / CONSTRUCT-ART",
+      "kicker": "Avant-Garde 雕塑风作品集",
+      "summary": "前卫孟菲斯 × 雕塑风艺术工作室单页：克莱因蓝点缀、重型实体阴影、拱门 FAQ、交互式预算估算器。纯 HTML / CSS / JS。",
+      "tags": [
+        "HTML",
+        "CSS",
+        "Memphis"
+      ],
+      "href": "/ai-page/construct-art/index.html"
     }
   ]
 }

@@ -1,5 +1,5 @@
 /**
- * 全站 db.json 的 React Context。
+ * 全站 db.json 的唯一数据入口。页面/组件只通过 useDB() 读，禁止自己 fetch 这份 JSON。
  * 默认 loadDB 直接 reject，用于在未包 DBProvider 时尽早暴露接入错误。
  */
 var DBContext = React.createContext({
@@ -53,6 +53,14 @@ function DBProvider(props) {
   var _useState = React.useState(null)
   var db = _useState[0]
   var setDb = _useState[1]
+  /** 加载失败原因；成功或新一轮尝试中为 null。页面据此把「加载中」换成错误 + 重试 */
+  var _errState = React.useState(null)
+  var dbError = _errState[0]
+  var setDbError = _errState[1]
+  /** 重试计数：bump 后重建 loadDB，让下方 effect 重新走一次完整加载 */
+  var _retryState = React.useState(0)
+  var retryCount = _retryState[0]
+  var setRetryCount = _retryState[1]
   /**
    * 进行中的 fetch Promise。
    * StrictMode 双调用、多组件同时 useDB 时复用同一请求，避免打两次 db.json。
@@ -62,10 +70,13 @@ function DBProvider(props) {
   var loadDB = React.useCallback(function () {
     if (db) return Promise.resolve(db)
     if (inflightRef.current) return inflightRef.current
+    // 新一轮尝试先清掉上次的错误，避免旧文案盖住本次状态
+    setDbError(null)
 
     var p = (function () {
       var hostname = window.location.hostname
       var cacheDisabled = applyCacheDisableFromUrl()
+      // 本机预览永远拉新：改 db.json 后不必等 TTL，也不必每次加 ?nocache=1
       var forceFresh =
         cacheDisabled || hostname === 'localhost' || hostname === '127.0.0.1'
 
@@ -116,16 +127,24 @@ function DBProvider(props) {
       return data
     }, function (err) {
       inflightRef.current = null
+      // 失败原因必须进 state：没有它，断网时所有页面只会永远停在「加载中」
+      setDbError(err && err.message ? err.message : String(err))
       throw err
     })
-  }, [db])
+  }, [db, retryCount])
+
+  /** 手动重试入口：bump 计数器 → loadDB 重建 → effect 重新执行一次完整加载 */
+  var retryDB = React.useCallback(function () {
+    setRetryCount(function (n) { return n + 1 })
+  }, [])
 
   React.useEffect(function () {
-    loadDB()
+    // 失败已记入 state；这里吞掉 rejection，避免每次加载失败都抛 unhandled rejection
+    loadDB().catch(function () {})
   }, [loadDB])
 
   return (
-    <DBContext.Provider value={{ db: db, loadDB: loadDB }}>
+    <DBContext.Provider value={{ db: db, loadDB: loadDB, error: dbError, retryDB: retryDB }}>
       {props.children}
     </DBContext.Provider>
   )
