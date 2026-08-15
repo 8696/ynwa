@@ -17,7 +17,7 @@
     { name: 'orange',  accent: '#ff8a3d', soft: '#ffe5d3', accent2: '#2f6bd8', onAccent: ink,   onAccent2: paper },
     { name: 'cyan',    accent: '#00c2d1', soft: '#d2f4f7', accent2: '#ffe135', onAccent: ink,   onAccent2: ink },
     { name: 'lime',    accent: '#a8e10c', soft: '#effbd2', accent2: '#ff5a47', onAccent: ink,   onAccent2: ink },
-    { name: 'red',     accent: '#ff3b30', soft: '#ffd9d6', accent2: '#2f6bd8', onAccent: ink,   onAccent2: paper },
+    { name: 'red',     accent: '#c8102e', soft: '#f5d4d9', accent2: '#f6eb61', onAccent: paper, onAccent2: ink },
     { name: 'magenta', accent: '#e6399f', soft: '#fbd8ee', accent2: '#7ed0ff', onAccent: ink,   onAccent2: ink },
     { name: 'coffee',  accent: '#8d6748', soft: '#eadfd2', accent2: '#ffe135', onAccent: paper, onAccent2: ink }
   ]
