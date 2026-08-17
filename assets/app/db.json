@@ -263,6 +263,28 @@
         "Fluid Surrealism"
       ],
       "href": "/ai-page/realm-of-ether/index.html"
+    },
+    {
+      "title": "Maison d'Art 法式高定",
+      "kicker": "法式高定时装与数字沙龙系统",
+      "summary": "沉浸式高定时装品牌体验站：沉浸秀场 / 高定工坊实时预览 / 私享预约邀请函 / 典藏档案馆。夜黑 × 香槟金新古典奢华。React 19 + Tailwind v4 + Framer Motion。",
+      "tags": [
+        "React 19",
+        "Tailwind v4",
+        "Haute Couture"
+      ],
+      "href": "/ai-page/maison-d-art/index.html"
+    },
+    {
+      "title": "SONICA 声学建筑实验室",
+      "kicker": "声学建筑与空间实验室系统",
+      "summary": "影院级混凝土与声波极简风：沉浸式声学场域 / 构件材质库 / RT60 混响模拟器（赛宾公式实时推演）/ 工程档案预约。混凝土深灰 × 琥珀金 × 超声波青。React 19 + Tailwind v4 + Framer Motion。",
+      "tags": [
+        "React 19",
+        "Tailwind v4",
+        "Acoustics"
+      ],
+      "href": "/ai-page/sonica-architecture/index.html"
     }
   ]
 }
