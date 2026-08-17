@@ -241,6 +241,28 @@
         "Memphis"
       ],
       "href": "/ai-page/construct-art/index.html"
+    },
+    {
+      "title": "星核空间 NOVA SPATIAL",
+      "kicker": "VisionOS 空间计算未来实验室",
+      "summary": "VisionOS 景深悬浮玻璃风：星空网格底 + 星云 mesh gradient + Framer Motion 3D 倾斜 Bento 展厅 + 实时算力推演器 + 星际微光 Footer。",
+      "tags": [
+        "React 19",
+        "Framer Motion",
+        "Spatial UI"
+      ],
+      "href": "/ai-page/nova-spatial/index.html"
+    },
+    {
+      "title": "虚实之境 / REALM OF ETHER",
+      "kicker": "流体超现实策展工作室",
+      "summary": "沉浸式展厅风艺术作品集：影院级深邃底 + 渐变金光衬线体 + 鼠标视差 Hero + 错落作品网格 + 意境生成器实时算色板 + 金线时间线 + GMT 艺术时钟。",
+      "tags": [
+        "React 19",
+        "Framer Motion",
+        "Fluid Surrealism"
+      ],
+      "href": "/ai-page/realm-of-ether/index.html"
     }
   ]
 }
