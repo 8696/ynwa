@@ -2,7 +2,7 @@
 
 .site-footer {
   background: var(--ink);
-  color: var(--accent);
+  color: var(--paper);
   padding: 0 16px 56px;
   text-align: center;
   font-family: var(--font-mono);
@@ -31,6 +31,7 @@
   margin: 0 0 6px;
   font-size: 13px;
   text-align: center;
+  color: var(--on-ink-muted);
 }
 
 .site-footer-brand {
@@ -39,18 +40,13 @@
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--accent);
+  color: var(--paper);
   text-transform: uppercase;
 }
 
 .site-footer-links {
   margin: 0 0 14px;
   font-size: 13px;
-}
-
-/* 链接间的间隔点用主题色，黑底上的 accent 信号 */
-.site-footer-links span[aria-hidden='true'] {
-  color: var(--accent);
 }
 
 .site-footer a {
@@ -60,6 +56,6 @@
 }
 
 .site-footer a:hover {
-  color: var(--accent);
+  color: var(--paper);
   border-bottom-color: var(--accent);
 }

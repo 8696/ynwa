@@ -217,7 +217,8 @@ body 末尾:
 - 强调色用 `--accent` / `--accent-soft` / `--accent-2` / `--on-accent` / `--on-accent-2`，不要写死 `#ffe135`
 - 内容宽用已有的 `.page` / `.wrap` / `.site-header-inner`
 - 黑边硬阴影用 `--stroke`、`--shadow`、`--shadow-sm` / `--md` / `--lg`
-- 斑马条纹用 `--stripe`，不要再复制一份 `repeating-linear-gradient`
+- 斑马条纹用 `--stripe`（ink 底上用 `--stripe-on-ink`），不要再复制一份 `repeating-linear-gradient`
+- **ink 黑底上的文字用 `--paper`**（次要层级 `--on-ink-muted`），不要用 `--accent`——ink 主题日的 accent 是 `#1f1f1f` 近黑，黑底黑字直接隐身（页脚/`.btn-ink`/作品卡箭头都栽过）
 - 区块大标题用 `.section-title`（更大用 `--lg` / `--display`）
 - 按钮用 `.btn`，小按钮叠加 `.btn--sm`
 - 正文只走 `.markdown-body`，不要再加一套 `.prose`
@@ -379,6 +380,7 @@ npx --yes serve -s . -l 3000
 | 搜索找不到新文 | 关键词只写在正文里；搜索不扫 Markdown，只扫 `title` / `summary` |
 | 分类/标签页「不存在」 | 文章写了展示名而不是词典 `id` |
 | 深色主题按钮看不清 | 该主题的 `onAccent` / `onAccent2` 没配浅色字 |
+| ink 主题日页脚/按钮隐身 | ink 黑底上写了 `color: var(--accent)`（ink 主题的 accent 近黑）。黑底文字用 `--paper`，次要用 `--on-ink-muted` |
 | 改了组件但样式没变 | 忘了加/改同名 `.css`，或忘了在 `index.html` 加 `<link>` |
 | 内核职责混乱 | 把列表数据塞进 `config.js`、在页面里 `fetch db.json`、把路由页写进 `main.js`、把组件私有 CSS 塞进 `base.css`（违反「`core/` 各文件约束」） |
 
