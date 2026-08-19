@@ -103,6 +103,42 @@
       "id": "skill",
       "name": "Skill",
       "description": "Agent Skill 与工具编排"
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code"
+    },
+    {
+      "id": "react",
+      "name": "React"
+    },
+    {
+      "id": "architecture",
+      "name": "架构设计"
+    },
+    {
+      "id": "llm",
+      "name": "LLM"
+    },
+    {
+      "id": "source-code",
+      "name": "源码解析"
+    },
+    {
+      "id": "memory",
+      "name": "记忆系统"
+    },
+    {
+      "id": "sqlite",
+      "name": "SQLite"
+    },
+    {
+      "id": "data-management",
+      "name": "数据管理"
+    },
+    {
+      "id": "system-prompt",
+      "name": "系统提示词"
     }
   ],
   "articles": [
@@ -116,7 +152,9 @@
       "tags": [
         "javascript",
         "frontend",
-        "ai"
+        "ai",
+        "claude-code",
+        "react"
       ],
       "date": "2026-04-25 14:00",
       "summary": "一个无需构建步骤、零本地依赖的个人博客：React 18 + React Router 6 单页应用，JSX 由 Babel Standalone 在浏览器内转换，Markdown 经 marked 渲染后用 DOMPurify 消毒防 XSS，db.json 用 localStorage 缓存一小时。本文记录从用 Claude Code 生成代码到部署到 OSS 静态托管的全过程。",
@@ -131,7 +169,10 @@
       ],
       "tags": [
         "hermes-agent",
-        "ai"
+        "ai",
+        "architecture",
+        "llm",
+        "source-code"
       ],
       "date": "2026-08-13 15:00",
       "summary": "从工具自注册（96 个工具横跨 30+ 工具集）、系统提示词三段式组装、对话循环与并行工具执行，到五种 API 模式自动适配，再到记忆+技能+后台审查的自学习三机制，本文基于 v0.20.0 源码完整拆解 Hermes Agent 从接收一条消息到返回响应的全流程，重点更新了 run_agent.py 从 9000 行上帝文件拆成 agent/ 子模块后的真实结构。",
@@ -146,7 +187,10 @@
       ],
       "tags": [
         "hermes-agent",
-        "ai"
+        "ai",
+        "skill",
+        "memory",
+        "source-code"
       ],
       "date": "2026-08-13 16:00",
       "summary": "一个 AI 助手怎么自己变聪明？本文从 v0.20.0 源码拆解 Hermes Agent 的三阶段自学习闭环：前台用 memory/skill_manage 即时学习、后台 fork 独立 agent 复盘对话并修补技能、Curator 定期归档整合清理碎片。三个子系统围绕声明性记忆、程序性技能、会话历史三层持久化存储运转，形成「即时学→复盘改→定期理」的完整循环。",
@@ -163,7 +207,9 @@
       "tags": [
         "skill",
         "hermes-agent",
-        "ai"
+        "ai",
+        "sqlite",
+        "data-management"
       ],
       "date": "2026-08-13 17:00",
       "summary": "直接让大模型写 SQL 管个人数据，会发生口径漂移、字段乱填、口算汇总、误删误改。本文拆解四个子系统（记账/待办/随手记/资产）共享的架构方案：SQLite 做真值源、SKILL.md 做意图路由契约、Python 脚本做参数校验和守门人、视图做只读出口。模型负责听懂人话做判断，脚本和触发器负责保证数据库不被写坏。",
@@ -179,7 +225,10 @@
       ],
       "tags": [
         "hermes-agent",
-        "ai"
+        "ai",
+        "system-prompt",
+        "performance",
+        "source-code"
       ],
       "date": "2026-08-13 18:39",
       "summary": "每轮对话都重发系统提示词，差一个字符缓存就失效。本文从 v0.20.0 源码拆解 Hermes Agent 的四层缓存防线：stable/context/volatile 三段式拼接保证最长公共前缀命中、记忆冻结快照消除逐字漂移、时间戳精度主动降级、Anthropic 四断点精算。整套设计让前缀缓存命中率逼近 100%，把系统提示词的重复 token 开销压到最低。",
