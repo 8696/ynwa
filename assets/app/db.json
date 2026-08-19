@@ -285,6 +285,17 @@
         "Acoustics"
       ],
       "href": "/ai-page/sonica-architecture/index.html"
+    },
+    {
+      "title": "构造空间 / ARCHI-VOID",
+      "kicker": "建筑事务所多页面系统",
+      "summary": "矿物粗野主义 × 参数化现代美学：品牌大厅、作品档案馆、光影实验室、城市研究、建筑委托五视图，滑杆实时计算采光/碳足迹/安全系数。",
+      "tags": [
+        "React 19",
+        "Tailwind v4",
+        "Framer Motion"
+      ],
+      "href": "/ai-page/archi-void/index.html"
     }
   ]
 }
