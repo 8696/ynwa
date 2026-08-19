@@ -29,7 +29,7 @@ assets/
     └── pages/                仅 Routes 登记的路由页：同名 .js + .css 成对
 ```
 
-仓库根还有 `index.html`（CDN + 全部 `<link>` / `<script>` 顺序）、`AGENTS.md`、`README.md`。独立作品页在同域 `/ai-page/<目录>/`，**不进本仓库、不进 React 路由**。
+仓库根还有 `index.html`（全站资源唯一配置对象 `LOCAL_ASSETS`：本地 CSS/JS + CDN 库）、`AGENTS.md`、`README.md`。独立作品页在同域 `/ai-page/<目录>/`，**不进本仓库、不进 React 路由**。
 
 ### `pages/` 与 `components/` 各干什么
 
@@ -66,11 +66,11 @@ assets/
 
 | 文件 | `index.html` 里怎么挂 |
 | --- | --- |
-| `themes.js` | 普通 `<script>`，**一切站点 CSS 之前** |
-| `base.css` | `<link>`，在 `themes.js` 之后、组件/页面 CSS 之前 |
-| `config.js` → `utils.js` | 普通 `<script>`，在 Babel 脚本之前（`config` 必须先于 `utils` / `db-context`） |
-| `db-context.js` | 第一个 `type="text/babel"`（之后才是 components / pages） |
-| `main.js` | **最后一个** Babel 脚本 |
+| `themes.js` | `LOCAL_ASSETS.themesScript`，**最先**写出（一切站点 CSS 之前） |
+| `base.css` | `LOCAL_ASSETS.stylesheets` 第一项，生成 `<link>`，在 `themesScript` 之后、组件/页面 CSS 之前 |
+| `config.js` → `utils.js` | `LOCAL_ASSETS.classicScripts` 两项，生成普通 `<script>`，在 Babel 脚本之前（`config` 必须先于 `utils` / `db-context`） |
+| `db-context.js` | `LOCAL_ASSETS.babelScripts` 唯一项（之后才是 components / pages） |
+| `main.js` | `LOCAL_ASSETS.mainScript`，**最后**写出 |
 
 **互相引用方向：** `main` / `pages` / `components` → `useDB` / `utils` 函数 / `config` 常量；`themes` 不给 React 读；`utils` 不依赖 React、不读 DOM；`db-context` 只读 `config` 里的 `DB_URL`/`CACHE_*`，不反向改配置文件结构；`base.css` 只消费 `themes` 已写入的变量，不反向驱动 JS。
 
@@ -88,14 +88,14 @@ assets/
 | **加 AI 作品卡** | `db.json` 的 `works[]`；独立页部署到同域 `/ai-page/<目录>/` | 不要把作品页收进 React 路由；本仓库不收 `ai-page/` 源码 |
 | **改站点名 / 关于 / 邮箱 / 页脚 / 分页大小 / 缓存键** | `core/config.js` | 作品条目、栏目、文章不放这里 |
 | **改强调色 / 加一套主题** | `core/themes.js` 的 `themes` 数组 | 不要写进 `config.js` 或 `index.html` 底部，否则首屏闪默认黄 |
-| **改列表卡片 / 顶栏 / 页脚 / 作品卡 / 关于 / 联系** | `components/<Name>.js` + 同名 `.css` | 不要在页面里复制一份卡片 DOM；新组件还要在 `index.html` 登记 `<script>` 与 `<link>` |
+| **改列表卡片 / 顶栏 / 页脚 / 作品卡 / 关于 / 联系** | `components/<Name>.js` + 同名 `.css` | 不要在页面里复制一份卡片 DOM；新组件还要在 `index.html` 的 `LOCAL_ASSETS.components` 里加一项 `{ js, css }` |
 | **改某个路由页（首页、详情、搜索…）** | `pages/<Name>.js` + 同名 `.css` | 页面不要自己 `fetch db.json`；数据只用 `useDB()` |
 | **加一条新路由** | 新建 `pages/<Name>.{js,css}` → `index.html` 登记 → `core/main.js` 的 `<Routes>`；要上顶栏再改 `nav[]` | 托管必须继续把未知路径回退到 `index.html` |
 | **加纯函数（日期、搜索、URL）** | `core/utils.js` | 无 JSX、无 `import`/`export`；挂到全局 `function foo()` |
 | **改缓存 / 数据加载** | `core/db-context.js` | 全站只允许这一处读 `db.json`；`DB_URL` 在 `config.js` |
 | **改共用样式（按钮、chip、页面宽）** | `core/base.css` | 强调色走 CSS 变量，不要硬编码 |
 | **改正文 Markdown 排版** | `pages/Article.css`（`.markdown-body`） | 不要再写一套 `.prose` |
-| **加 CDN 库** | `index.html` 按现有顺序插入 UMD | 不能调换 React → Router → Babel 那几段顺序 |
+| **加 CDN 库** | `index.html` 的 `LOCAL_ASSETS.cdnScripts` / `.cdnStylesheets`，按顺序插入 UMD | 不能调换 React → Router → Babel 那几段顺序 |
 
 字段含义、当前分类/标签/作品清单见 `README.md` 的「`db.json`：全站内容索引」。
 
@@ -105,10 +105,10 @@ assets/
 
 站点按静态文件部署。违反下面任意一条，页面会白屏、闪错色、或刷新内页 404。
 
-1. **没有打包器、没有 `package.json` 依赖、没有构建步骤。** 不要引入 npm 包、不要写 `import`/`export`、不要上 TypeScript。新库只能用 jsDelivr **UMD**，版本钉在 URL 上，并在 `index.html` 按顺序加入。
+1. **没有打包器、没有 `package.json` 依赖、没有构建步骤。** 不要引入 npm 包、不要写 `import`/`export`、不要上 TypeScript。新库只能用 jsDelivr **UMD**，版本钉在 URL 上，加进 `index.html` 的 `LOCAL_ASSETS.cdnScripts`/`.cdnStylesheets`，按顺序排好位置。
 2. **React 钉在 18.3.1，React Router 钉在 6.30.1**（没有浏览器 UMD 的 19 / 7）。JSX 用 Babel Standalone 在浏览器里编。
-3. **所有站内资源用根绝对路径**（`/assets/...`、`/article/:id`）。相对路径会在子路由下解析错。
-4. **`index.html` 脚本与样式顺序不能调换。** 见下一节「加载顺序」。
+3. **所有站内资源用根绝对路径**（`/assets/...`、`/article/:id`）。相对路径会在子路由下解析错。`index.html` 的 `LOCAL_ASSETS` 配置对象里，本地文件路径都写完整的 `/assets/app/...`，CDN 库写完整 URL，不要写省略前缀的相对路径。
+4. **`index.html` 里 `LOCAL_ASSETS` 配置对象的元素顺序不能调换。** 全站资源（`themes.js`、CDN 库、本地 CSS/JS）唯一登记在这一个对象里（`components`/`pages` 用 `{ js, css }` 成对登记），`head`/`body` 两处内联脚本按需读取它、通过 `document.write` 按序生成 `<link>`/`<script>`，效果与逐行写死完全一致；顺序约束不变，只是登记方式从「加一行标签」变成「配置对象里加一项」。见下一节「加载顺序」。
 5. **数据只从 `useDB()` 来。** 禁止在页面或卡片里再 `fetch('/assets/app/db.json')`。资源 URL 一律 `resolvePublicAssetUrl`。
 6. **调用方向只允许从上往下：** `core/main.js` → `pages/*` / `components/*` → `core/db-context.js` → `core/utils.js` / `core/config.js`。`core/themes.js` 只在 CSS 前执行，不要让 React 代码去读它。无 `import`/`export`，依赖靠 `index.html` 加载顺序把全局函数挂好。
 7. **`core/` 六文件职责互斥。** 主题只进 `themes.js`，常量只进 `config.js`，纯函数只进 `utils.js`，读 `db.json` 只进 `db-context.js`，共用样式只进 `base.css`，壳与挂载只进 `main.js`。详见「`core/` 各文件约束」。
@@ -126,22 +126,43 @@ assets/
 
 ## 加载顺序（改 `index.html` 时照这个排）
 
+全站资源（`core/themes.js`、highlight.js 主题 CSS、CDN 运行时库、本地 CSS/JS）全部收进 `index.html` `<head>` 里一份唯一的 `LOCAL_ASSETS` 配置对象，不再逐行写死 `<link>`/`<script>`；`components`/`pages` 用 `{ js, css }` 成对登记（同一项就是同一个文件对）。`head` 里的内联脚本读它生成 `themesScript`/`cdnStylesheets`/`stylesheets`/`components`/`pages` 对应的 CSS 与 `themes.js` 标签；`body` 里紧跟 `<div id="root">` 之后的另一段内联脚本再读同一份 `LOCAL_ASSETS`（同一文档、同一全局作用域，天然可跨脚本块共享，写标签的三个函数 `writeStylesheet`/`writeScript`/`writeBabelScript` 也定义在 head、body 直接复用）生成 CDN 库与本地 JS 标签：
+
+- `LOCAL_ASSETS.themesScript`：`core/themes.js`（`<head>` 里最先写出）
+- `LOCAL_ASSETS.cdnStylesheets`：highlight.js 主题 CSS（紧跟 `themesScript` 之后）
+- `LOCAL_ASSETS.stylesheets`：`core/base.css`
+- `LOCAL_ASSETS.components` / `LOCAL_ASSETS.pages`：每项 `{ js, css }`，`head` 里按顺序取 `.css` 写 `<link>`，`body` 里按顺序取 `.js` 写 `<script>`
+- `LOCAL_ASSETS.cdnScripts`（`<body>` 内，`<div id="root">` 之后）：React → ReactDOM → Remix Router → react-router → react-router-dom → marked → DOMPurify → highlight.js → Babel Standalone
+- `LOCAL_ASSETS.classicScripts`：`core/config.js` → `core/utils.js`
+- `LOCAL_ASSETS.babelScripts`：`core/db-context.js`（必须先于 components/pages）
+- `LOCAL_ASSETS.mainScript`：`core/main.js`（最后单独写出）
+
+`document.write` 在 HTML 解析期同步执行，生成的标签和逐行写死的效果完全一致（Babel Standalone 仍在 `DOMContentLoaded` 之后才扫描 `type="text/babel"` 标签，编译时机不变）。**加新组件/页面只需在 `LOCAL_ASSETS.components` 或 `.pages` 里加一项 `{ js, css }`**，不用再对齐标签属性、也不用在两处分别改；顺序约束和之前相同：
+
+**为什么是两段 `<script>`，不合并成一个：**
+
+- CSS 那段必须留在 `<head>` 里、尽早写出。`<link>` 一解析到就会立刻发请求下载，写得越晚，样式表下载得越晚，首屏越容易先出无样式内容、样式再套上来的闪烁（FOUC）。
+- JS 那段必须留在 `<div id="root">` **之后**。不是脚本本身需要，而是最后 `LOCAL_ASSETS.mainScript`（`core/main.js`）会执行 `ReactDOM.createRoot(document.getElementById('root'))`，这一刻 `#root` 节点必须已经在 DOM 里存在；`document.write` 同步插入，只要这段脚本写在 `<div id="root">` 之后就能保证这一点。
+- 硬要合并成一个 `<script>` 也不是不行，但只能整段挪进 `<head>`，再在脚本里用 `document.write` 把 `</head><body><div id="root"></div>` 这些 HTML 骨架也一起吐出来。这样做除了让文件失去"打开就能看出 head/body 各有什么"的直观结构、给以后往 `<body>` 加别的静态内容添麻烦之外，并不会真正省掉什么复杂度（CSS 仍要先于 JS 写出，只是从两个 `<script>` 变成一个 `<script>` 里两段顺序）。所以维持现状。
+
 ```
 head:
-  core/themes.js                          ← 写 --accent 等到 <html>，必须最先
-  highlight.js 主题 CSS
-  core/base.css
-  components/*.css（叶子可并行，组合件后于其依赖）
-  pages/*.css
+  LOCAL_ASSETS 定义 + 写出：
+    themesScript：core/themes.js          ← 写 --accent 等到 <html>，必须最先
+    cdnStylesheets：highlight.js 主题 CSS
+    stylesheets：core/base.css
+    components[].css（叶子可并行，组合件后于其依赖）
+    pages[].css
 
 body 末尾:
-  React → ReactDOM → Remix Router → react-router → react-router-dom
-  marked → DOMPurify → highlight.js → Babel Standalone
-  core/config.js → core/utils.js          ← 经典脚本，无 JSX
-  core/db-context.js                      ← 起 Babel
-  components/*.js（叶子先于组合件）
-  pages/*.js（叶子先于使用它们的页面）
-  core/main.js                            ← 最后挂载
+  读取同一份 LOCAL_ASSETS 写出：
+    cdnScripts：React → ReactDOM → Remix Router → react-router → react-router-dom
+                → marked → DOMPurify → highlight.js → Babel Standalone（顺序不可调）
+    classicScripts：core/config.js → core/utils.js       ← 经典脚本，无 JSX
+    babelScripts：core/db-context.js                     ← 起 Babel
+    components[].js（叶子先于组合件）
+    pages[].js（叶子先于使用它们的页面）
+    mainScript：core/main.js                             ← 最后挂载
 ```
 
 **components 推荐顺序（与当前 `index.html` 一致）：**
@@ -343,10 +364,12 @@ npx --yes serve -s . -l 3000
 
 1. 新建 `assets/app/pages/<Name>.js`：数据用 `useDB()`，空态/失败用 `<DbState />`，容器用 `className="page"`
 2. 新建同名 `assets/app/pages/<Name>.css`（哪怕暂时只有一行注释）
-3. 在 `index.html`：
-   - `<head>` 里、其它 pages CSS 附近加 `<link rel="stylesheet" href="/assets/app/pages/<Name>.css" />`
-   - `<body>` 里、`core/main.js` **之前**加 `<script type="text/babel" data-presets="react" src="/assets/app/pages/<Name>.js"></script>`
-   - 若依赖其它组件叶子（如 `Home` 依赖 `HomeHero`），对应 `components/*` 脚本须已先加载
+3. 在 `index.html` 的 `LOCAL_ASSETS.pages` 里加一项（不再手写 `<link>`/`<script>`，也不用分两处改）：
+   ```js
+   { js: "/assets/app/pages/<Name>.js", css: "/assets/app/pages/<Name>.css" }
+   ```
+   - 加在其它 pages 项附近即可，`js`/`css` 成对写在一起；`LOCAL_ASSETS` 里全部是完整根绝对路径（含 `/assets/app/` 前缀），不要漏写前缀
+   - 若依赖其它组件叶子（如 `Home` 依赖 `HomeHero`），对应 `components` 项须已排在前面
 4. 在 `core/main.js` 的 `<Routes>` 加一条，放在 `path="*"` **之前**
 5. 需要顶栏入口 → `db.json` `nav[]`
 6. `document.title` 在该页 `useEffect` 里改，参考现有页面
@@ -357,15 +380,15 @@ npx --yes serve -s . -l 3000
 
 1. 优先扩展 `components/` 里已有组件（`ArticleCard` 已支持搜索高亮和 `openInNewTab`）
 2. 真要新建：`components/<Name>.js` + `<Name>.css`，全局 `function Name(...)`
-3. 在 `index.html` 按依赖插入 `<link>` 与 `<script>`（见「加载顺序」）
+3. 在 `index.html` 的 `LOCAL_ASSETS.components` 里按依赖顺序加一项 `{ js: "/assets/app/components/<Name>.js", css: "/assets/app/components/<Name>.css" }`（见「加载顺序」）
 4. 不要在 `pages/` 再复制一套卡片 DOM
 
 ### 新脚本 / CDN
 
-1. 无 JSX → 普通 `<script src="/assets/app/core/xxx.js">`，放在 `config.js` / `utils.js` 附近
-2. 有 JSX → `type="text/babel" data-presets="react"`，放进 `components/` 或 `pages/`，在 `main.js` 之前
-3. 必须在首屏前生效（如主题）→ 放在 `core/base.css` **之前**，参考 `core/themes.js`
-4. 新库只加 UMD。React / Router 那五段顺序不可改
+1. 无 JSX → 加进 `LOCAL_ASSETS.classicScripts`，放在 `config.js` / `utils.js` 附近
+2. 有 JSX → 加进 `LOCAL_ASSETS.components` 或 `.pages`（`{ js, css }` 成对），在 `mainScript` 之前
+3. 必须在首屏前生效（如主题）→ 只能改 `LOCAL_ASSETS.themesScript` 本身（目前是 `core/themes.js`），它是 `head` 里最先写出的一项，不要在它前面插队
+4. 新 CDN 库 → 加进 `LOCAL_ASSETS.cdnScripts`（纯 JS）或 `.cdnStylesheets`（CSS），只加 UMD，钉住版本号。React / Router 那五段顺序不可改
 
 `config.js` 常量列表、`themes.js` 调色板说明见 `README.md` 的「`config.js` 里改什么」。
 
@@ -379,7 +402,7 @@ npx --yes serve -s . -l 3000
 
 | 症状 | 常见原因 |
 | --- | --- |
-| 白屏 | `index.html` 脚本顺序错；JSX 文件在 Babel 之前；全局函数尚未定义就被调用 |
+| 白屏 | `index.html` 的 `LOCAL_ASSETS` 里字段/数组顺序错；本地 JSX 文件排在 `cdnScripts` 里的 Babel 之前；全局函数尚未定义就被调用 |
 | 首屏闪默认黄 | `themes.js` 没在站点 CSS 之前，或主题被写进了 `config.js` / HTML 底部 |
 | 刷新 `/article/:id` 404 | 静态托管没有 SPA fallback 到 `index.html` |
 | 列表「数据加载失败」 | `db.json` 非法 JSON，或 `DB_URL` 路径错 |
@@ -389,7 +412,7 @@ npx --yes serve -s . -l 3000
 | 深色主题按钮看不清 | 该主题的 `onAccent` / `onAccent2` 没配浅色字 |
 | ink 主题日页脚/按钮隐身 | ink 黑底上写了 `color: var(--accent)`（ink 主题的 accent 近黑）。黑底文字用 `--paper`，次要用 `--on-ink-muted` |
 | accent 底上的字看不见 | 背景是 `--accent` 却用了 `--ink` 当字色。改成 `--on-accent` |
-| 改了组件但样式没变 | 忘了加/改同名 `.css`，或忘了在 `index.html` 加 `<link>` |
+| 改了组件但样式没变 | 忘了加/改同名 `.css`，或忘了在 `index.html` 的 `LOCAL_ASSETS.components`/`.pages` 项里补上 `css` 字段 |
 | 内核职责混乱 | 把列表数据塞进 `config.js`、在页面里 `fetch db.json`、把路由页写进 `main.js`、把组件私有 CSS 塞进 `base.css`（违反「`core/` 各文件约束」） |
 
 ---
@@ -407,4 +430,4 @@ npx --yes serve -s . -l 3000
 5. 若动过主题：深色强调（蓝 / 咖啡等）上按钮和 CTA 的字仍然能看清
 6. 若动过 `db.json`：文件仍是合法 JSON
 7. **改完必须核对 `AGENTS.md` 和 `README.md`**（硬约束第 10 条）：约定/清单进本文件，路由/字段/架构进 `README.md`；确认不用改也要说清理由
-8. 若增删了 `components/*` 或 `pages/*`：`index.html` 的 `<link>` / `<script>` 与磁盘文件一一对应，无漏挂、无指向已删文件
+8. 若增删了 `components/*` 或 `pages/*`：`index.html` 的 `LOCAL_ASSETS.components` / `.pages` 与磁盘文件一一对应（每项 `js`/`css` 都存在），无漏挂、无指向已删文件

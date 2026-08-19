@@ -134,36 +134,41 @@ npx --yes serve -s . -l 3000
 ```
 index.html
   head:
-    ├─ core/themes.js                 按本地日历天数选一组主题，写 CSS 变量到 <html>
-    ├─ highlight.js 主题 CSS
-    ├─ core/base.css                  变量兜底、reset、共用控件
-    ├─ components/*.css               与 JS 同序：叶子先于组合件
-    └─ pages/*.css
+    └─ LOCAL_ASSETS 配置对象定义 + document.write 生成：
+         themesScript：core/themes.js       按本地日历天数选一组主题，写 CSS 变量到 <html>
+         cdnStylesheets：highlight.js 主题 CSS
+         stylesheets：core/base.css         变量兜底、reset、共用控件
+         components[].css                  与 js 成对登记，叶子先于组合件
+         pages[].css
   body 末尾:
-    ├─ CDN：React → ReactDOM → Remix Router → react-router → react-router-dom
-    ├─ CDN：marked → DOMPurify → highlight.js → Babel Standalone
-    ├─ 经典脚本：core/config.js → core/utils.js
-    ├─ Babel：core/db-context.js
-    ├─ Babel：components/*.js（叶子先）
-    ├─ Babel：pages/*.js（叶子先）
-    └─ Babel：core/main.js            createRoot 挂载
+    └─ 读取同一份 LOCAL_ASSETS → document.write 生成：
+         cdnScripts：React → ReactDOM → Remix Router → react-router → react-router-dom
+                     → marked → DOMPurify → highlight.js → Babel Standalone
+         classicScripts：core/config.js → core/utils.js
+         babelScripts：core/db-context.js
+         components[].js（叶子先）
+         pages[].js（叶子先）
+         mainScript：core/main.js           createRoot 挂载
 ```
+
+全站资源不再逐行写死标签，而是收进 `index.html` `<head>` 里一份唯一的 `LOCAL_ASSETS` 配置对象：本地文件写完整根绝对路径（如 `"/assets/app/core/base.css"`），CDN 库写完整 URL；`components`/`pages` 用 `{ js, css }` 成对登记同一个文件对。`head` 里的内联脚本读它写出 `themesScript`/`cdnStylesheets`/`stylesheets`/`components`/`pages` 对应的 CSS；`body` 里紧跟 `<div id="root">` 之后的内联脚本再读同一份对象（同一文档、同一全局作用域，写标签的三个函数 `writeStylesheet`/`writeScript`/`writeBabelScript` 也定义在 head，body 直接复用）写出 `cdnScripts`/`classicScripts`/`babelScripts`/`components`/`pages`/`mainScript` 对应的 JS。两处都用 `document.write` 同步生成标签，在 HTML 解析期同步执行，生成的标签会像原本写死的静态标签一样按文档顺序被解析、加载、执行——最终 DOM 顺序、Babel 编译时机（仍在 `DOMContentLoaded` 之后扫描 `type="text/babel"`）与逐行写死完全一致，只是加新组件/页面时改成在 `LOCAL_ASSETS.components`/`.pages` 里加一项 `{ js, css }`，加新 CDN 库改成在 `.cdnScripts`/`.cdnStylesheets` 里加一条 URL。
 
 | 层 | 加载方式 | 为什么 |
 | --- | --- | --- |
-| `core/themes.js` | 普通 `<script>`，且在一切站点 CSS 之前 | 先写强调色，避免首屏闪 `base.css` `:root` 默认黄 |
-| `core/config.js` / `core/utils.js` | 普通 `<script>` | 常量与纯函数先挂到 `window`，后面的 JSX 文件当全局调用 |
-| `core/db-context.js` 起 | `type="text/babel" data-presets="react"` | 浏览器内编译 JSX；`data-presets="react"` 避免再套 env |
-| `core/main.js` | 最后执行 | 依赖前面所有全局函数已存在，再挂载 |
+| `core/themes.js` | `LOCAL_ASSETS.themesScript`，`head` 里最先写出 | 先写强调色，避免首屏闪 `base.css` `:root` 默认黄 |
+| `core/config.js` / `core/utils.js` | `LOCAL_ASSETS.classicScripts` 生成的普通 `<script>` | 常量与纯函数先挂到 `window`，后面的 JSX 文件当全局调用 |
+| `core/db-context.js` 起 | `LOCAL_ASSETS.babelScripts` / `.components` / `.pages` 生成的 `type="text/babel" data-presets="react"` | 浏览器内编译 JSX；`data-presets="react"` 避免再套 env |
+| `core/main.js` | `LOCAL_ASSETS.mainScript`，最后写出 | 依赖前面所有全局函数已存在，再挂载 |
 
 补充约定：
 
-- CDN 版本钉在 URL 上，不走「最新」
-- highlight.js 主题 stylesheet 必须先于含 `.markdown-body` 的 `pages/Article.css`，否则盖不住代码块背景
-- 无打包、无 `import`/`export`：依赖关系完全由 `index.html` 里的标签顺序表达
-- 被调用的全局函数所在脚本，必须排在调用方之前（例如 `TagLinks` 先于 `ArticleCard`，`HomeHero` 先于 `Home`；页内子块在 `components/`）
+- CDN 版本钉在 `LOCAL_ASSETS.cdnScripts`/`.cdnStylesheets` 的 URL 上，不走「最新」
+- highlight.js 主题 stylesheet（`cdnStylesheets`）必须先于含 `.markdown-body` 的 `pages/Article.css`，否则盖不住代码块背景
+- 无打包、无 `import`/`export`：依赖关系由 `LOCAL_ASSETS` 里各字段/数组的元素顺序表达（`document.write` 按顺序同步生成标签，效果等同于逐行写死）
+- 被调用的全局函数所在脚本，必须排在 `LOCAL_ASSETS` 里调用方之前（例如 `TagLinks` 先于 `ArticleCard`，`HomeHero` 先于 `Home`；页内子块在 `components/`）
+- `LOCAL_ASSETS` 读取分两段 `<script>`、不合并成一个：CSS 那段留在 `<head>` 尽早写出（`<link>` 一解析到就发请求，写得越晚样式加载越晚，首屏越容易闪一下无样式内容）；JS 那段留在 `<div id="root">` 之后（`mainScript` 最后会执行 `ReactDOM.createRoot(document.getElementById('root'))`，这一步要求 `#root` 节点已经在 DOM 里）。硬合并成一个 `<script>` 只能整段搬进 `<head>`，再用 `document.write` 把 `</head><body>` 这些骨架标签也一起吐出来，得不偿失，所以保持两段
 
-当前 `index.html` 里 components / pages 的具体顺序与 `AGENTS.md`「加载顺序」一致。
+当前 `index.html` 里 `LOCAL_ASSETS` 各字段的具体顺序与 `AGENTS.md`「加载顺序」一致。
 
 ---
 
