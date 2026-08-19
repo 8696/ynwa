@@ -72,8 +72,8 @@ npx --yes serve -s . -l 3000
 - 被页面或壳引用、自己没有路由 → **`components/`**
 - 不确定时：若拆出去后不能单独作为「打开某个 URL 看到的那一屏」，就放 `components/`
 
-当前路由页只有：`Home`、`Article`、`Category`、`Tag`、`Search`、`Works`、`NotFound`。  
-`HomeHero`、`SearchResultRow` 等虽名字像页面，但是子块，在 `components/`。
+当前路由页只有：`Home`、`Article`、`Category`、`Tag`、`Topics`、`Search`、`Works`、`NotFound`。  
+`HomeHero`、`SearchResultRow` 等虽名字像页面，但是子块，在 `components/`。首页 Hero 的分类/标签统计卡指向 `/topics`，不进顶栏。
 
 ### `core/` 各文件约束
 
@@ -109,7 +109,7 @@ npx --yes serve -s . -l 3000
 | `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`） |
 | `SearchResultRow` | 搜索结果行（复用 `ArticleCard`） |
 | `Pagination` | 分页；`buildUrl(n)` 由页面传入 |
-| `HomeHero` | 首页 Hero |
+| `HomeHero` | 首页 Hero；分类/标签统计卡指向 `/topics` |
 
 **pages（路由页）**
 
@@ -118,6 +118,7 @@ npx --yes serve -s . -l 3000
 | `Home` | `/` |
 | `Article` | `/article/:id` |
 | `Category` / `Tag` | `/category/:id`、`/tag/:id` |
+| `Topics` | `/topics`（分类 + 标签总览，不分页） |
 | `Search` | `/search` |
 | `Works` | `/works` |
 | `NotFound` | `*` |
@@ -193,7 +194,7 @@ StrictMode
       App（定义在 core/main.js）
         Header
         #main
-          Routes        ← Home / Article / Category / Tag / Search / Works / *
+          Routes        ← Home / Article / Category / Tag / Topics / Search / Works / *
         WorksSection    ┐
         AboutSection    ├ 仅 pathname === '/'
         ContactCta      ┘
@@ -255,7 +256,7 @@ Markdown           articles[].file 指向的正文；进入 /article/:id 才 fet
 
 ## `db.json`：全站内容索引
 
-路径：`/assets/app/db.json`（常量 `DB_URL`，定义在 `core/config.js`）。这是站点的**唯一内容数据库**：顶栏栏目、分类页、标签页、文章列表、搜索、作品集全部读它。改内容几乎只改这一份文件 + 对应 Markdown / 静态页。
+路径：`/assets/app/db.json`（常量 `DB_URL`，定义在 `core/config.js`）。这是站点的**唯一内容数据库**：顶栏栏目、分类页、标签页、`/topics` 总览、文章列表、搜索、作品集全部读它。改内容几乎只改这一份文件 + 对应 Markdown / 静态页。
 
 顶层五个数组，缺一不可（可以是空数组 `[]`，不要删键）：
 
@@ -273,10 +274,14 @@ Markdown           articles[].file 指向的正文；进入 /article/:id 才 fet
 
 ```
 nav[].value
-  ├─ /category/{categories[].id}     顶栏栏目 → 分类页
+  ├─ /category/{categories[].id}     顶栏栏目 → 分类文章列表
   ├─ /works                          作品集页（读 works[]）
   ├─ #about / #contact / #works      回首页滚锚点（关于/联系统文案在 config.js）
   └─ https://… 或 target=_blank      外链
+
+/topics              分类 + 标签总览（读 categories[] / tags[]，入口在首页 Hero，不进 nav）
+  ├─ 分类卡 → /category/:id
+  └─ 标签 → /tag/:id
 
 categories[].id  ←── articles[].categories[]     一篇文可挂多个分类
 tags[].id        ←── articles[].tags[]           一篇文可挂多个标签
@@ -355,7 +360,7 @@ works[].href         独立静态页或 SPA 内路径
 | `name` | string | 是 | 卡片 / 标签页展示名 |
 | `description` | string | 否 | 标签页副标题；缺省时页面用「含此标签的文章」 |
 
-没有顶栏入口：标签只出现在文章卡片、详情页、搜索结果里，点进去才到 `/tag/:id`。
+没有顶栏入口：标签出现在文章卡片、详情页、搜索结果，以及 `/topics` 总览。首页 Hero 的分类/标签统计卡也指向 `/topics`；点总览里的标签再到 `/tag/:id`。
 
 当前词典：`AI`、`Hermes-Agent`、`frontend`、`javascript`、`性能优化`、`productivity`、`writing`、`life`、`skill`。
 
@@ -494,7 +499,7 @@ Markdown 只在进入 `/article/:id` 时请求，不进 `db.json` 缓存、不�
 
 **加分类 / 标签**
 
-先加词典，再在文章里引用 id。分类若要出现在顶栏，还要加 `nav`，`value` 写成 `/category/{id}`。
+先加词典，再在文章里引用 id。`/topics` 会自动列出全部词典条目，不必改 nav。分类若要出现在顶栏，再加 `nav`，`value` 写成 `/category/{id}`。
 
 JSON 必须合法：末项不要逗号、字符串用双引号。坏掉的话全站列表变「数据加载失败」。
 

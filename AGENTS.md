@@ -5,7 +5,7 @@
 - **架构说明、`db.json` 字段表、缓存策略、路由语义、部署注意** → 见 `README.md`
 - **本文件** → 按任务找文件、硬约束、编码约定、逐步操作清单、自检
 
-改了约定（目录、脚本/样式顺序、数据入口、CSS 变量用法、发文流程）必须同步更新本文件；改了字段含义或架构还要同步 `README.md`。
+改完代码必须回头改文档，详见「硬约束」第 10 条：约定进 `AGENTS.md`，架构/字段进 `README.md`，核对完才能收工。
 
 **不要把本手册写进 `README.md`。** `README.md` 同时是一篇已发布文章的正文（`articles[].file` 为 `/README.md`），改它等于改那篇文章。
 
@@ -35,7 +35,7 @@ assets/
 
 | 目录 | 作用 | 放什么 | 不放什么 |
 | --- | --- | --- | --- |
-| **`pages/`** | 路由级页面：每个文件对应 `core/main.js` 里 `<Routes>` 的一条路由 | `Home`、`Article`、`Category`、`Tag`、`Search`、`Works`、`NotFound`（及同名 `.css`） | 只被某个页面用到的子块、可复用卡片、顶栏/页脚 |
+| **`pages/`** | 路由级页面：每个文件对应 `core/main.js` 里 `<Routes>` 的一条路由 | `Home`、`Article`、`Category`、`Tag`、`Topics`、`Search`、`Works`、`NotFound`（及同名 `.css`） | 只被某个页面用到的子块、可复用卡片、顶栏/页脚 |
 | **`components/`** | 可复用 UI，以及**不是独立路由**的页内子块 | `Header`、`ArticleCard`、`HomeHero`、`SearchResultRow`、`WorksSection`…（及同名 `.css`） | 带自己 URL、在 `<Routes>` 里登记的整页 |
 
 **怎么判断放哪：**
@@ -83,7 +83,7 @@ assets/
 | 你要做的事 | 改哪些文件 | 不要动 / 注意 |
 | --- | --- | --- |
 | **发 / 改 / 下线文章** | `db.json` 的 `articles[]` + `assets/articles/**/*.md`（封面若有） | 不要改已发布文章的 `id`；不要把正文写进 JSON |
-| **加分类 / 标签** | `db.json` 的 `categories[]` 或 `tags[]`；分类要上顶栏再改 `nav[]` | 文章里必须写词典 **id**，不要写展示名 |
+| **加分类 / 标签** | `db.json` 的 `categories[]` 或 `tags[]`；分类要上顶栏再改 `nav[]` | 文章里必须写词典 **id**，不要写展示名。总览页 `/topics` 自动列出词典，不必改 nav |
 | **改顶栏栏目** | `db.json` 的 `nav[]` | 「首页」和搜索是代码写死的，不要写进 `nav` |
 | **加 AI 作品卡** | `db.json` 的 `works[]`；独立页部署到同域 `/ai-page/<目录>/` | 不要把作品页收进 React 路由；本仓库不收 `ai-page/` 源码 |
 | **改站点名 / 关于 / 邮箱 / 页脚 / 分页大小 / 缓存键** | `core/config.js` | 作品条目、栏目、文章不放这里 |
@@ -114,6 +114,11 @@ assets/
 7. **`core/` 六文件职责互斥。** 主题只进 `themes.js`，常量只进 `config.js`，纯函数只进 `utils.js`，读 `db.json` 只进 `db-context.js`，共用样式只进 `base.css`，壳与挂载只进 `main.js`。详见「`core/` 各文件约束」。
 8. **JSON 必须合法。** 末项禁止逗号，字符串用双引号。`db.json` 坏掉时全站列表变成「数据加载失败」。
 9. **本机预览必须走 HTTP**（`file://` 加载不了 Babel 的 `src`，也 `fetch` 不了 `db.json`）。
+10. **改完代码必须回头改 `AGENTS.md` 和 `README.md`。** 没核完这两份文档，任务不算完成。
+    - **`AGENTS.md`**：目录、加载顺序、下手对照、`pages/` / `components/` 清单、发文/接功能流程、CSS 变量用法、硬约束本身。
+    - **`README.md`**：路由与分层、`db.json` 字段含义、数据从哪来、入口位置（顶栏 / Hero / 锚点）、缓存与部署语义。
+    - 改完先对照本次 diff 扫这两份，该改的改掉；确认「不用改」也要能指出为什么（例如只改正文 `.md`、只改已有文章的 `title`/`summary` 且词典和路由都没动）。
+    - 不要把本手册的操作清单抄进 `README.md`。
 
 更完整的分层图见 `README.md` 的「运行时引导」「分层」。
 
@@ -145,7 +150,7 @@ body 末尾:
 
 **pages 推荐顺序（仅 Routes 登记的页面）：**
 
-`Home` → `Article` → `Category` → `Tag` → `Search` → `Works` → `NotFound`
+`Home` → `Article` → `Category` → `Tag` → `Topics` → `Search` → `Works` → `NotFound`
 
 依赖规则：被调用的全局函数所在脚本，必须排在调用方之前。例如 `ArticleCard` 用 `TagLinks`，则 `TagLinks.js` 在前；`Search` 用 `SearchResultRow`，则 `SearchResultRow.js` 在前（后者属于 `components/`）。
 
@@ -187,7 +192,7 @@ body 末尾:
 | `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`） |
 | `SearchResultRow` | 搜索结果行（内部复用 `ArticleCard`） |
 | `Pagination` | 分页；`buildUrl(n)` 由页面传入 |
-| `HomeHero` | 首页 Hero 区块 |
+| `HomeHero` | 首页 Hero；分类/标签统计卡指向 `/topics` |
 
 ### 现有 pages（仅 Routes 登记的页面）
 
@@ -197,6 +202,7 @@ body 末尾:
 | `Article` | `/article/:id` |
 | `Category` | `/category/:id` |
 | `Tag` | `/tag/:id` |
+| `Topics` | `/topics`（分类 + 标签总览，不分页） |
 | `Search` | `/search` |
 | `Works` | `/works` |
 | `NotFound` | `*` |
@@ -219,6 +225,7 @@ body 末尾:
 - 黑边硬阴影用 `--stroke`、`--shadow`、`--shadow-sm` / `--md` / `--lg`
 - 斑马条纹用 `--stripe`（ink 底上用 `--stripe-on-ink`），不要再复制一份 `repeating-linear-gradient`
 - **ink 黑底上的文字用 `--paper`**（次要层级 `--on-ink-muted`），不要用 `--accent`——ink 主题日的 accent 是 `#1f1f1f` 近黑，黑底黑字直接隐身（页脚/`.btn-ink`/作品卡箭头都栽过）
+- **贴在 `--accent` 上的字用 `--on-accent`**，不要用 `--ink`。深色 accent（ink / 蓝 / 咖啡）日子会隐身（`/topics` 分类计数徽标栽过）
 - 区块大标题用 `.section-title`（更大用 `--lg` / `--display`）
 - 按钮用 `.btn`，小按钮叠加 `.btn--sm`
 - 正文只走 `.markdown-body`，不要再加一套 `.prose`
@@ -381,6 +388,7 @@ npx --yes serve -s . -l 3000
 | 分类/标签页「不存在」 | 文章写了展示名而不是词典 `id` |
 | 深色主题按钮看不清 | 该主题的 `onAccent` / `onAccent2` 没配浅色字 |
 | ink 主题日页脚/按钮隐身 | ink 黑底上写了 `color: var(--accent)`（ink 主题的 accent 近黑）。黑底文字用 `--paper`，次要用 `--on-ink-muted` |
+| accent 底上的字看不见 | 背景是 `--accent` 却用了 `--ink` 当字色。改成 `--on-accent` |
 | 改了组件但样式没变 | 忘了加/改同名 `.css`，或忘了在 `index.html` 加 `<link>` |
 | 内核职责混乱 | 把列表数据塞进 `config.js`、在页面里 `fetch db.json`、把路由页写进 `main.js`、把组件私有 CSS 塞进 `base.css`（违反「`core/` 各文件约束」） |
 
@@ -393,10 +401,10 @@ npx --yes serve -s . -l 3000
 功能改动至少确认：
 
 1. 本机 HTTP 预览，**硬刷新**后再看（避免旧 Babel/JS 缓存）
-2. 首页、一篇详情、一个分类、搜索、作品集、404 都能打开
+2. 首页、一篇详情、一个分类、`/topics`、搜索、作品集、404 都能打开
 3. 刷新 `/article/:id` 不是服务器 404（SPA fallback）
 4. 窄屏顶栏汉堡菜单、宽屏横排导航
 5. 若动过主题：深色强调（蓝 / 咖啡等）上按钮和 CTA 的字仍然能看清
 6. 若动过 `db.json`：文件仍是合法 JSON
-7. 若动过约定：同步更新 `AGENTS.md`；若动过字段/架构：同步更新 `README.md`
+7. **改完必须核对 `AGENTS.md` 和 `README.md`**（硬约束第 10 条）：约定/清单进本文件，路由/字段/架构进 `README.md`；确认不用改也要说清理由
 8. 若增删了 `components/*` 或 `pages/*`：`index.html` 的 `<link>` / `<script>` 与磁盘文件一一对应，无漏挂、无指向已删文件

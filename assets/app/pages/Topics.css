@@ -1,0 +1,126 @@
+/* Topics 页：分类卡片网格 + 标签云 */
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 20px 0 40px;
+}
+
+.cat-card {
+  display: block;
+  padding: 18px 20px;
+  background: var(--white);
+  border: var(--stroke);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cat-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-lg);
+  background: var(--accent-soft);
+}
+
+.cat-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cat-card-name {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.cat-card-count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--on-accent);
+  padding: 2px 8px;
+  background: var(--accent);
+  border: var(--stroke-thin);
+  flex-shrink: 0;
+}
+
+.cat-card-desc {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--c-secondary);
+  line-height: 1.5;
+}
+
+.topics-section {
+  margin-top: 8px;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 20px 0 8px;
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  padding: 10px 18px;
+  background: var(--white);
+  border: var(--stroke);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  transition: background 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.tag-pill:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.tag-pill:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-press);
+}
+
+.tag-pill-count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  padding: 2px 7px;
+  background: var(--accent-soft);
+  border: var(--stroke-thin);
+}
+
+.tag-pill:hover .tag-pill-count {
+  color: var(--on-accent);
+  background: var(--white);
+}
+
+@media (min-width: 640px) {
+  .cat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .tag-pill {
+    font-size: 17px;
+    padding: 12px 20px;
+  }
+}

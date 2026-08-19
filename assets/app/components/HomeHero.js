@@ -43,18 +43,20 @@ function HomeHero(props) {
             <ReactRouterDOM.Link className="btn btn-ghost" to="/search">搜索</ReactRouterDOM.Link>
           </div>
           <div className="home-stats">
-            <div className="stat-chip">
+            {/* 同页锚点用 <a href>：Router Link 对 #articles 不会滚，App 只处理首页 hash 且要等 rAF */}
+            <a className="stat-chip stat-chip--link" href="#articles">
               <b>{articles.length}</b>
               <span>篇文章</span>
-            </div>
-            <div className="stat-chip">
+            </a>
+            {/* 分类/标签统计卡兼作入口：都指向合并后的分类与标签总览页 */}
+            <ReactRouterDOM.Link className="stat-chip stat-chip--link" to="/topics">
               <b>{categories.length}</b>
               <span>个分类</span>
-            </div>
-            <div className="stat-chip">
+            </ReactRouterDOM.Link>
+            <ReactRouterDOM.Link className="stat-chip stat-chip--link" to="/topics">
               <b>{tags.length}</b>
               <span>个标签</span>
-            </div>
+            </ReactRouterDOM.Link>
           </div>
         </div>
 
