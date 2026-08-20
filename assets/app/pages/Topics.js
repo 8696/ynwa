@@ -44,7 +44,7 @@ function Topics() {
         <p className="page-desc">全部分类和标签都在这里，点一下就能看对应的文章列表。</p>
       </div>
 
-      <section aria-label="全部分类">
+      <section aria-label="全部分类" id="topics-cats">
         <h2 className="section-title">分类</h2>
         {db.categories.length ? (
           <div className="cat-grid">
@@ -65,7 +65,7 @@ function Topics() {
         )}
       </section>
 
-      <section aria-label="全部标签" className="topics-section">
+      <section aria-label="全部标签" className="topics-section" id="topics-tags">
         <h2 className="section-title">标签</h2>
         {db.tags.length ? (
           <div className="tag-cloud">

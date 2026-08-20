@@ -17,16 +17,17 @@ function App() {
   }, [location.pathname, navType])
 
   React.useEffect(function () {
-    // 锚点区块（#works / #about / #contact）只挂在首页路由外，其它页没有这些 id
-    if (!isHome || !location.hash) return
+    // 全 pathname 都支持 hash 滚动：首页用 #works/#about/#contact（路由外区块）；
+    // 跨页用 #topics-cats / #topics-tags（首页统计卡跳到 /topics 后滚到对应区块）。
+    if (!location.hash) return
     var id = location.hash.slice(1)
-    // 等本轮渲染把区块挂上再滚；否则从文章页点「关于」时 getElementById 还是 null
+    // 等本轮渲染把区块挂上再滚；否则从首页跳到 /topics 时 getElementById 还是 null
     var frame = requestAnimationFrame(function () {
       var el = document.getElementById(id)
       if (el) el.scrollIntoView()
     })
     return function () { cancelAnimationFrame(frame) }
-  }, [isHome, location.hash])
+  }, [location.pathname, location.hash])
 
   return (
     <React.Fragment>

@@ -49,11 +49,12 @@ function HomeHero(props) {
               <span>篇文章</span>
             </a>
             {/* 分类/标签统计卡兼作入口：都指向合并后的分类与标签总览页 */}
-            <ReactRouterDOM.Link className="stat-chip stat-chip--link" to="/topics">
+            {/* 跨页锚点：跳到 /topics 后滚到 #topics-cats；main.js 的 useEffect 会等区块挂上再 scrollIntoView */}
+            <ReactRouterDOM.Link className="stat-chip stat-chip--link" to="/topics#topics-cats">
               <b>{categories.length}</b>
               <span>个分类</span>
             </ReactRouterDOM.Link>
-            <ReactRouterDOM.Link className="stat-chip stat-chip--link" to="/topics">
+            <ReactRouterDOM.Link className="stat-chip stat-chip--link" to="/topics#topics-tags">
               <b>{tags.length}</b>
               <span>个标签</span>
             </ReactRouterDOM.Link>
