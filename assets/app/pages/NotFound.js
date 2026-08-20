@@ -6,14 +6,12 @@ function NotFound() {
 
   return (
     <main className="page page--center">
-      <section className="not-found">
-        <p className="eyebrow">Error</p>
-        <h1 className="not-found-code">404</h1>
-        <p className="not-found-title">页面不存在</p>
-        <p className="not-found-desc">
-          你访问的地址可能已被删除、改名，或暂时不可用。
-        </p>
-      </section>
+      <EmptyState
+        eyebrow="Error"
+        code="404"
+        title="页面不存在"
+        desc="你访问的地址可能已被删除、改名，或暂时不可用。"
+      />
     </main>
   )
 }

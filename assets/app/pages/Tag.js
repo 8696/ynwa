@@ -35,12 +35,13 @@ function Tag() {
 
   if (!tag) {
     return (
-      <main className="page">
-        <div className="page-hero">
-          <p className="eyebrow">标签</p>
-          <h1 className="page-title">标签不存在</h1>
-        </div>
-        <div className="status">找不到该标签</div>
+      <main className="page page--center">
+        <EmptyState
+          eyebrow="Error"
+          code="404"
+          title="这个标签不存在"
+          desc="标签可能被删除或重命名，试试别的。"
+        />
       </main>
     )
   }
@@ -58,7 +59,14 @@ function Tag() {
           ? paged.items.map(function (p) {
               return <ArticleCard key={p.id} post={p} db={db} />
             })
-          : <div className="status">暂无带此标签的文章</div>
+          : (
+            <EmptyState
+              eyebrow="Empty"
+              code="0"
+              title="暂无带此标签的文章"
+              desc="还没有文章贴上这个标签。"
+            />
+          )
         }
       </div>
 

@@ -203,6 +203,7 @@ body 末尾:
 | `Header` | 顶栏：站点名、`db.nav`、搜索、汉堡菜单 |
 | `Footer` | 页脚版权与 GitHub（GitHub 从 `nav` 取） |
 | `DbState` | db 加载中 / 失败 + 重试；各页空态也可复用 `.status` |
+| `EmptyState` | 空态视觉块（eyebrow / 大数字 / 标题 / 描述）；404 + 分类/标签不存在 + 空分类/标签 共用 |
 | `WorksCardArrow` | 作品卡箭头 |
 | `buildWorksLooks` | 作品卡随机配色（无 DOM；CSS 占位） |
 | `WorksCard` | 单张作品卡 |

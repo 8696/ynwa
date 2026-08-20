@@ -101,6 +101,7 @@
       // 后面（例如 ArticleCard 用到 TagLinks，TagLinks 就必须排在 ArticleCard 前面），
       // 因为 Babel 是按文档顺序编译执行的，被调用方必须先于调用方存在。
       components: [
+        { js: "/assets/app/components/EmptyState.js", css: "/assets/app/components/EmptyState.css" },
         { js: "/assets/app/components/SearchIcon.js", css: "/assets/app/components/SearchIcon.css" },
         { js: "/assets/app/components/Header.js", css: "/assets/app/components/Header.css" },
         { js: "/assets/app/components/Footer.js", css: "/assets/app/components/Footer.css" },
@@ -158,8 +159,8 @@
     writeScript(LOCAL_ASSETS.themesScript);
     LOCAL_ASSETS.cdnStylesheets.forEach(writeStylesheet);
     LOCAL_ASSETS.stylesheets.forEach(writeStylesheet);
-    LOCAL_ASSETS.components.forEach(function (item) { writeStylesheet(item.css); });
-    LOCAL_ASSETS.pages.forEach(function (item) { writeStylesheet(item.css); });
+    LOCAL_ASSETS.components.forEach(function (item) { if (item.css) writeStylesheet(item.css); });
+    LOCAL_ASSETS.pages.forEach(function (item) { if (item.css) writeStylesheet(item.css); });
   </script>
 </head>
 <body>

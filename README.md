@@ -102,6 +102,7 @@ npx --yes serve -s . -l 3000
 | `Header` | 顶栏：站点名、`db.nav`、搜索、汉堡菜单 |
 | `Footer` | 页脚版权、ICP、可选 GitHub（从 `nav` 解析） |
 | `DbState` | db 加载中 / 失败 + 重试 |
+| `EmptyState` | 空态视觉块（eyebrow / 大数字 / 标题 / 描述）；404 + 分类/标签不存在 + 空分类/标签 共用 |
 | `WorksCardArrow` / `buildWorksLooks` / `WorksCard` | 作品卡箭头、随机配色、单卡 |
 | `WorksSection` | 首页 `#works`（含末尾「更多」） |
 | `AboutSection` / `ContactCta` | 首页 `#about` / `#contact` |
