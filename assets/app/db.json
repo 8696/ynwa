@@ -266,6 +266,24 @@
       "summary": "每轮对话都重发系统提示词，差一个字符缓存就失效。本文从 v0.20.0 源码拆解 Hermes Agent 的四层缓存防线：stable/context/volatile 三段式拼接保证最长公共前缀命中、记忆冻结快照消除逐字漂移、时间戳精度主动降级、Anthropic 四断点精算。整套设计让前缀缓存命中率逼近 100%，把系统提示词的重复 token 开销压到最低。",
       "file": "/assets/articles/ai/hermes/system-prompt-prefix-caching.md",
       "cover": ""
+    },
+    {
+      "id": "ba94f9b2-1570-4f6f-9c97-1860b1a8d4cd",
+      "title": "GitHub 日榜 · 2026-08-22 · x64dbg-MCP 霸榜单日王 + Skill 类长尾集中爆发",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-23 21:09",
+      "summary": "日榜三档合一（昨日 + 本周 + 本月）：x64dbg-MCP 单日登顶 + Skill 类长尾集中爆发 + DeepSeek 单生态广告报告被社区质疑。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-22.md",
+      "cover": ""
     }
   ],
   "works": [
