@@ -182,7 +182,7 @@
         "ai",
         "agent",
         "llm",
-        "monthly-ranking"
+        "GitHub 月榜"
       ],
       "date": "2026-08-23 18:36",
       "summary": "七月的 GitHub 用一个肉眼可见的拐点告别了聊天机器人时代：半个月内 Top 10 出现三个本地大模型推理引擎（Colibri 纯 C 调度 744B-2.8T MoE / Kimi-K3-in-C 单 CPU 跑 2.78T / Gemma 4 turbo-fieldfare M 系列 MacBook 2GB RAM 跑 26B-A4B）、三个 agent harness（xAI Grok Build 单机 TUI / yc-software/qm 团队 Slack+Web 协作 / Unicity AOS agent-as-OS），同期 Moonshot 开放 2.8T 参数 Kimi K3、OpenAI 把 codex-security 做成 npm 一行命令。底层推理靠 C/Rust/Apple Silicon 把成本打到极致，中层 harness 在多用户协作/沙箱/agent-as-a-product 上开花，顶层 agent skills 开始把代码生成推向可视化交付。月榜 50 详深挖 + Top 10 8-15 千字项目内调研（README 中文提炼 / issue body 实战反馈 / 横向对比 / 适用场景）。",
@@ -293,7 +293,7 @@
         "ai",
         "agent",
         "llm",
-        "weekly-ranking"
+        "GitHub 周榜"
       ],
       "date": "2026-08-23 09:00",
       "summary": "本周 AI / agent / LLM 圈最大的故事是 DeepSeek 官方开源的 DeepSeek Harness (DSH) 把 GitHub 热门前 10 吃掉 6 个名额，衍生桌面客户端、插件市场、皮肤工坊、预设实验、轨迹路由器一并爆发；其余 4 个名额是水印剥离工具、IP-as-logo Agent Skill、anti-slop oxlint 规则集和 Cumora agent 团队协作平台。Top 10 详深挖 + 11-30 简评。",
@@ -311,7 +311,7 @@
         "ai",
         "agent",
         "llm",
-        "daily-ranking"
+        "GitHub 日榜"
       ],
       "date": "2026-08-23 18:30",
       "summary": "今日 AI/agent/LLM 热门仓库三档合一：ip-as-logo-skill 一周 3800 星登顶（海外 Threads 主动病毒传播），CopilotKit/OpenBot 把每个 Bot 装进独立浏览器沙箱（Alpha 但已暴露安全 bug 并快速修），yetone/cumora 让 agent 跟人同 roster/同 DM/同 Kanban，sprix-sage-router 把 A2A 从发现补到执行中决策，cinderline/northcinder 用 MCP 做反平台购物代理；同期 DSH 插件生态在月榜彻底铺开、水印剥离工具同一周冒出两套实现。今日 Top 10 详深挖 + 本周 30 + 本月 50 简评。",
