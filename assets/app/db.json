@@ -302,6 +302,24 @@
       "summary": "W34(2026-08-17~2026-08-23,UTC 整周)AI/agent/LLM 新创建热门仓库 Top 30。Top 10 详深挖(Agent Skill 8 个爆款 + DSH 周边 4 个衍生 + MCP agentic-commerce 概念先行 + 中文仓库 17% 占比)。关键词:ai/llm/agent/mcp/assistant in:readme,UTC 时间窗口,纯 stars 排序。",
       "file": "/assets/articles/github-trending/github-weekly-2026-W34.md",
       "cover": null
+    },
+    {
+      "id": "5cc96386-bea3-4791-9a5e-d0ceed55918e",
+      "title": "GitHub 月榜 · 2026-08 · 三大本地推理引擎同步引爆 + agent harness 三轨并立",
+      "date": "2026-08-23",
+      "slug": "github-monthly-2026-08",
+      "summary": "七月 GitHub 拐点:Colibri / kimi-k3-in-c / turbo-fieldfare 三套本地推理引擎同时上榜,xAI Grok Build、QM、AOS CE 三套 agent harness 并立,OpenAI 把代码安全做成 npm 一行命令。50 条全量简评 + Top 10 详深挖。",
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-monthly-ranking"
+      ],
+      "categories": [
+        "github-trending"
+      ],
+      "file": "/assets/articles/github-trending/github-monthly-2026-08.md"
     }
   ],
   "works": [
