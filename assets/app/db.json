@@ -284,6 +284,24 @@
       "summary": "今日 Top 10 详深挖（Agent Skill 集体冒头 + DeepSeek 周边继续霸榜）+ 本周 Top 30 + 本月 Top 50 三档合一榜单。关键词:ai/llm/agent/mcp/assistant in:readme,UTC 时间窗口,纯 stars 排序。",
       "file": "/assets/articles/github-trending/github-trending-2026-08-23.md",
       "cover": null
+    },
+    {
+      "id": "333d8ef8-d4c2-4fe6-a16b-600775052e9b",
+      "title": "GitHub 周榜 · 2026-W34 · Agent Skill 单生态霸榜 + DSH 衍生工具冒头",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-08-23",
+      "summary": "W34(2026-08-17~2026-08-23,UTC 整周)AI/agent/LLM 新创建热门仓库 Top 30。Top 10 详深挖(Agent Skill 8 个爆款 + DSH 周边 4 个衍生 + MCP agentic-commerce 概念先行 + 中文仓库 17% 占比)。关键词:ai/llm/agent/mcp/assistant in:readme,UTC 时间窗口,纯 stars 排序。",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W34.md",
+      "cover": null
     }
   ],
   "works": [
