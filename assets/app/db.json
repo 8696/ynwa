@@ -1,400 +1,418 @@
 {
-  "nav": [
-    {
-      "label": "AI",
-      "value": "/category/ai",
-      "target": ""
-    },
-    {
-      "label": "技术实践",
-      "value": "/category/engineering",
-      "target": ""
-    },
-    {
-      "label": "生活记录",
-      "value": "/category/life",
-      "target": ""
-    },
-    {
-      "label": "随便写写",
-      "value": "/category/writing",
-      "target": ""
-    },
-    {
-      "label": "GitHub榜单",
-      "value": "/category/github-trending"
-    },
-    {
-      "label": "AI作品集",
-      "value": "/works",
-      "target": ""
-    },
-    {
-      "label": "关于",
-      "value": "#about",
-      "target": ""
-    },
-    {
-      "label": "联系",
-      "value": "#contact",
-      "target": ""
-    }
-  ],
-  "categories": [
-    {
-      "id": "ai",
-      "name": "AI",
-      "description": "围绕AI的探索与实践"
-    },
-    {
-      "id": "engineering",
-      "name": "技术实践",
-      "description": "围绕前端工程、性能与开发流程的记录"
-    },
-    {
-      "id": "writing",
-      "name": "随便写写",
-      "description": "随便写写，想到什么写什么"
-    },
-    {
-      "id": "life",
-      "name": "生活记录",
-      "description": "日常观察、习惯复盘与长期计划"
-    },
-    {
-      "id": "github-trending",
-      "name": "GitHub榜单",
-      "description": "GitHub 趋势、热榜与开源项目观察"
-    }
-  ],
-  "tags": [
-    {
-      "id": "ai",
-      "name": "AI",
-      "description": "围绕 AI 的工具、机制与实践"
-    },
-    {
-      "id": "hermes-agent",
-      "name": "Hermes Agent",
-      "description": "Hermes Agent 源码、工作流与自学习机制"
-    },
-    {
-      "id": "frontend",
-      "name": "前端",
-      "description": "前端界面、工程与交互"
-    },
-    {
-      "id": "javascript",
-      "name": "JavaScript",
-      "description": "JavaScript 语言与运行时"
-    },
-    {
-      "id": "performance",
-      "name": "性能优化",
-      "description": "加载、渲染与缓存相关的优化"
-    },
-    {
-      "id": "productivity",
-      "name": "效率",
-      "description": "工作流、工具链与效率方法"
-    },
-    {
-      "id": "writing",
-      "name": "写作",
-      "description": "写作与表达"
-    },
-    {
-      "id": "life",
-      "name": "生活",
-      "description": "日常观察与生活记录"
-    },
-    {
-      "id": "skill",
-      "name": "Skill",
-      "description": "Agent Skill 与工具编排"
-    },
-    {
-      "id": "claude-code",
-      "name": "Claude Code"
-    },
-    {
-      "id": "react",
-      "name": "React"
-    },
-    {
-      "id": "architecture",
-      "name": "架构设计"
-    },
-    {
-      "id": "llm",
-      "name": "LLM"
-    },
-    {
-      "id": "source-code",
-      "name": "源码解析"
-    },
-    {
-      "id": "memory",
-      "name": "记忆系统"
-    },
-    {
-      "id": "sqlite",
-      "name": "SQLite"
-    },
-    {
-      "id": "data-management",
-      "name": "数据管理"
-    },
-    {
-      "id": "system-prompt",
-      "name": "系统提示词"
-    },
-    {
-      "id": "github",
-      "name": "GitHub"
-    },
-    {
-      "id": "agent",
-      "name": "Agent"
-    },
-    {
-      "id": "github-daily-ranking",
-      "name": "GitHub日榜",
-      "description": "AI/agent/LLM 主题当日新创建热门仓库榜单(每日 08:00 CST 跑)"
-    },
-    {
-      "id": "github-weekly-ranking",
-      "name": "GitHub周榜",
-      "description": "AI/agent/LLM 主题当周新创建热门仓库榜单(每周一 07:00 CST 跑)"
-    },
-    {
-      "id": "github-monthly-ranking",
-      "name": "GitHub月榜",
-      "description": "AI/agent/LLM 主题当月新创建热门仓库榜单(每月 1 号 06:00 CST 跑)"
-    }
-  ],
-  "articles": [
-    {
-      "id": "3e4de540-55bd-41e6-ab7a-e8654dd70059",
-      "title": "使用 Claude code 生成个人博客网站",
-      "categories": [
-        "engineering",
-        "ai"
-      ],
-      "tags": [
-        "javascript",
-        "frontend",
-        "ai",
-        "claude-code",
-        "react"
-      ],
-      "date": "2026-04-25 14:00",
-      "summary": "一个无需构建步骤、零本地依赖的个人博客：React 18 + React Router 6 单页应用，JSX 由 Babel Standalone 在浏览器内转换，Markdown 经 marked 渲染后用 DOMPurify 消毒防 XSS，db.json 用 localStorage 缓存一小时。本文记录从用 Claude Code 生成代码到部署到 OSS 静态托管的全过程。",
-      "file": "/README.md",
-      "cover": ""
-    },
-    {
-      "id": "23bb42b6-4597-44ea-98cf-15005df8063f",
-      "title": "Hermes Agent 工作流程详解",
-      "categories": [
-        "ai"
-      ],
-      "tags": [
-        "hermes-agent",
-        "ai",
-        "architecture",
-        "llm",
-        "source-code"
-      ],
-      "date": "2026-08-13 15:00",
-      "summary": "从工具自注册（96 个工具横跨 30+ 工具集）、系统提示词三段式组装、对话循环与并行工具执行，到五种 API 模式自动适配，再到记忆+技能+后台审查的自学习三机制，本文基于 v0.20.0 源码完整拆解 Hermes Agent 从接收一条消息到返回响应的全流程，重点更新了 run_agent.py 从 9000 行上帝文件拆成 agent/ 子模块后的真实结构。",
-      "file": "/assets/articles/ai/hermes/workflow-summary.md",
-      "cover": ""
-    },
-    {
-      "id": "d6c7bc20-ed68-48ee-9a6b-87a7596b710a",
-      "title": "Hermes Agent 自学习循环机制深度解析",
-      "categories": [
-        "ai"
-      ],
-      "tags": [
-        "hermes-agent",
-        "ai",
-        "skill",
-        "memory",
-        "source-code"
-      ],
-      "date": "2026-08-13 16:00",
-      "summary": "一个 AI 助手怎么自己变聪明？本文从 v0.20.0 源码拆解 Hermes Agent 的三阶段自学习闭环：前台用 memory/skill_manage 即时学习、后台 fork 独立 agent 复盘对话并修补技能、Curator 定期归档整合清理碎片。三个子系统围绕声明性记忆、程序性技能、会话历史三层持久化存储运转，形成「即时学→复盘改→定期理」的完整循环。",
-      "file": "/assets/articles/ai/hermes/hermes-agent-self-learning.md",
-      "cover": ""
-    },
-    {
-      "id": "e90d206f-cc88-437e-801c-e0476fb4b998",
-      "title": "用 Skill 让 AI 可靠地操作个人数据库：SQLite + 脚本守门 + 视图收口",
-      "categories": [
-        "engineering",
-        "ai"
-      ],
-      "tags": [
-        "skill",
-        "hermes-agent",
-        "ai",
-        "sqlite",
-        "data-management"
-      ],
-      "date": "2026-08-13 17:00",
-      "summary": "直接让大模型写 SQL 管个人数据，会发生口径漂移、字段乱填、口算汇总、误删误改。本文拆解四个子系统（记账/待办/随手记/资产）共享的架构方案：SQLite 做真值源、SKILL.md 做意图路由契约、Python 脚本做参数校验和守门人、视图做只读出口。模型负责听懂人话做判断，脚本和触发器负责保证数据库不被写坏。",
-      "file": "/assets/articles/engineering/ai-personal-data-sqlite-skills.md",
-      "cover": ""
-    },
-    {
-      "id": "e29108d8-ec99-4711-afd2-90d42a6010a9",
-      "title": "系统提示词字节战：Hermes Agent 如何让前缀缓存命中率最大化",
-      "categories": [
-        "ai",
-        "engineering"
-      ],
-      "tags": [
-        "hermes-agent",
-        "ai",
-        "system-prompt",
-        "performance",
-        "source-code"
-      ],
-      "date": "2026-08-13 18:39",
-      "summary": "每轮对话都重发系统提示词，差一个字符缓存就失效。本文从 v0.20.0 源码拆解 Hermes Agent 的四层缓存防线：stable/context/volatile 三段式拼接保证最长公共前缀命中、记忆冻结快照消除逐字漂移、时间戳精度主动降级、Anthropic 四断点精算。整套设计让前缀缓存命中率逼近 100%，把系统提示词的重复 token 开销压到最低。",
-      "file": "/assets/articles/ai/hermes/system-prompt-prefix-caching.md",
-      "cover": ""
-    },
-    {
-      "id": "ba94f9b2-1570-4f6f-9c97-1860b1a8d4cd",
-      "title": "GitHub 日榜 · 2026-08-22 · x64dbg-MCP 霸榜单日王 + Skill 类长尾集中爆发",
-      "categories": [
-        "github-trending"
-      ],
-      "tags": [
-        "github",
-        "ai",
-        "agent",
-        "llm",
-        "github-daily-ranking"
-      ],
-      "date": "2026-08-23 21:09",
-      "summary": "日榜三档合一（昨日 + 本周 + 本月）：x64dbg-MCP 单日登顶 + Skill 类长尾集中爆发 + DeepSeek 单生态广告报告被社区质疑。",
-      "file": "/assets/articles/github-trending/github-trending-2026-08-22.md",
-      "cover": ""
-    }
-  ],
-  "works": [
-    {
-      "title": "糖果屋",
-      "kicker": "个人作品集",
-      "summary": "Neo-Brutalism 风格的个人主页：技能清单、项目 Bento、经历时间线三段式。纯 HTML / CSS 手写，零框架。",
-      "tags": [
-        "HTML",
-        "CSS"
-      ],
-      "href": "/ai-page/candy-house/index.html"
-    },
-    {
-      "title": "墨叙工作室 / MUXU STUDIO",
-      "kicker": "Editorial 工作室单页",
-      "summary": "杂志策展式品牌设计工作室样板页：8 大区块 Editorial 排版，带交互式合作评估器和逐块揭示动效。React 19 + Tailwind v4。",
-      "tags": [
-        "React 19",
-        "Tailwind v4",
-        "Editorial"
-      ],
-      "href": "/ai-page/muxu-studio/index.html"
-    },
-    {
-      "title": "构形实验室 / FORM-GRID",
-      "kicker": "Swiss Grid 工作室单页",
-      "summary": "瑞士网格 × 包豪斯构成风工作室样板页：可见网格线、三原色高对比、巨型字构图、几何时间线、纯黑 Footer 实时时钟。React 19 + Tailwind v4。",
-      "tags": [
-        "React 19",
-        "Tailwind v4",
-        "Swiss Grid"
-      ],
-      "href": "/ai-page/form-grid/index.html"
-    },
-    {
-      "title": "浮岛 / Floating Island",
-      "kicker": "创意工作室作品集",
-      "summary": "立体剪纸风创意工作室作品集：品牌理念、项目预估、历程与 FAQ。莫兰迪大地色，多层 box-shadow 堆出厚纸板质感。纯 HTML / CSS / JS。",
-      "tags": [
-        "HTML",
-        "CSS",
-        "Papercut"
-      ],
-      "href": "/ai-page/floating-island/index.html"
-    },
-    {
-      "title": "构象艺术 / CONSTRUCT-ART",
-      "kicker": "Avant-Garde 雕塑风作品集",
-      "summary": "前卫孟菲斯 × 雕塑风艺术工作室单页：克莱因蓝点缀、重型实体阴影、拱门 FAQ、交互式预算估算器。纯 HTML / CSS / JS。",
-      "tags": [
-        "HTML",
-        "CSS",
-        "Memphis"
-      ],
-      "href": "/ai-page/construct-art/index.html"
-    },
-    {
-      "title": "星核空间 NOVA SPATIAL",
-      "kicker": "VisionOS 空间计算未来实验室",
-      "summary": "VisionOS 景深悬浮玻璃风：星空网格底 + 星云 mesh gradient + Framer Motion 3D 倾斜 Bento 展厅 + 实时算力推演器 + 星际微光 Footer。",
-      "tags": [
-        "React 19",
-        "Framer Motion",
-        "Spatial UI"
-      ],
-      "href": "/ai-page/nova-spatial/index.html"
-    },
-    {
-      "title": "虚实之境 / REALM OF ETHER",
-      "kicker": "流体超现实策展工作室",
-      "summary": "沉浸式展厅风艺术作品集：影院级深邃底 + 渐变金光衬线体 + 鼠标视差 Hero + 错落作品网格 + 意境生成器实时算色板 + 金线时间线 + GMT 艺术时钟。",
-      "tags": [
-        "React 19",
-        "Framer Motion",
-        "Fluid Surrealism"
-      ],
-      "href": "/ai-page/realm-of-ether/index.html"
-    },
-    {
-      "title": "Maison d'Art 法式高定",
-      "kicker": "法式高定时装与数字沙龙系统",
-      "summary": "沉浸式高定时装品牌体验站：沉浸秀场 / 高定工坊实时预览 / 私享预约邀请函 / 典藏档案馆。夜黑 × 香槟金新古典奢华。React 19 + Tailwind v4 + Framer Motion。",
-      "tags": [
-        "React 19",
-        "Tailwind v4",
-        "Haute Couture"
-      ],
-      "href": "/ai-page/maison-d-art/index.html"
-    },
-    {
-      "title": "SONICA 声学建筑实验室",
-      "kicker": "声学建筑与空间实验室系统",
-      "summary": "影院级混凝土与声波极简风：沉浸式声学场域 / 构件材质库 / RT60 混响模拟器（赛宾公式实时推演）/ 工程档案预约。混凝土深灰 × 琥珀金 × 超声波青。React 19 + Tailwind v4 + Framer Motion。",
-      "tags": [
-        "React 19",
-        "Tailwind v4",
-        "Acoustics"
-      ],
-      "href": "/ai-page/sonica-architecture/index.html"
-    },
-    {
-      "title": "构造空间 / ARCHI-VOID",
-      "kicker": "建筑事务所多页面系统",
-      "summary": "矿物粗野主义 × 参数化现代美学：品牌大厅、作品档案馆、光影实验室、城市研究、建筑委托五视图，滑杆实时计算采光/碳足迹/安全系数。",
-      "tags": [
-        "React 19",
-        "Tailwind v4",
-        "Framer Motion"
-      ],
-      "href": "/ai-page/archi-void/index.html"
-    }
-  ]
+ "nav": [
+  {
+   "label": "AI",
+   "value": "/category/ai",
+   "target": ""
+  },
+  {
+   "label": "技术实践",
+   "value": "/category/engineering",
+   "target": ""
+  },
+  {
+   "label": "生活记录",
+   "value": "/category/life",
+   "target": ""
+  },
+  {
+   "label": "随便写写",
+   "value": "/category/writing",
+   "target": ""
+  },
+  {
+   "label": "GitHub榜单",
+   "value": "/category/github-trending"
+  },
+  {
+   "label": "AI作品集",
+   "value": "/works",
+   "target": ""
+  },
+  {
+   "label": "关于",
+   "value": "#about",
+   "target": ""
+  },
+  {
+   "label": "联系",
+   "value": "#contact",
+   "target": ""
+  }
+ ],
+ "categories": [
+  {
+   "id": "ai",
+   "name": "AI",
+   "description": "围绕AI的探索与实践"
+  },
+  {
+   "id": "engineering",
+   "name": "技术实践",
+   "description": "围绕前端工程、性能与开发流程的记录"
+  },
+  {
+   "id": "writing",
+   "name": "随便写写",
+   "description": "随便写写，想到什么写什么"
+  },
+  {
+   "id": "life",
+   "name": "生活记录",
+   "description": "日常观察、习惯复盘与长期计划"
+  },
+  {
+   "id": "github-trending",
+   "name": "GitHub榜单",
+   "description": "GitHub 趋势、热榜与开源项目观察"
+  }
+ ],
+ "tags": [
+  {
+   "id": "ai",
+   "name": "AI",
+   "description": "围绕 AI 的工具、机制与实践"
+  },
+  {
+   "id": "hermes-agent",
+   "name": "Hermes Agent",
+   "description": "Hermes Agent 源码、工作流与自学习机制"
+  },
+  {
+   "id": "frontend",
+   "name": "前端",
+   "description": "前端界面、工程与交互"
+  },
+  {
+   "id": "javascript",
+   "name": "JavaScript",
+   "description": "JavaScript 语言与运行时"
+  },
+  {
+   "id": "performance",
+   "name": "性能优化",
+   "description": "加载、渲染与缓存相关的优化"
+  },
+  {
+   "id": "productivity",
+   "name": "效率",
+   "description": "工作流、工具链与效率方法"
+  },
+  {
+   "id": "writing",
+   "name": "写作",
+   "description": "写作与表达"
+  },
+  {
+   "id": "life",
+   "name": "生活",
+   "description": "日常观察与生活记录"
+  },
+  {
+   "id": "skill",
+   "name": "Skill",
+   "description": "Agent Skill 与工具编排"
+  },
+  {
+   "id": "claude-code",
+   "name": "Claude Code"
+  },
+  {
+   "id": "react",
+   "name": "React"
+  },
+  {
+   "id": "architecture",
+   "name": "架构设计"
+  },
+  {
+   "id": "llm",
+   "name": "LLM"
+  },
+  {
+   "id": "source-code",
+   "name": "源码解析"
+  },
+  {
+   "id": "memory",
+   "name": "记忆系统"
+  },
+  {
+   "id": "sqlite",
+   "name": "SQLite"
+  },
+  {
+   "id": "data-management",
+   "name": "数据管理"
+  },
+  {
+   "id": "system-prompt",
+   "name": "系统提示词"
+  },
+  {
+   "id": "github",
+   "name": "GitHub"
+  },
+  {
+   "id": "agent",
+   "name": "Agent"
+  },
+  {
+   "id": "github-daily-ranking",
+   "name": "GitHub日榜",
+   "description": "AI/agent/LLM 主题当日新创建热门仓库榜单(每日 08:00 CST 跑)"
+  },
+  {
+   "id": "github-weekly-ranking",
+   "name": "GitHub周榜",
+   "description": "AI/agent/LLM 主题当周新创建热门仓库榜单(每周一 07:00 CST 跑)"
+  },
+  {
+   "id": "github-monthly-ranking",
+   "name": "GitHub月榜",
+   "description": "AI/agent/LLM 主题当月新创建热门仓库榜单(每月 1 号 06:00 CST 跑)"
+  }
+ ],
+ "articles": [
+  {
+   "id": "3e4de540-55bd-41e6-ab7a-e8654dd70059",
+   "title": "使用 Claude code 生成个人博客网站",
+   "categories": [
+    "engineering",
+    "ai"
+   ],
+   "tags": [
+    "javascript",
+    "frontend",
+    "ai",
+    "claude-code",
+    "react"
+   ],
+   "date": "2026-04-25 14:00",
+   "summary": "一个无需构建步骤、零本地依赖的个人博客：React 18 + React Router 6 单页应用，JSX 由 Babel Standalone 在浏览器内转换，Markdown 经 marked 渲染后用 DOMPurify 消毒防 XSS，db.json 用 localStorage 缓存一小时。本文记录从用 Claude Code 生成代码到部署到 OSS 静态托管的全过程。",
+   "file": "/README.md",
+   "cover": ""
+  },
+  {
+   "id": "23bb42b6-4597-44ea-98cf-15005df8063f",
+   "title": "Hermes Agent 工作流程详解",
+   "categories": [
+    "ai"
+   ],
+   "tags": [
+    "hermes-agent",
+    "ai",
+    "architecture",
+    "llm",
+    "source-code"
+   ],
+   "date": "2026-08-13 15:00",
+   "summary": "从工具自注册（96 个工具横跨 30+ 工具集）、系统提示词三段式组装、对话循环与并行工具执行，到五种 API 模式自动适配，再到记忆+技能+后台审查的自学习三机制，本文基于 v0.20.0 源码完整拆解 Hermes Agent 从接收一条消息到返回响应的全流程，重点更新了 run_agent.py 从 9000 行上帝文件拆成 agent/ 子模块后的真实结构。",
+   "file": "/assets/articles/ai/hermes/workflow-summary.md",
+   "cover": ""
+  },
+  {
+   "id": "d6c7bc20-ed68-48ee-9a6b-87a7596b710a",
+   "title": "Hermes Agent 自学习循环机制深度解析",
+   "categories": [
+    "ai"
+   ],
+   "tags": [
+    "hermes-agent",
+    "ai",
+    "skill",
+    "memory",
+    "source-code"
+   ],
+   "date": "2026-08-13 16:00",
+   "summary": "一个 AI 助手怎么自己变聪明？本文从 v0.20.0 源码拆解 Hermes Agent 的三阶段自学习闭环：前台用 memory/skill_manage 即时学习、后台 fork 独立 agent 复盘对话并修补技能、Curator 定期归档整合清理碎片。三个子系统围绕声明性记忆、程序性技能、会话历史三层持久化存储运转，形成「即时学→复盘改→定期理」的完整循环。",
+   "file": "/assets/articles/ai/hermes/hermes-agent-self-learning.md",
+   "cover": ""
+  },
+  {
+   "id": "e90d206f-cc88-437e-801c-e0476fb4b998",
+   "title": "用 Skill 让 AI 可靠地操作个人数据库：SQLite + 脚本守门 + 视图收口",
+   "categories": [
+    "engineering",
+    "ai"
+   ],
+   "tags": [
+    "skill",
+    "hermes-agent",
+    "ai",
+    "sqlite",
+    "data-management"
+   ],
+   "date": "2026-08-13 17:00",
+   "summary": "直接让大模型写 SQL 管个人数据，会发生口径漂移、字段乱填、口算汇总、误删误改。本文拆解四个子系统（记账/待办/随手记/资产）共享的架构方案：SQLite 做真值源、SKILL.md 做意图路由契约、Python 脚本做参数校验和守门人、视图做只读出口。模型负责听懂人话做判断，脚本和触发器负责保证数据库不被写坏。",
+   "file": "/assets/articles/engineering/ai-personal-data-sqlite-skills.md",
+   "cover": ""
+  },
+  {
+   "id": "e29108d8-ec99-4711-afd2-90d42a6010a9",
+   "title": "系统提示词字节战：Hermes Agent 如何让前缀缓存命中率最大化",
+   "categories": [
+    "ai",
+    "engineering"
+   ],
+   "tags": [
+    "hermes-agent",
+    "ai",
+    "system-prompt",
+    "performance",
+    "source-code"
+   ],
+   "date": "2026-08-13 18:39",
+   "summary": "每轮对话都重发系统提示词，差一个字符缓存就失效。本文从 v0.20.0 源码拆解 Hermes Agent 的四层缓存防线：stable/context/volatile 三段式拼接保证最长公共前缀命中、记忆冻结快照消除逐字漂移、时间戳精度主动降级、Anthropic 四断点精算。整套设计让前缀缓存命中率逼近 100%，把系统提示词的重复 token 开销压到最低。",
+   "file": "/assets/articles/ai/hermes/system-prompt-prefix-caching.md",
+   "cover": ""
+  },
+  {
+   "id": "ba94f9b2-1570-4f6f-9c97-1860b1a8d4cd",
+   "title": "GitHub 日榜 · 2026-08-22 · x64dbg-MCP 霸榜单日王 + Skill 类长尾集中爆发",
+   "categories": [
+    "github-trending"
+   ],
+   "tags": [
+    "github",
+    "ai",
+    "agent",
+    "llm",
+    "github-daily-ranking"
+   ],
+   "date": "2026-08-23 21:09",
+   "summary": "日榜三档合一（昨日 + 本周 + 本月）：x64dbg-MCP 单日登顶 + Skill 类长尾集中爆发 + DeepSeek 单生态广告报告被社区质疑。",
+   "file": "/assets/articles/github-trending/github-trending-2026-08-22.md",
+   "cover": ""
+  },
+  {
+   "id": "0bdadbcd-ca02-4eee-a815-1f76594db304",
+   "title": "GitHub 周榜 · 2026-W33 · DeepSeek Harness 单生态吃掉本周大半热度 + 实测 V8 OOM 等关键 bug 待修",
+   "categories": [
+    "github-trending"
+   ],
+   "tags": [
+    "github",
+    "ai",
+    "agent",
+    "llm",
+    "github-weekly-ranking"
+   ],
+   "date": "2026-08-23 21:13",
+   "summary": "周榜 Top 30：DeepSeek Harness 单生态吃掉本周大半热度（Top 30 占 11 条），V8 OOM / token-meter 负数 / heredoc 死锁三大 bug 同时出现在 Top 10 仓库；AI 水印剥离工具 / 思维模式路由预设 / Cordis 学术 pre-print 三条新主线。",
+   "file": "/assets/articles/github-trending/github-weekly-2026-W33.md",
+   "cover": ""
+  }
+ ],
+ "works": [
+  {
+   "title": "糖果屋",
+   "kicker": "个人作品集",
+   "summary": "Neo-Brutalism 风格的个人主页：技能清单、项目 Bento、经历时间线三段式。纯 HTML / CSS 手写，零框架。",
+   "tags": [
+    "HTML",
+    "CSS"
+   ],
+   "href": "/ai-page/candy-house/index.html"
+  },
+  {
+   "title": "墨叙工作室 / MUXU STUDIO",
+   "kicker": "Editorial 工作室单页",
+   "summary": "杂志策展式品牌设计工作室样板页：8 大区块 Editorial 排版，带交互式合作评估器和逐块揭示动效。React 19 + Tailwind v4。",
+   "tags": [
+    "React 19",
+    "Tailwind v4",
+    "Editorial"
+   ],
+   "href": "/ai-page/muxu-studio/index.html"
+  },
+  {
+   "title": "构形实验室 / FORM-GRID",
+   "kicker": "Swiss Grid 工作室单页",
+   "summary": "瑞士网格 × 包豪斯构成风工作室样板页：可见网格线、三原色高对比、巨型字构图、几何时间线、纯黑 Footer 实时时钟。React 19 + Tailwind v4。",
+   "tags": [
+    "React 19",
+    "Tailwind v4",
+    "Swiss Grid"
+   ],
+   "href": "/ai-page/form-grid/index.html"
+  },
+  {
+   "title": "浮岛 / Floating Island",
+   "kicker": "创意工作室作品集",
+   "summary": "立体剪纸风创意工作室作品集：品牌理念、项目预估、历程与 FAQ。莫兰迪大地色，多层 box-shadow 堆出厚纸板质感。纯 HTML / CSS / JS。",
+   "tags": [
+    "HTML",
+    "CSS",
+    "Papercut"
+   ],
+   "href": "/ai-page/floating-island/index.html"
+  },
+  {
+   "title": "构象艺术 / CONSTRUCT-ART",
+   "kicker": "Avant-Garde 雕塑风作品集",
+   "summary": "前卫孟菲斯 × 雕塑风艺术工作室单页：克莱因蓝点缀、重型实体阴影、拱门 FAQ、交互式预算估算器。纯 HTML / CSS / JS。",
+   "tags": [
+    "HTML",
+    "CSS",
+    "Memphis"
+   ],
+   "href": "/ai-page/construct-art/index.html"
+  },
+  {
+   "title": "星核空间 NOVA SPATIAL",
+   "kicker": "VisionOS 空间计算未来实验室",
+   "summary": "VisionOS 景深悬浮玻璃风：星空网格底 + 星云 mesh gradient + Framer Motion 3D 倾斜 Bento 展厅 + 实时算力推演器 + 星际微光 Footer。",
+   "tags": [
+    "React 19",
+    "Framer Motion",
+    "Spatial UI"
+   ],
+   "href": "/ai-page/nova-spatial/index.html"
+  },
+  {
+   "title": "虚实之境 / REALM OF ETHER",
+   "kicker": "流体超现实策展工作室",
+   "summary": "沉浸式展厅风艺术作品集：影院级深邃底 + 渐变金光衬线体 + 鼠标视差 Hero + 错落作品网格 + 意境生成器实时算色板 + 金线时间线 + GMT 艺术时钟。",
+   "tags": [
+    "React 19",
+    "Framer Motion",
+    "Fluid Surrealism"
+   ],
+   "href": "/ai-page/realm-of-ether/index.html"
+  },
+  {
+   "title": "Maison d'Art 法式高定",
+   "kicker": "法式高定时装与数字沙龙系统",
+   "summary": "沉浸式高定时装品牌体验站：沉浸秀场 / 高定工坊实时预览 / 私享预约邀请函 / 典藏档案馆。夜黑 × 香槟金新古典奢华。React 19 + Tailwind v4 + Framer Motion。",
+   "tags": [
+    "React 19",
+    "Tailwind v4",
+    "Haute Couture"
+   ],
+   "href": "/ai-page/maison-d-art/index.html"
+  },
+  {
+   "title": "SONICA 声学建筑实验室",
+   "kicker": "声学建筑与空间实验室系统",
+   "summary": "影院级混凝土与声波极简风：沉浸式声学场域 / 构件材质库 / RT60 混响模拟器（赛宾公式实时推演）/ 工程档案预约。混凝土深灰 × 琥珀金 × 超声波青。React 19 + Tailwind v4 + Framer Motion。",
+   "tags": [
+    "React 19",
+    "Tailwind v4",
+    "Acoustics"
+   ],
+   "href": "/ai-page/sonica-architecture/index.html"
+  },
+  {
+   "title": "构造空间 / ARCHI-VOID",
+   "kicker": "建筑事务所多页面系统",
+   "summary": "矿物粗野主义 × 参数化现代美学：品牌大厅、作品档案馆、光影实验室、城市研究、建筑委托五视图，滑杆实时计算采光/碳足迹/安全系数。",
+   "tags": [
+    "React 19",
+    "Tailwind v4",
+    "Framer Motion"
+   ],
+   "href": "/ai-page/archi-void/index.html"
+  }
+ ]
 }
