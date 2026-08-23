@@ -301,6 +301,24 @@
       "summary": "colibri 纯 C 引擎拿下 2026-07 月榜首,xAI 开源 Grok Build 对位 Claude Code,OpenAI Codex-Security / Codex Dream-Skin 同期登场。Kimi K3 官方发布 + FareedKhan-dev/kimi-k3-in-c + Turbo-Fieldfare 国产模型多语言本地化生态爆发。Top 50 含 7 个 agent harness 项目(占 14%),harness 赛道严重拥挤。MCP OAuth SSRF / img2threejs 路径穿越 / AOS 并发串号 三大安全 issue 同期暴露。",
       "file": "/assets/articles/github-trending/github-monthly-2026-07.md",
       "cover": ""
+    },
+    {
+      "id": "14f575b9-1e92-4d88-8691-9b370720036c",
+      "title": "GitHub 周榜 · 2026-W34 · DSH 单生态吃掉本周 AI 主题大半热度",
+      "date": "2026-08-23 23:50",
+      "summary": "deepseek-ai/deepseek-harness 主仓 18.7万 star 单周登顶,DSH 周边 14/27 占 Top 30 半壁江山,Top 10 中 DSH 占 7 席。cordiverse/paper 时空调度范式论文 + cordis 运行时同周开源。AI 反向工具 watermarks-remover 同期挂 SSRF 漏洞。xiaobright/dsh-anchored-standard 维护者 8-17 公开宣布进入维护期(API 涨价)。",
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "categories": [
+        "github-trending"
+      ],
+      "file": "/assets/articles/github-trending/github-weekly-2026-W34.md",
+      "cover": ""
     }
   ],
   "works": [
