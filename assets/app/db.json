@@ -21,6 +21,11 @@
       "target": ""
     },
     {
+      "type": "category",
+      "label": "GitHub榜单",
+      "value": "github-trending"
+    },
+    {
       "label": "AI作品集",
       "value": "/works",
       "target": ""
@@ -56,6 +61,11 @@
       "id": "life",
       "name": "生活记录",
       "description": "日常观察、习惯复盘与长期计划"
+    },
+    {
+      "id": "github-trending",
+      "name": "GitHub榜单",
+      "description": "GitHub 趋势、热榜与开源项目观察"
     }
   ],
   "tags": [
