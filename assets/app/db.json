@@ -266,6 +266,41 @@
       "summary": "每轮对话都重发系统提示词，差一个字符缓存就失效。本文从 v0.20.0 源码拆解 Hermes Agent 的四层缓存防线：stable/context/volatile 三段式拼接保证最长公共前缀命中、记忆冻结快照消除逐字漂移、时间戳精度主动降级、Anthropic 四断点精算。整套设计让前缀缓存命中率逼近 100%，把系统提示词的重复 token 开销压到最低。",
       "file": "/assets/articles/ai/hermes/system-prompt-prefix-caching.md",
       "cover": ""
+    },
+    {
+      "id": "feeee084-1c22-4bf6-8b98-81ab57428400",
+      "title": "GitHub 日榜 · 2026-08-22 · Claude Code 高级网页 skill 单日 345⭐ + Zig 写 MCP 调试器首日 339⭐",
+      "date": "2026-08-23 20:50",
+      "summary": "昨日 AI/agent/LLM 新仓 Top 10：Claude Code 高级滚动网站 skill (nateherkai/scroll-craft, 345⭐) + Zig 写 x64dbg 原生 MCP 插件 (duty1g/x64dbg-mcp-server, 339⭐) + 生物安全 agent (Forsy-AI/biosecurity-agent, 209⭐)。本周 + 本月榜单见文中表 + 周/月榜文章。",
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "categories": [
+        "github-trending"
+      ],
+      "file": "/assets/articles/github-trending/github-trending-2026-08-22.md"
+    },
+    {
+      "id": "8d2d1b57-4a51-40eb-bdcd-913d16034022",
+      "title": "GitHub 月榜 · 2026-07 · colibri 单 C 引擎拿下整月榜首 + Kimi K3 周边生态爆发",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-monthly-ranking"
+      ],
+      "date": "2026-08-23 06:00",
+      "summary": "colibri 纯 C 引擎拿下 2026-07 月榜首,xAI 开源 Grok Build 对位 Claude Code,OpenAI Codex-Security / Codex Dream-Skin 同期登场。Kimi K3 官方发布 + FareedKhan-dev/kimi-k3-in-c + Turbo-Fieldfare 国产模型多语言本地化生态爆发。Top 50 含 7 个 agent harness 项目(占 14%),harness 赛道严重拥挤。MCP OAuth SSRF / img2threejs 路径穿越 / AOS 并发串号 三大安全 issue 同期暴露。",
+      "file": "/assets/articles/github-trending/github-monthly-2026-07.md",
+      "cover": ""
     }
   ],
   "works": [
