@@ -21,9 +21,8 @@
       "target": ""
     },
     {
-      "type": "category",
       "label": "GitHub榜单",
-      "value": "github-trending"
+      "value": "/category/github-trending"
     },
     {
       "label": "AI作品集",
