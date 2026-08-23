@@ -266,6 +266,24 @@
       "summary": "每轮对话都重发系统提示词，差一个字符缓存就失效。本文从 v0.20.0 源码拆解 Hermes Agent 的四层缓存防线：stable/context/volatile 三段式拼接保证最长公共前缀命中、记忆冻结快照消除逐字漂移、时间戳精度主动降级、Anthropic 四断点精算。整套设计让前缀缓存命中率逼近 100%，把系统提示词的重复 token 开销压到最低。",
       "file": "/assets/articles/ai/hermes/system-prompt-prefix-caching.md",
       "cover": ""
+    },
+    {
+      "id": "b8b6349b-7ff1-4fcb-bdcc-ee3ceb5760ff",
+      "title": "GitHub 日榜 · 2026-08-23 · Agent Skill 单点爆发 + DeepSeek 周边持续霸榜",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-23",
+      "summary": "今日 Top 10 详深挖（Agent Skill 集体冒头 + DeepSeek 周边继续霸榜）+ 本周 Top 30 + 本月 Top 50 三档合一榜单。关键词:ai/llm/agent/mcp/assistant in:readme,UTC 时间窗口,纯 stars 排序。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-23.md",
+      "cover": null
     }
   ],
   "works": [
