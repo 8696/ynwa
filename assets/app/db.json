@@ -160,17 +160,17 @@
     {
       "id": "github-daily-ranking",
       "name": "GitHub日榜",
-      "description": "AI/agent/LLM 主题当日新创建热门仓库榜单（每日 08:00 CST 跑）"
+      "description": "AI/agent/LLM 主题当日新创建热门仓库榜单(每日 08:00 CST 跑)"
     },
     {
       "id": "github-weekly-ranking",
       "name": "GitHub周榜",
-      "description": "AI/agent/LLM 主题当周新创建热门仓库榜单（每周一 07:00 CST 跑）"
+      "description": "AI/agent/LLM 主题当周新创建热门仓库榜单(每周一 07:00 CST 跑)"
     },
     {
       "id": "github-monthly-ranking",
       "name": "GitHub月榜",
-      "description": "AI/agent/LLM 主题当月新创建热门仓库榜单（每月 1 号 06:00 CST 跑）"
+      "description": "AI/agent/LLM 主题当月新创建热门仓库榜单(每月 1 号 06:00 CST 跑)"
     }
   ],
   "articles": [
@@ -266,60 +266,6 @@
       "summary": "每轮对话都重发系统提示词，差一个字符缓存就失效。本文从 v0.20.0 源码拆解 Hermes Agent 的四层缓存防线：stable/context/volatile 三段式拼接保证最长公共前缀命中、记忆冻结快照消除逐字漂移、时间戳精度主动降级、Anthropic 四断点精算。整套设计让前缀缓存命中率逼近 100%，把系统提示词的重复 token 开销压到最低。",
       "file": "/assets/articles/ai/hermes/system-prompt-prefix-caching.md",
       "cover": ""
-    },
-    {
-      "id": "b8b6349b-7ff1-4fcb-bdcc-ee3ceb5760ff",
-      "title": "GitHub 日榜 · 2026-08-23 · Agent Skill 单点爆发 + DeepSeek 周边持续霸榜",
-      "categories": [
-        "github-trending"
-      ],
-      "tags": [
-        "github",
-        "ai",
-        "agent",
-        "llm",
-        "github-daily-ranking"
-      ],
-      "date": "2026-08-23",
-      "summary": "今日 Top 10 详深挖（Agent Skill 集体冒头 + DeepSeek 周边继续霸榜）+ 本周 Top 30 + 本月 Top 50 三档合一榜单。关键词:ai/llm/agent/mcp/assistant in:readme,UTC 时间窗口,纯 stars 排序。",
-      "file": "/assets/articles/github-trending/github-trending-2026-08-23.md",
-      "cover": null
-    },
-    {
-      "id": "333d8ef8-d4c2-4fe6-a16b-600775052e9b",
-      "title": "GitHub 周榜 · 2026-W34 · Agent Skill 单生态霸榜 + DSH 衍生工具冒头",
-      "categories": [
-        "github-trending"
-      ],
-      "tags": [
-        "github",
-        "ai",
-        "agent",
-        "llm",
-        "github-weekly-ranking"
-      ],
-      "date": "2026-08-23",
-      "summary": "W34(2026-08-17~2026-08-23,UTC 整周)AI/agent/LLM 新创建热门仓库 Top 30。Top 10 详深挖(Agent Skill 8 个爆款 + DSH 周边 4 个衍生 + MCP agentic-commerce 概念先行 + 中文仓库 17% 占比)。关键词:ai/llm/agent/mcp/assistant in:readme,UTC 时间窗口,纯 stars 排序。",
-      "file": "/assets/articles/github-trending/github-weekly-2026-W34.md",
-      "cover": null
-    },
-    {
-      "id": "5cc96386-bea3-4791-9a5e-d0ceed55918e",
-      "title": "GitHub 月榜 · 2026-08 · 三大本地推理引擎同步引爆 + agent harness 三轨并立",
-      "date": "2026-08-23",
-      "slug": "github-monthly-2026-08",
-      "summary": "七月 GitHub 拐点:Colibri / kimi-k3-in-c / turbo-fieldfare 三套本地推理引擎同时上榜,xAI Grok Build、QM、AOS CE 三套 agent harness 并立,OpenAI 把代码安全做成 npm 一行命令。50 条全量简评 + Top 10 详深挖。",
-      "tags": [
-        "github",
-        "ai",
-        "agent",
-        "llm",
-        "github-monthly-ranking"
-      ],
-      "categories": [
-        "github-trending"
-      ],
-      "file": "/assets/articles/github-trending/github-monthly-2026-08.md"
     }
   ],
   "works": [
