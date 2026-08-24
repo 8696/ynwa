@@ -61,7 +61,6 @@ function HomeHero(props) {
             与 <span className="hl">生活</span>。
           </h1>
           <p className="home-hero-lede">
-            {SITE_DESCRIPTION}{SITE_SLOGAN ? '。' + SITE_SLOGAN : ''}
             {SITE_HERO_NOTE || SITE_REPO_URL ? (
               <span className="home-hero-note">
                 {SITE_HERO_NOTE ? SITE_HERO_NOTE + (SITE_REPO_URL ? ' ' : '') : ''}
