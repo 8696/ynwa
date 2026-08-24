@@ -165,6 +165,24 @@
   ],
   "articles": [
     {
+      "id": "5752dd6b-b03a-4f42-91bb-0647908cdf0b",
+      "title": "blog-site-manager Skill 架构解析：把一整个静态博客站收进一个 Skill 里",
+      "categories": [
+        "engineering"
+      ],
+      "tags": [
+        "skill",
+        "architecture",
+        "hermes-agent",
+        "github"
+      ],
+      "date": "2026-08-24 20:30",
+      "pinned": null,
+      "summary": "拆解 blog-site-manager Skill 内部设计——三 CLI 分工、router 模式、双闸 dry-run、保护键 / 路径归一化、工作副本脏检查这套安全栈怎么搭出来",
+      "file": "/assets/articles/engineering/blog-site-manager-skill-arch.md",
+      "cover": ""
+    },
+    {
       "id": "3e4de540-55bd-41e6-ab7a-e8654dd70059",
       "title": "使用 Claude code 生成个人博客网站",
       "categories": [
