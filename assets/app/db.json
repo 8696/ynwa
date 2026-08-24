@@ -302,6 +302,24 @@
       "summary": "月榜 Top 50：Colibri 单 C 跑通 744B MoE（GLM-5.2）+ Kimi K3 月内双实现（Moonshot 官方 2.8T 开源 + 社区 C99 CPU 推理）登顶本月；AI Agent Harness 仍是月内最大赛道（4 条进 Top 10）；国产 Skills 占据 Top 50 半数；openai/codex-security + microsoft/skill-recorder + Codex-Dream-Skin 同月三股力量并用 Codex 桌面端；安全 / 隐私成新晋主题（openworker / img2threejs / aos-ce 同期报多个凭证与边界类 bug）。",
       "file": "/assets/articles/github-trending/github-monthly-2026-07.md",
       "cover": ""
+    },
+    {
+      "id": "d981db65-2413-4d0a-9ce9-c1b48e907205",
+      "title": "GitHub 日榜 · 2026-08-23 · ShadowAqueduct 水印剥离登顶 759⭐ + agent 赛道过半 + 全榜 11⭐ 门槛",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-24 08:30",
+      "summary": "日榜 2026-08-23：ShadowAqueduct/watermark-remover 单日 759⭐ 登顶（剥离多厂商 AI 出处标记，14 类文件格式 + Layer A/B 双层），与第二名（73⭐）拉开 10 倍量级断层；agent / MCP / 设计skill 三赛道合占 Top 15 中的 8 席；Top 15 全部新上榜、22 日 15 条全部掉出；全榜 11⭐ 门槛意味着日档阈值进一步压低。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-23.md",
+      "cover": ""
     }
   ],
   "works": [
