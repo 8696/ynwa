@@ -10,6 +10,14 @@
   margin-bottom: 32px;
 }
 
+.about-lede {
+  max-width: 40em;
+  margin: 12px 0 0;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--c-secondary);
+}
+
 .about-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -37,11 +45,19 @@
 
 .about-portrait-body {
   padding: 24px;
+  flex: 1;
 }
 
 .about-portrait-body h3 {
   font-size: 26px;
   margin: 0 0 6px;
+}
+
+.about-role {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+  opacity: 0.9;
 }
 
 .about-city {
@@ -97,7 +113,13 @@
   padding: 28px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 20px;
+}
+
+.about-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .about-text h3 {
@@ -116,7 +138,18 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 6px;
+}
+
+.about-sign {
+  margin: 0;
+  padding-top: 6px;
+  font-size: 15px;
+}
+
+.about-sign a {
+  color: var(--ink);
+  font-weight: 800;
+  text-underline-offset: 3px;
 }
 
 @media (min-width: 768px) {

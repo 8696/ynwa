@@ -42,6 +42,19 @@
   line-height: 1.65;
 }
 
+.home-hero-note {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--c-tertiary);
+}
+
+.home-hero-note a {
+  color: inherit;
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
 .home-hero-actions {
   display: flex;
   gap: 12px;
@@ -187,9 +200,25 @@
   animation-play-state: paused;
 }
 
-.marquee-track span {
+.marquee-track > span {
   white-space: nowrap;
   padding-right: 2em;
+}
+
+.marquee-track a {
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.marquee-track a:hover,
+.marquee-track a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.marquee-sep {
+  padding: 0 0.4em;
+  pointer-events: none;
 }
 
 @keyframes marquee {

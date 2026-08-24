@@ -73,7 +73,7 @@ npx --yes serve -s . -l 3000
 - 不确定时：若拆出去后不能单独作为「打开某个 URL 看到的那一屏」，就放 `components/`
 
 当前路由页只有：`Home`、`Article`、`Category`、`Tag`、`Topics`、`Search`、`Works`、`NotFound`。  
-`HomeHero`、`SearchResultRow` 等虽名字像页面，但是子块，在 `components/`。首页 Hero 的分类/标签统计卡指向 `/topics`，不进顶栏。
+`HomeHero`、`SearchResultRow` 等虽名字像页面，但是子块，在 `components/`。首页 Hero 的分类/标签统计卡指向 `/topics`，不进顶栏。底栏跑马灯把 `db.categories` 与 `db.tags` 的展示名拼在一起、打乱后滚动；点分类去 `/category/:id`，点标签去 `/tag/:id`。
 
 ### `core/` 各文件约束
 
@@ -105,12 +105,12 @@ npx --yes serve -s . -l 3000
 | `EmptyState` | 空态视觉块（eyebrow / 大数字 / 标题 / 描述）；404 + 分类/标签不存在 + 空分类/标签 共用 |
 | `WorksCardArrow` / `buildWorksLooks` / `WorksCard` | 作品卡箭头、随机配色、单卡 |
 | `WorksSection` | 首页 `#works`（含末尾「更多」） |
-| `AboutSection` / `ContactCta` | 首页 `#about` / `#contact` |
+| `AboutSection` / `ContactCta` | 首页 `#about`（人设 / 由来 / 这个站，文案在 `SITE_ABOUT_*`）/ `#contact` |
 | `TagLinks` | 标签 id → `/tag/:id` |
 | `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`） |
 | `SearchResultRow` | 搜索结果行（复用 `ArticleCard`） |
 | `Pagination` | 分页；`buildUrl(n)` 由页面传入 |
-| `HomeHero` | 首页 Hero；分类/标签统计卡指向 `/topics` |
+| `HomeHero` | 首页 Hero；导语下可读 `SITE_HERO_NOTE` / `SITE_REPO_URL`；底栏跑马灯把分类+标签打乱后链到 `/category/:id`、`/tag/:id`；统计卡指向 `/topics` |
 
 **pages（路由页）**
 
@@ -584,8 +584,10 @@ loadDB()
 | 常量 | 作用 |
 | --- | --- |
 | `SITE_NAME` / `SITE_SLOGAN` / `SITE_DESCRIPTION` | 标题、Hero、meta；`SITE_SLOGAN` 还在页脚 brand 旁 |
+| `SITE_HERO_NOTE` | 首页 Hero 导语下的补充说明（如「本站由 AI 生成」）；空则不渲染，不进 meta |
+| `SITE_REPO_URL` | 本站源码仓库；Hero 说明里展示为可点链接，空则不渲染 |
 | `SITE_EMAIL` | 联系区 mailto |
-| `SITE_AUTHOR` / `SITE_CITY` / `SITE_ABOUT_*` | 关于区；名字、介绍、「为什么叫 YNWA」全空则整段不渲染 |
+| `SITE_AUTHOR` / `SITE_CITY` / `SITE_ROLE` / `SITE_ABOUT_*` | 关于区。`LEDE` 导语、`WHY` 多段由来、`HERE_TITLE` + `BIO`（字符串或段落数组）、`TAGS` 为人设条目。名字、介绍、由来全空则不渲染 |
 | `SITE_WORKS_MAX` / `SITE_WORKS_MORE` | 首页作品卡上限与「更多」文案 / 链接 |
 | `PUBLIC_ASSET_BASE` | 正文 / 封面的公网根；空则站内路径 |
 | `DB_URL` | 索引地址，默认 `/assets/app/db.json` |

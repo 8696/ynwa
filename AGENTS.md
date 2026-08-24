@@ -208,13 +208,13 @@ body 末尾:
 | `buildWorksLooks` | 作品卡随机配色（无 DOM；CSS 占位） |
 | `WorksCard` | 单张作品卡 |
 | `WorksSection` | 首页 `#works` 区块（含「更多」） |
-| `AboutSection` | 首页 `#about` |
+| `AboutSection` | 首页 `#about`：人设卡、站名由来、「这个站」；文案在 `SITE_ABOUT_*` |
 | `ContactCta` | 首页 `#contact` |
 | `TagLinks` | 标签 id → `/tag/:id` 链接 |
 | `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`） |
 | `SearchResultRow` | 搜索结果行（内部复用 `ArticleCard`） |
 | `Pagination` | 分页；`buildUrl(n)` 由页面传入 |
-| `HomeHero` | 首页 Hero；分类/标签统计卡指向 `/topics` |
+| `HomeHero` | 首页 Hero；导语下可读 `SITE_HERO_NOTE` / `SITE_REPO_URL`；底栏跑马灯把 `categories`+`tags` 打乱后可点进 `/category/:id`、`/tag/:id`；统计卡指向 `/topics` |
 
 ### 现有 pages（仅 Routes 登记的页面）
 

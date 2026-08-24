@@ -15,15 +15,41 @@ function HomeHero(props) {
 
   var latestCat = latest && db ? getCategoryList(db, latest.categories)[0] : null
 
-  var marqueeBits = React.useMemo(function () {
-    var names = categories.map(function (c) { return c.name })
-      .concat(tags.map(function (t) { return t.name }))
+  var marqueeItems = React.useMemo(function () {
+    var items = categories.map(function (c) {
+      return { key: 'cat-' + c.id, label: c.name, to: '/category/' + c.id }
+    }).concat(tags.map(function (t) {
+      return { key: 'tag-' + t.id, label: t.name, to: '/tag/' + t.id }
+    })).filter(function (item) { return item.label && item.to })
     // db 还没来或目录为空时用站点名占位，避免跑马灯空白
-    if (!names.length) names = [SITE_NAME, '技术', '思考', '生活']
-    return names
+    if (!items.length) {
+      return [{ key: 'fallback', label: SITE_NAME, to: '/topics' }]
+    }
+    // 合起来后打乱一次；依赖词典引用，刷新页才重新洗牌，滚动中途不跳
+    var i
+    for (i = items.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1))
+      var tmp = items[i]
+      items[i] = items[j]
+      items[j] = tmp
+    }
+    return items
   }, [categories, tags])
 
-  var marqueeText = marqueeBits.join('  ✦  ') + '  ✦  '
+  function renderMarqueeCopy(items, suffix, hidden) {
+    return (
+      <span aria-hidden={hidden ? 'true' : undefined}>
+        {items.map(function (item) {
+          return (
+            <React.Fragment key={suffix + item.key}>
+              <ReactRouterDOM.Link to={item.to}>{item.label}</ReactRouterDOM.Link>
+              <span className="marquee-sep"> ✦ </span>
+            </React.Fragment>
+          )
+        })}
+      </span>
+    )
+  }
 
   return (
     <section className="home-hero">
@@ -36,6 +62,16 @@ function HomeHero(props) {
           </h1>
           <p className="home-hero-lede">
             {SITE_DESCRIPTION}{SITE_SLOGAN ? '。' + SITE_SLOGAN : ''}
+            {SITE_HERO_NOTE || SITE_REPO_URL ? (
+              <span className="home-hero-note">
+                {SITE_HERO_NOTE ? SITE_HERO_NOTE + (SITE_REPO_URL ? ' ' : '') : ''}
+                {SITE_REPO_URL ? (
+                  <a href={SITE_REPO_URL} target="_blank" rel="noopener noreferrer">
+                    源码 {SITE_REPO_URL}
+                  </a>
+                ) : null}
+              </span>
+            ) : null}
           </p>
           <div className="home-hero-actions">
             {/* 同页锚点用 <a href>：Router Link 对 #articles 不会滚，App 只处理首页 hash 且要等 rAF */}
@@ -86,11 +122,11 @@ function HomeHero(props) {
           </svg>
         </div>
       </div>
-      <div className="marquee" aria-hidden="true">
+      <div className="marquee" aria-label="分类与标签">
         <div className="marquee-track">
-          {/* 两份相同文案首尾相接，CSS 位移 50% 时看起来像无限循环 */}
-          <span>{marqueeText}</span>
-          <span>{marqueeText}</span>
+          {/* 两份相同序列首尾相接，CSS 位移 50% 时看起来像无限循环；副本不进读屏 */}
+          {renderMarqueeCopy(marqueeItems, 'a-', false)}
+          {renderMarqueeCopy(marqueeItems, 'b-', true)}
         </div>
       </div>
     </section>
