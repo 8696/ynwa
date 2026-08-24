@@ -294,7 +294,7 @@ h1, h2, h3, h4 {
 
 .btn-ink {
   background: var(--ink);
-  color: var(--accent);
+  color: var(--paper);
 }
 
 /* ---------- 共用区块标题 ---------- */
@@ -338,6 +338,13 @@ h1, h2, h3, h4 {
 
 .chip--static {
   cursor: default;
+}
+
+/* 置顶徽标：贴 accent，字色走 --on-accent，避免深色主题日隐身 */
+.chip--pin {
+  background: var(--accent);
+  color: var(--on-accent);
+  letter-spacing: 0.08em;
 }
 
 /* ---------- reduced motion ---------- */

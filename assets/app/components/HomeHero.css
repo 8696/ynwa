@@ -42,6 +42,17 @@
   line-height: 1.65;
 }
 
+.home-hero-note {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--c-tertiary);
+}
+
+.home-hero-note a {
+  color: inherit;
+}
+
 .home-hero-actions {
   display: flex;
   gap: 12px;
@@ -56,11 +67,30 @@
 }
 
 .stat-chip {
+  display: block;
   border: var(--stroke);
   background: var(--white);
   box-shadow: var(--shadow);
   padding: 10px 16px;
   min-width: 108px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.stat-chip--link {
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.stat-chip--link:hover {
+  background: var(--accent-soft);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-chip--link:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .stat-chip b {
@@ -168,9 +198,25 @@
   animation-play-state: paused;
 }
 
-.marquee-track span {
+.marquee-track > span {
   white-space: nowrap;
   padding-right: 2em;
+}
+
+.marquee-track a {
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.marquee-track a:hover,
+.marquee-track a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.marquee-sep {
+  padding: 0 0.4em;
+  pointer-events: none;
 }
 
 @keyframes marquee {

@@ -102,7 +102,7 @@ function DBProvider(props) {
         if (!res.ok) throw new Error('DB load failed: HTTP ' + res.status)
         return res.json()
       }).then(function (data) {
-        // 列表页默认按发布日倒序；写回内存后再决定是否落盘
+        // 内存里一律日期倒序；置顶不改这份数组，列表页再用 orderArticlesWithPinned 抽到最前
         data.articles.sort(function (a, b) {
           return new Date(b.date).getTime() - new Date(a.date).getTime()
         })

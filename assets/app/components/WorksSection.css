@@ -1,4 +1,4 @@
-/* WorksSection：首页作品区块 + 瀑布流容器 */
+/* WorksSection：首页作品区块 + 双列网格容器 */
 
 .works {
   padding: 56px 0;
@@ -18,15 +18,16 @@
   line-height: 1.65;
 }
 
-/* 瀑布流：多列布局，卡片高度由内容决定，各列独立堆叠 */
+/* 双列网格：从左到右再换行（不要用 column-count，那会先填满左列再填右列） */
 .bento {
-  column-count: 1;
-  column-gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
 @media (min-width: 640px) {
   .bento {
-    column-count: 2;
+    grid-template-columns: 1fr 1fr;
   }
 }
 

@@ -8,90 +8,185 @@
   <title>YNWA</title>
   <!-- 根绝对路径，否则 /article/:id 等子路由下会解析错 -->
   <link rel="icon" href="/assets/favicon.ico" sizes="64x64" />
-  <!-- 须在 CSS 前执行，避免首屏闪默认黄。改色只动 themes.js。 -->
-  <script src="/assets/app/core/themes.js"></script>
-  <!-- highlight.js 主题须先于正文样式，便于 .markdown-body 覆盖其背景 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github.min.css" />
   <!--
-    CSS 与同名 JS 同目录：base → components/* → pages/*。
-    根绝对路径，避免 /article/:id 等子路由把相对 URL 解析错。
-    后加载可覆盖先加载；共用变量/按钮/chip 只在 base.css。
+    ============================================================================
+    LOCAL_ASSETS：全站资源唯一清单。
+    ============================================================================
+    本站没有打包器、没有 npm 依赖、没有构建步骤（见 AGENTS.md 硬约束），所有 CSS/JS
+    都必须在这份文档里手动登记加载顺序。以前是逐行写死 <link>/<script> 标签，现在
+    统一收进这一个 JS 对象，好处：
+      1) 新增/删除/改名一个组件或页面，只需要改这一处，不用再去对齐一堆标签属性；
+      2) components/pages 用 { js, css } 成对登记，一眼就能看出某个文件是否漏挂了样式；
+      3) 加载顺序变成"数据"而不是"标签排列"，更容易一眼看出依赖关系。
+
+    生成方式：下面紧跟的 <script> 用 document.write() 把每条路径按数组顺序同步吐成
+    真正的 <link>/<script> 标签插入文档。document.write() 在 HTML 解析期间是同步执行
+    的——浏览器解析到这个 <script> 标签时会暂停解析、跑完脚本、把 document.write()
+    写的内容原地插入文档、再继续解析后面的内容。所以生成出来的标签在 DOM 里的位置、
+    加载时机、执行顺序，跟当年一行一行手写在这里完全一样，没有任何"异步/延迟加载"的
+    副作用，也不会影响 <body> 里 Babel Standalone 扫描 type="text/babel" 标签的时机
+    （Babel 是在 DOMContentLoaded、也就是整份文档——包括所有 document.write() 插入的
+    内容——都解析完之后才开始扫描的）。
+
+    顺序绝对不能打乱，理由见每个字段自己的注释；整体顺序是：
+      themesScript      → 必须最先，写强调色到 <html>，避免首屏先闪默认色再变色
+      cdnStylesheets    → highlight.js 代码高亮主题，须早于本地正文样式
+      stylesheets       → core/base.css 等全站公共样式（无独立同名 JS）
+      components[].css  → 组件样式，叶子组件在前、依赖它们的组合件在后
+      pages[].css       → 路由页样式，同上
+      ── 以上在本文件 <head> 里紧跟的这段 <script> 里写出 ──
+      cdnScripts        → React 全家桶 + marked/DOMPurify/highlight.js/Babel，顺序钉死
+      classicScripts    → core/config.js、core/utils.js，无 JSX 的经典脚本
+      babelScripts      → core/db-context.js，必须早于所有用到 useDB() 的组件/页面
+      components[].js   → 组件逻辑，叶子在前、组合件在后（要跟上面 css 顺序保持一致）
+      pages[].js        → 路由页逻辑，同上
+      mainScript        → core/main.js，createRoot 挂载，必须最后
+      ── 以上在本文件 <body> 里的另一段 <script> 里写出，见下方注释 ──
   -->
-  <link rel="stylesheet" href="/assets/app/core/base.css" />
-  <link rel="stylesheet" href="/assets/app/components/SearchIcon.css" />
-  <link rel="stylesheet" href="/assets/app/components/Header.css" />
-  <link rel="stylesheet" href="/assets/app/components/Footer.css" />
-  <link rel="stylesheet" href="/assets/app/components/DbState.css" />
-  <link rel="stylesheet" href="/assets/app/components/WorksCardArrow.css" />
-  <link rel="stylesheet" href="/assets/app/components/buildWorksLooks.css" />
-  <link rel="stylesheet" href="/assets/app/components/WorksCard.css" />
-  <link rel="stylesheet" href="/assets/app/components/WorksSection.css" />
-  <link rel="stylesheet" href="/assets/app/components/AboutSection.css" />
-  <link rel="stylesheet" href="/assets/app/components/ContactCta.css" />
-  <link rel="stylesheet" href="/assets/app/components/TagLinks.css" />
-  <link rel="stylesheet" href="/assets/app/components/ArticleCard.css" />
-  <link rel="stylesheet" href="/assets/app/components/SearchResultRow.css" />
-  <link rel="stylesheet" href="/assets/app/components/Pagination.css" />
-  <link rel="stylesheet" href="/assets/app/components/HomeHero.css" />
-  <link rel="stylesheet" href="/assets/app/pages/Home.css" />
-  <link rel="stylesheet" href="/assets/app/pages/Article.css" />
-  <link rel="stylesheet" href="/assets/app/pages/Category.css" />
-  <link rel="stylesheet" href="/assets/app/pages/Tag.css" />
-  <link rel="stylesheet" href="/assets/app/pages/Search.css" />
-  <link rel="stylesheet" href="/assets/app/pages/Works.css" />
-  <link rel="stylesheet" href="/assets/app/pages/NotFound.css" />
+  <script>
+    var LOCAL_ASSETS = {
+      // 本站每天按本地日历天数轮换一套强调色（core/themes.js 内的 themes 表），必须在
+      // 一切站点 CSS 解析之前把 --accent 等变量写到 <html> 上；否则浏览器会先按
+      // base.css 里 :root 的默认色渲染一次，用户能看到"先默认黄一闪、再变成当天颜色"。
+      // 改配色只改 core/themes.js 本身，这里永远只有这一条。
+      themesScript: "/assets/app/core/themes.js",
+      // highlight.js 的代码高亮主题样式表。必须排在本地 pages/Article.css 之前，
+      // 因为 Article.css 里 .markdown-body 需要覆盖它的默认背景色，后加载才能覆盖先加载。
+      cdnStylesheets: [
+        "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github.min.css"
+      ],
+      // 没有专属同名 JS、全站通用的样式表。目前只有 base.css：变量兜底、reset、
+      // .page/.btn/.chip 等公共类。CSS 后加载能覆盖先加载的规则，所以必须排在
+      // components/pages 的样式之前，让组件/页面样式能覆盖这里的默认值。
+      stylesheets: ["/assets/app/core/base.css"],
+      // 运行时依赖全部走 jsDelivr 的 UMD 构建，浏览器直接 <script src> 引入，
+      // 不经过任何打包器。数组顺序不可调换，原因分别是：
+      //   React → ReactDOM：ReactDOM 依赖 React 先存在
+      //   → Remix Router → react-router → react-router-dom：
+      //     react-router-dom 是在 react-router 之上包一层，react-router 又依赖
+      //     @remix-run/router，必须按依赖方向从底层到上层加载
+      //   → marked → DOMPurify：渲染 Markdown 用 marked，再用 DOMPurify 消毒生成的 HTML
+      //   → highlight.js：给消毒后的代码块做语法高亮
+      //   → Babel Standalone：必须是本数组最后一个，且必须早于下面所有
+      //     type="text/babel" 脚本，否则浏览器会把 JSX 当成普通脚本执行直接报语法错
+      // 版本钉死在 URL 里：React 19 / React Router 7 没有提供浏览器可用的 UMD 包，
+      // 所以这里固定用 React 18.3.1 + React Router 6.30.1，不要手滑升级版本号。
+      cdnScripts: [
+        "https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js",
+        "https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js",
+        "https://cdn.jsdelivr.net/npm/@remix-run/router@1.23.0/dist/router.umd.min.js",
+        "https://cdn.jsdelivr.net/npm/react-router@6.30.1/dist/umd/react-router.production.min.js",
+        "https://cdn.jsdelivr.net/npm/react-router-dom@6.30.1/dist/umd/react-router-dom.production.min.js",
+        "https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js",
+        "https://cdn.jsdelivr.net/npm/dompurify@3.4.2/dist/purify.min.js",
+        "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js",
+        "https://cdn.jsdelivr.net/npm/@babel/standalone@7.28.5/babel.min.js"
+      ],
+      // 不含 JSX、可以直接被浏览器执行的经典脚本。它们把常量（core/config.js）和
+      // 纯函数（core/utils.js）挂到全局 window 上，供后面所有 Babel 编译出来的组件/
+      // 页面直接当全局变量调用（本站没有 import/export）。config 必须先于 utils，
+      // 因为 utils 里部分函数会用到 config 定义的常量。
+      classicScripts: ["/assets/app/core/config.js", "/assets/app/core/utils.js"],
+      // 含 JSX、需要 Babel 在浏览器里现场编译的脚本，但必须先于所有 components/pages
+      // 加载：core/db-context.js 定义了全站唯一读 db.json 的 DBProvider/useDB，
+      // 后面的组件/页面里但凡调用了 useDB()，都要求这个脚本已经执行完、全局函数已存在。
+      babelScripts: ["/assets/app/core/db-context.js"],
+      // 应用壳：core/main.js 里定义了 <Routes> 路由表、createRoot 挂载逻辑，必须在
+      // 它所引用的全部组件、页面、db-context 都已经定义好之后才能执行，所以永远排在
+      // LOCAL_ASSETS 里最后一个被写出的本地脚本。
+      mainScript: "/assets/app/core/main.js",
+      // 可复用组件、以及不对应独立路由的页内子块（如首页 Hero、搜索结果行）。
+      // 每一项 { js, css } 就是同一个组件的一对文件，一起改、一起删，不会漏挂样式。
+      // 数组顺序 = 加载顺序：无依赖的叶子组件排在前面，引用了其它组件的组合件排在
+      // 后面（例如 ArticleCard 用到 TagLinks，TagLinks 就必须排在 ArticleCard 前面），
+      // 因为 Babel 是按文档顺序编译执行的，被调用方必须先于调用方存在。
+      components: [
+        { js: "/assets/app/components/EmptyState.js", css: "/assets/app/components/EmptyState.css" },
+        { js: "/assets/app/components/SearchIcon.js", css: "/assets/app/components/SearchIcon.css" },
+        { js: "/assets/app/components/Header.js", css: "/assets/app/components/Header.css" },
+        { js: "/assets/app/components/Footer.js", css: "/assets/app/components/Footer.css" },
+        { js: "/assets/app/components/DbState.js", css: "/assets/app/components/DbState.css" },
+        { js: "/assets/app/components/WorksCardArrow.js", css: "/assets/app/components/WorksCardArrow.css" },
+        { js: "/assets/app/components/buildWorksLooks.js", css: "/assets/app/components/buildWorksLooks.css" },
+        { js: "/assets/app/components/WorksCard.js", css: "/assets/app/components/WorksCard.css" },
+        { js: "/assets/app/components/WorksSection.js", css: "/assets/app/components/WorksSection.css" },
+        { js: "/assets/app/components/AboutSection.js", css: "/assets/app/components/AboutSection.css" },
+        { js: "/assets/app/components/ContactCta.js", css: "/assets/app/components/ContactCta.css" },
+        { js: "/assets/app/components/TagLinks.js", css: "/assets/app/components/TagLinks.css" },
+        { js: "/assets/app/components/ArticleCard.js", css: "/assets/app/components/ArticleCard.css" },
+        { js: "/assets/app/components/SearchResultRow.js", css: "/assets/app/components/SearchResultRow.css" },
+        { js: "/assets/app/components/Pagination.js", css: "/assets/app/components/Pagination.css" },
+        { js: "/assets/app/components/HomeHero.js", css: "/assets/app/components/HomeHero.css" }
+      ],
+      // 路由级页面：每一项都对应 core/main.js 里 <Routes> 的一条路由，同样是
+      // { js, css } 成对登记。只被某个页面用到的子块不放这里，应该放进上面的
+      // components（例如首页 Hero 虽然只在 Home 里用，但它是 HomeHero 组件）。
+      // Home 依赖 components 里的 HomeHero，所以 HomeHero 必须已经在上面 components
+      // 数组里排在前面。
+      pages: [
+        { js: "/assets/app/pages/Home.js", css: "/assets/app/pages/Home.css" },
+        { js: "/assets/app/pages/Article.js", css: "/assets/app/pages/Article.css" },
+        { js: "/assets/app/pages/Category.js", css: "/assets/app/pages/Category.css" },
+        { js: "/assets/app/pages/Tag.js", css: "/assets/app/pages/Tag.css" },
+        { js: "/assets/app/pages/Topics.js", css: "/assets/app/pages/Topics.css" },
+        { js: "/assets/app/pages/Search.js", css: "/assets/app/pages/Search.css" },
+        { js: "/assets/app/pages/Works.js", css: "/assets/app/pages/Works.css" },
+        { js: "/assets/app/pages/NotFound.js", css: "/assets/app/pages/NotFound.css" }
+      ]
+    };
+
+    // 三个"写一个标签"的小函数。它们不属于 LOCAL_ASSETS 的数据，只是把数据变成
+    // document.write() 调用的工具函数，所以单独定义成全局函数（var/function 声明
+    // 在浏览器里天然挂在 window 上），下面 <body> 里的第二段 <script>（同一份文档、
+    // 同一个全局作用域）可以直接复用，不用再重复定义一遍。
+    function writeStylesheet(href) {
+      document.write('<link rel="stylesheet" href="' + href + '" />');
+    }
+    function writeScript(src) {
+      document.write('<script src="' + src + '"><\/script>');
+    }
+    // 与 writeScript 唯一的区别是加了 type="text/babel"：告诉 Babel Standalone
+    // "这个脚本里是 JSX，先编译成普通 JS 再执行"；data-presets="react" 是指定只用
+    // React 预设，避免 Babel 默认再套一层 env 预设、多做无谓的兼容性转译。
+    function writeBabelScript(src) {
+      document.write('<script type="text/babel" data-presets="react" src="' + src + '"><\/script>');
+    }
+
+    // 按 LOCAL_ASSETS 注释里写的顺序，依次把 <head> 该有的标签吐出来：
+    // 先是最优先的强调色脚本，然后是 CDN 的代码高亮主题样式，然后是本站自己的
+    // 公共样式，最后是每个组件、每个页面各自的样式（用 item.css 只取成对项里的
+    // 样式那一半，item.js 留给下面 <body> 里的脚本用）。
+    writeScript(LOCAL_ASSETS.themesScript);
+    LOCAL_ASSETS.cdnStylesheets.forEach(writeStylesheet);
+    LOCAL_ASSETS.stylesheets.forEach(writeStylesheet);
+    LOCAL_ASSETS.components.forEach(function (item) { if (item.css) writeStylesheet(item.css); });
+    LOCAL_ASSETS.pages.forEach(function (item) { if (item.css) writeStylesheet(item.css); });
+  </script>
 </head>
 <body>
   <div id="root"></div>
 
   <!--
-    运行时库全部走 jsDelivr UMD，无打包步骤。
-    顺序不可调换：React → ReactDOM → Remix Router → react-router → react-router-dom。
-    React 19 / RR 7 无浏览器 UMD，故钉在 18.3.1 / 6.30.1。
+    这里没有重新定义 LOCAL_ASSETS 或那三个 write* 函数——它们在上面 <head> 里的
+    <script> 已经跑过了，浏览器同一份文档共用同一个全局作用域（就像同一个 .js 文件
+    里的两段代码），所以这里可以直接拿来用。这段脚本负责把 <body> 该有的 JS 标签
+    按顺序吐出来，顺序是"越底层、越无依赖的越先加载"：
+      cdnScripts    运行时库（React 等），一切业务代码的地基
+      classicScripts core/config.js、core/utils.js，先把常量和纯函数挂到全局
+      babelScripts  core/db-context.js，业务组件/页面调用 useDB() 的前提
+      components    可复用组件，叶子先于组合件
+      pages         路由页，同样叶子先于组合件（且可能依赖上面的 components）
+      mainScript    core/main.js，依赖前面所有东西都已存在，必须最后一个执行
   -->
-  <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@remix-run/router@1.23.0/dist/router.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-router@6.30.1/dist/umd/react-router.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.30.1/dist/umd/react-router-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.4.2/dist/purify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
-  <!-- Babel 必须在 type="text/babel" 脚本之前；data-presets="react" 避免再套 env 预设 -->
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.28.5/babel.min.js"></script>
-
-  <!-- 无 JSX 的配置/工具先以经典脚本注入全局，供后续 Babel 脚本直接调用 -->
-  <script src="/assets/app/core/config.js"></script>
-  <script src="/assets/app/core/utils.js"></script>
-  <!--
-    Babel 按文档顺序编译并执行。组件/页面已拆成单文件；依赖方必须排在被依赖方之后。
-    顺序约定：core/db-context → components/*（叶子先）→ pages/*（叶子先）→ core/main。
-  -->
-  <script type="text/babel" data-presets="react" src="/assets/app/core/db-context.js"></script>
-  <!-- components：无依赖的叶子 → 依赖它们的组合件 -->
-  <script type="text/babel" data-presets="react" src="/assets/app/components/SearchIcon.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/Header.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/Footer.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/DbState.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/WorksCardArrow.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/buildWorksLooks.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/WorksCard.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/WorksSection.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/AboutSection.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/ContactCta.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/TagLinks.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/ArticleCard.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/SearchResultRow.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/Pagination.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/components/HomeHero.js"></script>
-  <!-- pages：仅挂 main.js Routes 里登记的页面 -->
-  <script type="text/babel" data-presets="react" src="/assets/app/pages/Home.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/pages/Article.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/pages/Category.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/pages/Tag.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/pages/Search.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/pages/Works.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/pages/NotFound.js"></script>
-  <script type="text/babel" data-presets="react" src="/assets/app/core/main.js"></script>
+  <script>
+    LOCAL_ASSETS.cdnScripts.forEach(writeScript);
+    LOCAL_ASSETS.classicScripts.forEach(writeScript);
+    LOCAL_ASSETS.babelScripts.forEach(writeBabelScript);
+    // 这里只取 item.js：item.css 那一半已经在上面 <head> 里的脚本写过了，
+    // 一个 { js, css } 成对项会在两处各被用到一次，不会重复写同一个文件。
+    LOCAL_ASSETS.components.forEach(function (item) { writeBabelScript(item.js); });
+    LOCAL_ASSETS.pages.forEach(function (item) { writeBabelScript(item.js); });
+    writeBabelScript(LOCAL_ASSETS.mainScript);
+  </script>
 </body>
 </html>

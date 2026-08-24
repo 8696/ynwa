@@ -1,15 +1,16 @@
 /**
  * 首页 AI 页面作品集。条目来自 db.json 的 works 数组（useDB）。
  * 首页最多 SITE_WORKS_MAX 张（含末尾「更多」），所以作品只切前 max-1 条。
+ * 切之前先按 pinned 抽到最前（最多 PINNED_MAX）；「更多」始终占末位、不参与置顶。
  * 「更多」始终占末位，点进去是完整 /works 页。卡片色块每次挂载抽一版，刷新即换。
  */
 function WorksSection() {
   var ctx = useDB()
   var max = typeof SITE_WORKS_MAX === 'number' && SITE_WORKS_MAX > 1 ? SITE_WORKS_MAX : 4
   var source = ctx.db && Array.isArray(ctx.db.works) ? ctx.db.works : []
-  var items = source.filter(function (item) {
+  var items = orderItemsWithPinned(source.filter(function (item) {
     return item && item.title
-  })
+  }))
   // 给「更多」留一张卡位；作品再少也照样出「更多」，避免首页没有进 /works 的入口
   var visible = items.slice(0, max - 1)
   var more = SITE_WORKS_MORE && SITE_WORKS_MORE.title ? SITE_WORKS_MORE : {
@@ -35,12 +36,13 @@ function WorksSection() {
         <div className="bento">
           {visible.map(function (item, i) {
             return (
-              <WorksCard
-                key={item.href || item.title}
-                item={item}
-                index={i}
-                look={looks[i]}
-              />
+                <WorksCard
+                  key={item.href || item.title}
+                  item={item}
+                  index={i}
+                  look={looks[i]}
+                  pinned={isPinnedItem(item, items)}
+                />
             )
           })}
           <WorksCard item={more} isMore look={looks[visible.length]} />

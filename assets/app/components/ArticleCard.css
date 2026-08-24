@@ -40,6 +40,10 @@
 }
 
 .article-card-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
   margin: 0 0 10px;
   font-size: 20px;
   font-weight: 800;

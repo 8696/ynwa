@@ -19,9 +19,13 @@ function Category() {
     })
   }, [db, catId])
 
+  var ordered = React.useMemo(function () {
+    return orderArticlesWithPinned(filtered, db && db.articles)
+  }, [filtered, db && db.articles])
+
   var paged = React.useMemo(function () {
-    return paginate(filtered, page, PAGE_SIZE)
-  }, [filtered, page])
+    return paginate(ordered, page, PAGE_SIZE)
+  }, [ordered, page])
 
   React.useEffect(function () {
     if (cat) document.title = cat.name + ' · ' + SITE_NAME
@@ -37,12 +41,13 @@ function Category() {
 
   if (!cat) {
     return (
-      <main className="page">
-        <div className="page-hero">
-          <p className="eyebrow">分类</p>
-          <h1 className="page-title">分类不存在</h1>
-        </div>
-        <div className="status">找不到该分类</div>
+      <main className="page page--center">
+        <EmptyState
+          eyebrow="Error"
+          code="404"
+          title="这个分类不存在"
+          desc="分类可能被删除或重命名，试试别的。"
+        />
       </main>
     )
   }
@@ -60,7 +65,14 @@ function Category() {
           ? paged.items.map(function (p) {
               return <ArticleCard key={p.id} post={p} db={db} />
             })
-          : <div className="status">该分类暂无文章</div>
+          : (
+            <EmptyState
+              eyebrow="Empty"
+              code="0"
+              title="该分类暂无文章"
+              desc="这个分类目前还没有文章。"
+            />
+          )
         }
       </div>
 

@@ -1,4 +1,4 @@
-/** 首页：全站文章倒序列表；页码来自 ?page=，第 1 页链接写成 / 以免污染地址栏 */
+/** 首页：置顶文（最多 PINNED_MAX）在前，其余按日期倒序；页码来自 ?page=，第 1 页链接写成 / 以免污染地址栏 */
 function Home() {
   var db = useDB().db
   var searchParams = ReactRouterDOM.useSearchParams()[0]
@@ -9,9 +9,13 @@ function Home() {
     document.title = SITE_NAME
   }, [])
 
+  var list = React.useMemo(function () {
+    return orderArticlesWithPinned(db && db.articles ? db.articles : [])
+  }, [db && db.articles])
+
   var paged = React.useMemo(function () {
-    return paginate(db && db.articles ? db.articles : [], page, PAGE_SIZE)
-  }, [db && db.articles, page])
+    return paginate(list, page, PAGE_SIZE)
+  }, [list, page])
 
   return (
     <main className="home">

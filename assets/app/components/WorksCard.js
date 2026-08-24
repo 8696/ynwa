@@ -6,6 +6,7 @@ function WorksCard(props) {
   var look = props.look || {}
   var index = props.index
   var isMore = !!props.isMore
+  var pinned = !isMore && !!props.pinned
   var href = item.href ? String(item.href).trim() : ''
   var tags = Array.isArray(item.tags) ? item.tags : []
   var num = look.showNum && index != null ? String(index + 1).padStart(2, '0') : ''
@@ -20,7 +21,12 @@ function WorksCard(props) {
     <React.Fragment>
       {look.stripe ? <div className="bento-stripe" aria-hidden="true"></div> : null}
       {num ? <span className="bento-num" aria-hidden="true">{num}</span> : null}
-      {item.kicker ? <span className="chip chip--static">{item.kicker}</span> : null}
+      {pinned || item.kicker ? (
+        <div className="bento-card-kickers">
+          {pinned ? <span className="chip chip--static chip--pin">置顶</span> : null}
+          {item.kicker ? <span className="chip chip--static">{item.kicker}</span> : null}
+        </div>
+      ) : null}
       <h3>{item.title}</h3>
       {item.summary ? <p>{item.summary}</p> : null}
       {tags.length ? (

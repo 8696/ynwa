@@ -1,13 +1,13 @@
 /**
- * 完整作品集页 /works。渲染 db.json works 全部条目，不分页、也不再塞「更多」卡（那张只在首页）。
+ * 完整作品集页 /works。渲染 db.json works 全部条目（有效置顶抽到最前），不分页、也不再塞「更多」卡。
  * 复用首页 WorksSection 的 bento-card 卡片样式（WorksCard / buildWorksLooks）。
  */
 function Works() {
   var ctx = useDB()
   var source = ctx.db && Array.isArray(ctx.db.works) ? ctx.db.works : []
-  var items = source.filter(function (item) {
+  var items = orderItemsWithPinned(source.filter(function (item) {
     return item && item.title
-  })
+  }))
   var looks = React.useMemo(function () {
     return buildWorksLooks(items.length)
   }, [items.length])
@@ -39,6 +39,7 @@ function Works() {
                   item={item}
                   index={i}
                   look={looks[i]}
+                  pinned={isPinnedItem(item, items)}
                 />
               )
             })}
