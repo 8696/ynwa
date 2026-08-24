@@ -320,6 +320,24 @@
       "summary": "日榜 2026-08-23：ShadowAqueduct/watermark-remover 单日 759⭐ 登顶（剥离多厂商 AI 出处标记，14 类文件格式 + Layer A/B 双层），与第二名（73⭐）拉开 10 倍量级断层；agent / MCP / 设计skill 三赛道合占 Top 15 中的 8 席；Top 15 全部新上榜、22 日 15 条全部掉出；全榜 11⭐ 门槛意味着日档阈值进一步压低。",
       "file": "/assets/articles/github-trending/github-trending-2026-08-23.md",
       "cover": ""
+    },
+    {
+      "id": "c3946c24-a574-4fcb-9087-565bf571cc9f",
+      "title": "GitHub 周榜 · 2026-W34 · IP 转 logo skill 一周 3800 星登顶 + MCP 多协议实现爆发",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-08-24 08:32",
+      "summary": "周榜 2026-08-17..2026-08-23（共 30 条）：s1dashu/ip-as-logo-skill 单仓 3899⭐ 登顶（Agent Skill 形态最佳代表，可一键将 IP 转 logo），MCP 实现同期出现 4 条独立仓（CopilotKit/OpenBot、cinderline/northcinder、duty1g/x64dbg-mcp-server、wang2122/sprix-sage-router），设计/营销类 Skill 集中涌现约 10 条；上期（W33）30 条全部掉出，本期 staying=0；DSH 周边从 W33 的 8 条周边霸榜回落到 W34 仅剩 #11 / #26 两条；Top 10 详深挖覆盖 cumora（Windows BYOA 部署踩坑、#58 #59 双 open）、OpenBot（AG-UI 治理型 MCP + 三条审计/导航/凭据 open issue）、x64dbg-mcp-server（Zig 写就、71 个 MCP tools、x64 上已 closed 的 0xc0000005）、watermark-remover（W33 同仓 ShadowAqueduct 换壳重生）等。",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W34.md",
+      "cover": ""
     }
   ],
   "works": [
