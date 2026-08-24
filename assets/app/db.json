@@ -286,24 +286,6 @@
       "cover": ""
     },
     {
-      "id": "0bdadbcd-ca02-4eee-a815-1f76594db304",
-      "title": "GitHub 周榜 · 2026-W33 · DeepSeek Harness 单生态吃掉本周大半热度 + AI 水印剥离 / 任务感知路由三线齐发",
-      "categories": [
-        "github-trending"
-      ],
-      "tags": [
-        "github",
-        "ai",
-        "agent",
-        "llm",
-        "github-weekly-ranking"
-      ],
-      "date": "2026-08-24 01:27",
-      "summary": "周榜 Top 30：DeepSeek Harness 单生态吃掉上周大半热度（Top 30 占 19 条）；AI 水印剥离工具（自有内容定位）、任务感知 / 轨迹锚定 机制研究、Vercel Labs fx（Zig 7.8 MiB coding agent）三线齐发；DSH Desktop 内置版本不同步 / dsh-TUI 0.9.0 排版回归 / dsh-market createPortal 双根冲突是 Top 10 三大工程痛点。",
-      "file": "/assets/articles/github-trending/github-weekly-2026-W33.md",
-      "cover": ""
-    },
-    {
       "id": "67264e87-1a0a-4287-8828-97b6a50249ae",
       "title": "GitHub 月榜 · 2026-07 · Colibri 单 C 跑通 744B MoE + Kimi K3 双实现登顶本月",
       "categories": [
