@@ -46,7 +46,7 @@ npx --yes serve -s . -l 3000
 │       ├── core/              主题、配置、工具、数据入口、基础样式、应用入口
 │       │   ├── themes.js      强调色；须在一切站点 CSS 之前加载
 │       │   ├── base.css       变量兜底 / reset / 共用 .page .btn .chip …
-│       │   ├── config.js      站点身份、DB_URL、缓存键、页脚（无 JSX）
+│       │   ├── config.js      站点身份、DB_URL、PAGE_SIZE、PINNED_MAX、缓存键、页脚（无 JSX）
 │       │   ├── utils.js       纯函数（无 JSX）
 │       │   ├── db-context.js  唯一数据入口 + 缓存（DBProvider / useDB）
 │       │   └── main.js        入口：路由表、滚动、createRoot 挂载
@@ -83,8 +83,8 @@ npx --yes serve -s . -l 3000
 | --- | --- | --- | --- |
 | **`themes.js`** | 首屏前写强调色 | IIFE：`themes` 表 + 本地日历日 `% length`；写 `--accent*` / `--on-accent*` 与 `data-theme` | `SITE_*`、`db`、React/JSX、`localStorage`；色值不要抄进 `config.js` 或组件 CSS |
 | **`base.css`** | 共用样式与变量兜底 | `:root` 兜底、reset、条纹底、`.skip-link` / `.page*` / `.wrap` / `.btn*` / `.chip*` / `.section-title*` / `.eyebrow` 等 | 组件私有布局；`.markdown-body`（`pages/Article.css`）；不要业务写死某天强调色 |
-| **`config.js`** | 站点身份与运行常量 | `PUBLIC_ASSET_BASE`、`SITE_*`（含 `SITE_ABOUT_*` / `SITE_WORKS_*`）、`DB_URL`、`PAGE_SIZE`、`CACHE_*`、`FOOTER_*`；默认可设 `document.title` / meta | 列表数据（`db.json`）；`themes` 表；缓存/`fetch` 实现；JSX |
-| **`utils.js`** | 纯函数工具箱 | `formatDate`、`getCategoryName`/`List`、`paginate`、`buildPageRange`、`escapeHtml`、`highlightOne`、`searchArticles`、`normalizeArticleFilePath`、`resolvePublicAssetUrl`、`getGithubNav` | React/JSX、DOM 副作用、`fetch(DB_URL)`、文案常量 |
+| **`config.js`** | 站点身份与运行常量 | `PUBLIC_ASSET_BASE`、`SITE_*`（含 `SITE_ABOUT_*` / `SITE_WORKS_*`）、`DB_URL`、`PAGE_SIZE`、`PINNED_MAX`、`CACHE_*`、`FOOTER_*`；默认可设 `document.title` / meta | 列表数据（`db.json`）；`themes` 表；缓存/`fetch` 实现；JSX |
+| **`utils.js`** | 纯函数工具箱 | `formatDate`、`getCategoryName`/`List`、`paginate`、`buildPageRange`、`escapeHtml`、`highlightOne`、`searchArticles`、置顶（`listPinnedItems` 等）、`normalizeArticleFilePath`、`resolvePublicAssetUrl`、`getGithubNav` | React/JSX、DOM 副作用、`fetch(DB_URL)`、文案常量 |
 | **`db-context.js`** | `db.json` 唯一入口 | `DBProvider` / `useDB`（+ 本文件私有缓存辅助）；读 `config` 的 `DB_URL`/`CACHE_*` | 第二处 `fetch(DB_URL)`；UI；在别处再定义 `CACHE_KEY` |
 | **`main.js`** | 壳 + 挂载 | `App`（`Header` + `<Routes>` + 首页外挂 `#works/#about/#contact` + `Footer`）、滚动、`createRoot` | 页面实现（`pages/`）；卡片 DOM（`components/`）；`loadDB` 实现 |
 
@@ -103,11 +103,12 @@ npx --yes serve -s . -l 3000
 | `Footer` | 页脚版权、ICP、可选 GitHub（从 `nav` 解析） |
 | `DbState` | db 加载中 / 失败 + 重试 |
 | `EmptyState` | 空态视觉块（eyebrow / 大数字 / 标题 / 描述）；404 + 分类/标签不存在 + 空分类/标签 共用 |
-| `WorksCardArrow` / `buildWorksLooks` / `WorksCard` | 作品卡箭头、随机配色、单卡 |
-| `WorksSection` | 首页 `#works`（含末尾「更多」） |
+| `WorksCardArrow` / `buildWorksLooks` | 作品卡箭头、随机配色（无 DOM；CSS 占位） |
+| `WorksCard` | 单张作品卡（支持置顶徽标） |
+| `WorksSection` | 首页 `#works`（含末尾「更多」；作品先按 pinned 再切；网格样式与 `/works` 共用 `.bento`） |
 | `AboutSection` / `ContactCta` | 首页 `#about`（人设 / 由来 / 这个站，文案在 `SITE_ABOUT_*`）/ `#contact` |
 | `TagLinks` | 标签 id → `/tag/:id` |
-| `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`） |
+| `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`、置顶徽标） |
 | `SearchResultRow` | 搜索结果行（复用 `ArticleCard`） |
 | `Pagination` | 分页；`buildUrl(n)` 由页面传入 |
 | `HomeHero` | 首页 Hero；导语下可读 `SITE_HERO_NOTE` / `SITE_REPO_URL`；底栏跑马灯把分类+标签打乱后链到 `/category/:id`、`/tag/:id`；统计卡指向 `/topics` |
@@ -240,7 +241,7 @@ Markdown           articles[].file 指向的正文；进入 /article/:id 才 fet
 | 索引 | `assets/app/db.json`（`DB_URL`） | 一份 JSON | 应用启动时由 `DBProvider` 拉一次 |
 | 正文 | `articles[].file` | Markdown 文件或 URL | 详情页再请求；不进索引、不进 localStorage |
 
-`db.json` 进内存后按 `date` 倒序。分类 / 标签页是对这份数组的过滤；搜索只扫 `title` 和 `summary`，不打开正文。页面通过 `useDB()` 拿到 `{ db, loadDB, error, retryDB }`；加载失败时走 `DbState`（加载中 / 错误 + 重试）。
+`db.json` 进内存后按 `date` 倒序（**不**在这里做置顶）。首页 / 分类 / 标签 / 作品列表再调用 `orderItemsWithPinned` 把有效置顶抽到最前，内存里的 `db.articles` / `db.works` 顺序不变。分类 / 标签页是对这份数组的过滤；搜索只扫 `title` 和 `summary`，不打开正文，也不改命中顺序（置顶文只打徽标）。页面通过 `useDB()` 拿到 `{ db, loadDB, error, retryDB }`；加载失败时走 `DbState`（加载中 / 错误 + 重试）。
 
 ---
 
@@ -345,14 +346,14 @@ works[].href         独立静态页或 SPA 内路径
 - `id` 可以是英文（`engineering`）或中文（不推荐，URL 会编码），大小写敏感：`AI` 与 `ai` 是两个分类
 - 首页 Hero 跑马灯会拼上所有 `categories[].name` 和 `tags[].name`
 
-当前词典：
+当前词典（id 大小写敏感，以 `db.json` 为准）：
 
 | id | name | 用途 |
 | --- | --- | --- |
-| `AI` | AI | 围绕 AI 的探索与实践 |
+| `ai` | AI | 围绕 AI 的探索与实践 |
 | `engineering` | 技术实践 | 前端工程、性能与开发流程 |
 | `writing` | 随便写写 | 想到什么写什么 |
-| `life` | 生活记录 | 日常观察、习惯复盘 |
+| `github-trending` | GitHub榜单 | GitHub 趋势、热榜与开源项目观察 |
 
 新增分类：在本数组加一条，再在 `nav` 里加 `{ "label": "展示名", "value": "/category/新id", "target": "" }`，然后文章的 `categories` 里写这个 id。
 
@@ -368,9 +369,7 @@ works[].href         独立静态页或 SPA 内路径
 
 没有顶栏入口：标签出现在文章卡片、详情页、搜索结果，以及 `/topics` 总览。首页 Hero 的分类/标签统计卡也指向 `/topics`；点总览里的标签再到 `/tag/:id`。
 
-当前词典：`AI`、`Hermes-Agent`、`frontend`、`javascript`、`性能优化`、`productivity`、`writing`、`life`、`skill`。
-
-`id` 与 `name` 可以不同（例如 id `Hermes-Agent`、name `Hermes Agent`）。文章必须写 **id**，不要写展示名。
+当前词典条目较多，**以 `db.json` 的 `tags[]` 为准**。`id` 与 `name` 可以不同（例如 id `hermes-agent`、name `Hermes Agent`）。文章必须写 **id**，不要写展示名。
 
 ---
 
@@ -388,6 +387,7 @@ works[].href         独立静态页或 SPA 内路径
 | `summary` | string | 强烈建议 | 列表摘要、详情导语、**搜索会扫到的字段**。搜索不打开 Markdown |
 | `file` | string | 是 | Markdown 路径或绝对 URL。详情页才 fetch |
 | `cover` | string | 否 | 封面图路径或绝对 URL。空字符串 `""` 表示无封面 |
+| `pinned` | number \| null | 是 | 置顶权重。正整数参与竞选，**越小越靠前**。不置顶写 `null`，不要删键。全站最多生效 `PINNED_MAX` 篇（默认 3，写在 `core/config.js`） |
 
 #### `id`
 
@@ -403,7 +403,27 @@ YYYY-MM-DD HH:MM
 
 例如 `"2026-08-13 18:39"`。列表上的展示经 `formatDate` 裁到分钟。非法日期会得到浏览器的 `Invalid Date` 文案，排序也会乱，不要留空。
 
-JSON 里的书写顺序无所谓，进内存后一律按日期新→旧。
+JSON 里的书写顺序无所谓，进内存后一律按日期新→旧。首页、分类页、标签页再把**有效置顶**抽到列表最前（不改内存里的 `db.articles` 顺序）。搜索结果仍按命中顺序，只打「置顶」徽标。
+
+#### `pinned`
+
+写在单篇文章上，不要另开顶层数组，避免和 `id` 对不齐。
+
+```json
+"pinned": 1
+```
+
+不置顶：
+
+```json
+"pinned": null
+```
+
+- 正整数：`1` 最靠前，`2` 次之。也可写 `true`（会被当成 `1`），多篇同 rank 时日期新的在前
+- 未置顶写 `null`，**不要删键**（与 `cover: ""` 一样保持字段整齐）。取消置顶改回 `null`
+- 上限：`PINNED_MAX`（默认 3）。文章与作品**共用这个数字、各自竞选**。超过 3 篇写了正整数时，只保留 rank 更小的 3 篇；落选的当普通文，不浮动、不打徽标
+- 分类 / 标签页：仍用全站这 3 篇来竞选，只把出现在当前过滤结果里的置顶文抽到该列表顶部
+- 列表卡和详情页标题上方打「置顶」徽标（`.chip--pin`）。搜索结果只打徽标，不改命中顺序
 
 #### `file`
 
@@ -426,7 +446,7 @@ JSON 里的书写顺序无所谓，进内存后一律按日期新→旧。
 
 也可以把某篇的 `file` 指到仓库根的 `"/README.md"`（当前有一篇就是这样）。
 
-Markdown 只在进入 `/article/:id` 时请求，不进 `db.json` 缓存、不进 localStorage。改正文只需改 `.md` 文件；改标题 / 摘要 / 分类必须改 JSON。
+Markdown 只在进入 `/article/:id` 时请求，不进 `db.json` 缓存、不进 localStorage。改正文只需改 `.md` 文件；改标题 / 摘要 / 分类 / 置顶必须改 JSON。
 
 #### `cover`
 
@@ -459,6 +479,7 @@ Markdown 只在进入 `/article/:id` 时请求，不进 `db.json` 缓存、不�
 | --- | --- | --- | --- |
 | `title` | string | 是 | 卡片标题。无 title 的条目会被过滤掉 |
 | `kicker` | string | 否 | 标题上方的小 chip，例如「个人作品集」 |
+| `pinned` | number \| null | 是 | 与文章相同：正整数越小越靠前，不置顶写 `null`（不要删键）。全站最多 `PINNED_MAX` 条，与文章**共用上限、各自竞选**。身份用 `href` |
 | `summary` | string | 否 | 卡片说明 |
 | `tags` | string[] | 否 | 展示用字符串，**不是**文章标签词典。随便写 `"React 19"`、`"HTML"` |
 | `href` | string | 建议 | 点击去哪。空则卡片不可点，降级为 `<article>` |
@@ -471,11 +492,13 @@ Markdown 只在进入 `/article/:id` 时请求，不进 `db.json` 缓存、不�
 | `https://...` | 新窗口打开外链 |
 | 其它站内路径，如 `/works` | SPA `Link`（首页「更多」卡用这个） |
 
-首页最多展示 `SITE_WORKS_MAX`（默认 4）张卡，其中**最后一张永远是「更多」**，所以作品只切前 `max - 1` 条。`SITE_WORKS_MORE` 的文案和 `href: "/works"` 写在 `core/config.js`，不在 `db.json`。完整列表在 `/works`，不分页、也不再塞「更多」。
+首页最多展示 `SITE_WORKS_MAX`（默认 4）张卡，其中**最后一张永远是「更多」**（作品再少也出这张，保证有入口进 `/works`），所以作品只切前 `max - 1` 条。切之前先把有效置顶抽到最前。「更多」卡写在 `core/config.js` 的 `SITE_WORKS_MORE`，**不要**给它写 `pinned`。完整列表在 `/works`，不分页、也不再塞「更多」。
 
-数组顺序 = 展示顺序（与文章不同，**不按日期排**）。想置顶就把条目挪到前面。
+未置顶时数组顺序 = 展示顺序（与文章不同，**不按日期排**）。同 rank 的置顶作品按原数组下标决先后。身份用 `href`（没有 `id`）。
 
-当前条目：糖果屋、墨叙工作室、构形实验室、浮岛、构象艺术，对应 `/ai-page/{candy-house,muxu-studio,form-grid,floating-island,construct-art}/index.html`。
+排布：首页 `#works` 与 `/works` 共用 `.bento`。`≥640px` 是两列 **CSS grid，从左到右再换行**（1-2 / 3-4 / …）。不要改回 `column-count`：多列布局会先填满左列再填右列。
+
+当前条目（以 `db.json` 为准）：糖果屋、墨叙工作室、构形实验室、浮岛、构象艺术、星核空间、虚实之境、Maison d'Art、SONICA、构造空间，对应 `/ai-page/{candy-house,muxu-studio,form-grid,floating-island,construct-art,nova-spatial,realm-of-ether,maison-d-art,sonica-architecture,archi-void}/index.html`。
 
 ---
 
@@ -487,21 +510,21 @@ Markdown 只在进入 `/article/:id` 时请求，不进 `db.json` 缓存、不�
 
 1. Markdown 放到 `assets/articles/.../xxx.md`（或 OSS + `PUBLIC_ASSET_BASE`）
 2. 确认分类 / 标签已在词典里（可选再加 `nav`）
-3. 在 `articles[]` 追加元数据（`id` 用 UUID，`date` 用 `YYYY-MM-DD HH:MM`，无封面 `cover: ""`）
+3. 在 `articles[]` 追加元数据（`id` 用 UUID，`date` 用 `YYYY-MM-DD HH:MM`，无封面 `cover: ""`，未置顶 `pinned: null`）
 4. 本地 `serve` 确认列表、分类、标签、搜索、详情
 5. 生产若被缓存：`/?nocache=1` 或等 TTL
 
 **改 / 下线**
 
 - 只改正文：编辑 `.md`
-- 改标题、摘要、分类、标签、日期、封面：改 JSON 字段；**不要改已发布 `id`**
+- 改标题、摘要、分类、标签、日期、封面、置顶：改 JSON 字段；**不要改已发布 `id`**。置顶用 `pinned` 正整数，取消改回 `null`
 - 下线：从 `articles[]` 删除对象；`.md` 可留着
 
 **加作品**
 
 1. 独立页部署到同域 `/ai-page/<目录>/index.html`
-2. `works[]` 追加 `title` / `kicker` / `summary` / `tags` / `href`
-3. 首页默认前 3 个作品 + 「更多」；完整列表在 `/works`
+2. `works[]` 追加 `title` / `kicker` / `pinned` / `summary` / `tags` / `href`（未置顶 `pinned: null`）
+3. 首页最多 `SITE_WORKS_MAX` 张（末张「更多」），露出的作品是置顶优先后再切前 `max - 1` 条；完整列表在 `/works`
 
 **加分类 / 标签**
 
@@ -556,15 +579,15 @@ loadDB()
 
 | 路径 | 页面 | 做什么 |
 | --- | --- | --- |
-| `/` | `Home`（含 `HomeHero`） | 全站文章分页；`?page=`，第 1 页写成 `/` |
+| `/` | `Home`（含 `HomeHero`） | 全站文章分页：有效置顶最多 3 篇在前，其余日期倒序；`?page=`，第 1 页写成 `/`。首页底下 `#works` 同样先置顶再切 |
 | `/article/:id` | `Article` | 元数据 + 正文管道 |
-| `/category/:id` | `Category` | 过滤后再分页；第 1 页也带 `?page=1` |
+| `/category/:id` | `Category` | 过滤后置顶抽到最前再分页；第 1 页也带 `?page=1` |
 | `/tag/:id` | `Tag` | 同上 |
 | `/search?q=` | `Search` | 扫标题 / 摘要；输入 200ms 防抖后 `replace` 写入 URL |
-| `/works` | `Works` | `works[]` 全部卡片，不分页、无「更多」 |
+| `/works` | `Works` | `works[]` 全部卡片（有效置顶最多 3 条在前），不分页、无「更多」 |
 | `*` | `NotFound` | 404 |
 
-每页条数 `PAGE_SIZE`（默认 10，`core/config.js`）。总页数 ≤7 时页码全列；否则保留首页、末页、当前页 ±1，中间省略（`buildPageRange`）。
+每页条数 `PAGE_SIZE`（默认 10，`core/config.js`）。置顶上限 `PINNED_MAX`（默认 3，文章与作品共用、各自竞选）。总页数 ≤7 时页码全列；否则保留首页、末页、当前页 ±1，中间省略（`buildPageRange`）。
 
 滚动策略在 `core/main.js` 统一处理，页面不管：
 
@@ -592,6 +615,7 @@ loadDB()
 | `PUBLIC_ASSET_BASE` | 正文 / 封面的公网根；空则站内路径 |
 | `DB_URL` | 索引地址，默认 `/assets/app/db.json` |
 | `PAGE_SIZE` | 列表分页大小 |
+| `PINNED_MAX` | 全站置顶上限，默认 3。文章与作品共用、各自竞选。改上限只动这里，条目写 `articles[].pinned` / `works[].pinned` |
 | `CACHE_*` | localStorage 键名、禁用参数名、TTL |
 | `FOOTER_*` | 版权起始年、ICP 文案与链接 |
 
@@ -610,7 +634,8 @@ loadDB()
 - 区块标题：`.section-title`（`--lg` / `--display`）
 - 按钮：`.btn` / `.btn--sm` / `.btn-ghost` / `.btn-ink`
 - 正文：只走 `.markdown-body`
-- 断点：作品瀑布流 `640px`，其余布局 `768px`
+- 断点：作品双列 `640px`（`.bento` 为 CSS grid 左右换行，不是瀑布流），其余布局 `768px`
+- 置顶徽标：`.chip--pin`（accent 底 + `--on-accent` 字）
 - `prefers-reduced-motion`：缩短动画，并去掉卡片/按钮的位移 hover
 
 共用规则进 `core/base.css`；组件/页面私有规则进各自同名 CSS。

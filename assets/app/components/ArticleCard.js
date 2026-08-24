@@ -14,6 +14,7 @@ function ArticleCard(props) {
   var look = React.useMemo(function () {
     return { stripe: Math.random() < 0.32 }
   }, [post.id])
+  var pinned = isPinnedArticle(post, db && db.articles)
   var catList = getCategoryList(db, post.categories)
   var dateStr = formatDate(post.date)
   var coverRaw = typeof post.cover === 'string' ? post.cover.trim() : ''
@@ -39,11 +40,14 @@ function ArticleCard(props) {
     : null
 
   return (
-    <article className={look.stripe ? 'article-card article-card--stripe' : 'article-card'}>
+    <article className={'article-card' + (look.stripe ? ' article-card--stripe' : '') + (pinned ? ' article-card--pinned' : '')}>
       {look.stripe ? <div className="article-stripe" aria-hidden="true"></div> : null}
       <div className={cover ? 'article-card-row article-card-row--with-cover' : ''}>
         <div className={cover ? 'article-card-main' : ''}>
-          <h2 className="article-card-title">{titleLink}</h2>
+          <h2 className="article-card-title">
+            {pinned ? <span className="chip chip--static chip--pin">置顶</span> : null}
+            {titleLink}
+          </h2>
           {summaryHtml
             ? <p className="article-summary" dangerouslySetInnerHTML={{ __html: summaryHtml }} />
             : <p className="article-summary">{post.summary}</p>}

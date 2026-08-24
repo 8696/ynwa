@@ -101,6 +101,9 @@ function Article() {
           </ReactRouterDOM.Link>
         )}
 
+        {isPinnedArticle(post, db.articles) ? (
+          <span className="chip chip--static chip--pin">置顶</span>
+        ) : null}
         <h1 className="post-title">{post.title}</h1>
 
         {post.summary && <p className="post-summary">{post.summary}</p>}

@@ -21,9 +21,13 @@ function Tag() {
     })
   }, [db && db.articles, tagId])
 
+  var ordered = React.useMemo(function () {
+    return orderArticlesWithPinned(filtered, db && db.articles)
+  }, [filtered, db && db.articles])
+
   var paged = React.useMemo(function () {
-    return paginate(filtered, page, PAGE_SIZE)
-  }, [filtered, page])
+    return paginate(ordered, page, PAGE_SIZE)
+  }, [ordered, page])
 
   if (!db) {
     return (

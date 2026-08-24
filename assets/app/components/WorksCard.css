@@ -13,12 +13,6 @@
   text-decoration: none;
   color: var(--ink);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-  break-inside: avoid;
-  margin-bottom: 20px;
-}
-
-.bento-card:last-child {
-  margin-bottom: 0;
 }
 
 a.bento-card:hover {
@@ -45,7 +39,11 @@ article.bento-card {
   background: var(--stripe-on-ink);
 }
 
-.bento-card > .chip {
+.bento-card-kickers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
   align-self: flex-start;
   position: relative;
 }
@@ -76,6 +74,12 @@ article.bento-card {
 .bento-card--ink .chip {
   background: var(--accent);
   color: var(--on-accent);
+}
+
+.bento-card--accent .chip--pin,
+.bento-card--accent-2 .chip--pin {
+  background: var(--white);
+  color: var(--ink);
 }
 
 .bento-card h3 {

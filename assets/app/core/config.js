@@ -65,6 +65,11 @@ var SITE_WORKS_MORE = {
 var DB_URL = '/assets/app/db.json'
 /** 列表页每页条数 */
 var PAGE_SIZE = 10
+/**
+ * 全站置顶上限，文章与作品共用。pinned 为正整数即参与竞选（null 不置顶）；
+ * 超过此数时只保留 rank 更小的若干条（文章同 rank 再按日期新→旧，作品按原数组下标）。
+ */
+var PINNED_MAX = 3
 /** localStorage：缓存的 db.json 正文 */
 var CACHE_KEY = 'DA_CACHE_KEY'
 /** localStorage：上次写入缓存的时间戳（毫秒） */

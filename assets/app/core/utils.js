@@ -35,6 +35,106 @@ function getCategoryList(db, categories) {
 }
 
 /**
+ * 置顶权重（文章 / 作品共用）：正整数有效，越小越靠前。
+ * null / 缺省 / 0 / 负数 / 非数字视为未置顶。true 会被 Number 成 1。
+ */
+function getPinRank(item) {
+  if (!item) return 0
+  var n = Number(item.pinned)
+  if (!isFinite(n) || n < 1) return 0
+  return Math.floor(n)
+}
+
+/**
+ * 置顶身份：文章用 id；作品没有 id，用 href，再不行用 title。
+ * 空字符串表示无法识别，不参与置顶集合比对。
+ */
+function pinItemKey(item) {
+  if (!item) return ''
+  if (item.id != null && String(item.id) !== '') return 'id:' + item.id
+  var href = item.href ? String(item.href).trim() : ''
+  if (href) return 'href:' + href
+  var title = item.title ? String(item.title).trim() : ''
+  return title ? 'title:' + title : ''
+}
+
+/**
+ * 从候选里取出实际生效的置顶项，最多 PINNED_MAX 条。
+ * 排序：rank 升序；同 rank 有 date 则新→旧，否则保持原数组下标。
+ */
+function listPinnedItems(items) {
+  var max = typeof PINNED_MAX === 'number' && PINNED_MAX > 0 ? PINNED_MAX : 3
+  var src = items || []
+  var pinned = []
+  var i
+  for (i = 0; i < src.length; i++) {
+    if (getPinRank(src[i]) >= 1) pinned.push({ item: src[i], index: i })
+  }
+  pinned.sort(function (a, b) {
+    var d = getPinRank(a.item) - getPinRank(b.item)
+    if (d) return d
+    if (a.item.date && b.item.date) {
+      var td = new Date(b.item.date).getTime() - new Date(a.item.date).getTime()
+      if (td) return td
+    }
+    return a.index - b.index
+  })
+  var out = []
+  for (i = 0; i < pinned.length && i < max; i++) out.push(pinned[i].item)
+  return out
+}
+
+/** 该项是否落在有效置顶集合里（超额的 pinned 不算） */
+function isPinnedItem(item, allItems) {
+  var key = pinItemKey(item)
+  if (!key) return false
+  var pinned = listPinnedItems(allItems)
+  var i
+  for (i = 0; i < pinned.length; i++) {
+    if (pinItemKey(pinned[i]) === key) return true
+  }
+  return false
+}
+
+/**
+ * 列表排序：有效置顶抽到最前（沿用全站 rank），其余保持传入顺序。
+ * allItems 缺省则用 items 自身竞选。
+ */
+function orderItemsWithPinned(items, allItems) {
+  var src = items || []
+  var pinned = listPinnedItems(allItems || src)
+  var pinnedKeys = {}
+  var head = []
+  var rest = []
+  var i
+  var j
+  var key
+  for (i = 0; i < pinned.length; i++) {
+    key = pinItemKey(pinned[i])
+    if (key) pinnedKeys[key] = true
+  }
+  for (i = 0; i < pinned.length; i++) {
+    key = pinItemKey(pinned[i])
+    for (j = 0; j < src.length; j++) {
+      if (pinItemKey(src[j]) === key) {
+        head.push(src[j])
+        break
+      }
+    }
+  }
+  for (i = 0; i < src.length; i++) {
+    key = pinItemKey(src[i])
+    if (!key || !pinnedKeys[key]) rest.push(src[i])
+  }
+  return head.concat(rest)
+}
+
+function getArticlePinRank(post) { return getPinRank(post) }
+function listPinnedArticles(articles) { return listPinnedItems(articles) }
+function isPinnedArticle(post, allArticles) { return isPinnedItem(post, allArticles) }
+function orderArticlesWithPinned(items, allArticles) { return orderItemsWithPinned(items, allArticles) }
+
+/**
  * 对文章列表分页。current 会被夹在 [1, totalPages]，避免 ?page=0 或超大页码越界。
  * totalPages 至少为 1，空列表时分页器仍可按「第 1 页」处理。
  */
