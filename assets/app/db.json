@@ -355,6 +355,25 @@
       "summary": "周榜 2026-08-17..2026-08-23（共 30 条）：s1dashu/ip-as-logo-skill 单仓 3899⭐ 登顶（Agent Skill 形态最佳代表，可一键将 IP 转 logo），MCP 实现同期出现 4 条独立仓（CopilotKit/OpenBot、cinderline/northcinder、duty1g/x64dbg-mcp-server、wang2122/sprix-sage-router），设计/营销类 Skill 集中涌现约 10 条；上期（W33）30 条全部掉出，本期 staying=0；DSH 周边从 W33 的 8 条周边霸榜回落到 W34 仅剩 #11 / #26 两条；Top 10 详深挖覆盖 cumora（Windows BYOA 部署踩坑、#58 #59 双 open）、OpenBot（AG-UI 治理型 MCP + 三条审计/导航/凭据 open issue）、x64dbg-mcp-server（Zig 写就、71 个 MCP tools、x64 上已 closed 的 0xc0000005）、watermark-remover（W33 同仓 ShadowAqueduct 换壳重生）等。",
       "file": "/assets/articles/github-trending/github-weekly-2026-W34.md",
       "cover": ""
+    },
+    {
+      "id": "88347247-98b7-43b7-97ad-b3e373112d30",
+      "title": "GitHub 日榜 · 2026-08-24 · Agent Skill 5 条同时冒头 + tonghuasun-agent 用真实 Issue 暴露 DLL 未签名风险",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-25 08:10",
+      "pinned": null,
+      "summary": "日榜 2026-08-24：Agent Skill 当道（Top 15 中 5 条属 Codex/Claude Code Skill 生态），Fireworks Open ELI5（10235 字符、Truth Ladder + 离线 HTML + 严格导出校验）和 tonghuasun-agent（6 harness 桥 + Issue #2 作者自报「核心 DLL 未签名」+ Issue #3 实战兼容报错）位居前列；DSH 预设生态进入「破限玩法」阶段；上期 15 条全部掉出、本期 15 条全部新上；中英文项目 7 / 8。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-24.md",
+      "cover": ""
     }
   ],
   "works": [
