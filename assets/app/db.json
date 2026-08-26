@@ -374,6 +374,25 @@
       "summary": "日榜 2026-08-24：Agent Skill 当道（Top 15 中 5 条属 Codex/Claude Code Skill 生态），Fireworks Open ELI5（10235 字符、Truth Ladder + 离线 HTML + 严格导出校验）和 tonghuasun-agent（6 harness 桥 + Issue #2 作者自报「核心 DLL 未签名」+ Issue #3 实战兼容报错）位居前列；DSH 预设生态进入「破限玩法」阶段；上期 15 条全部掉出、本期 15 条全部新上；中英文项目 7 / 8。",
       "file": "/assets/articles/github-trending/github-trending-2026-08-24.md",
       "cover": ""
+    },
+    {
+      "id": "4aabf126-852f-4928-b5b5-8afe0a36196d",
+      "title": "GitHub 日榜 · 2026-08-25 · 腾讯微信视觉下场做 WeMM-Embedding 多模态矩阵 + hayamimi 纯 CPU 实时多语 ASR 把 whisper-turbo CER 打到一半",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-26 08:11",
+      "pinned": null,
+      "summary": "日榜 2026-08-25:整档个人工具化占绝对多数,15 条里 12+ 是单点 Skill / 本地桌面 / 本地脚本;腾讯微信视觉下场做 WeMM-Embedding(2B/4B/9B),MMEB-v2/v3 多档 SOTA;oboroge0/hayamimi 纯 CPU 实时多语 ASR 把 whisper-turbo 在广播日语音频上的 CER 从 13.8% 打到 5.8%;Agent Skill 形态继续渗透(KurosawaGeeker/femboy-skill、Reality-JH/FailoverAI、heygen/hyperframes-community-skills、ra1nyxin/immersive-vibration-response-skill);首期快照无对照。中英文项目 9 / 6。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-25.md",
+      "cover": ""
     }
   ],
   "works": [
