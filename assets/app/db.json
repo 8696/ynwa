@@ -393,6 +393,25 @@
       "summary": "日榜 2026-08-25:整档个人工具化占绝对多数,15 条里 12+ 是单点 Skill / 本地桌面 / 本地脚本;腾讯微信视觉下场做 WeMM-Embedding(2B/4B/9B),MMEB-v2/v3 多档 SOTA;oboroge0/hayamimi 纯 CPU 实时多语 ASR 把 whisper-turbo 在广播日语音频上的 CER 从 13.8% 打到 5.8%;Agent Skill 形态继续渗透(KurosawaGeeker/femboy-skill、Reality-JH/FailoverAI、heygen/hyperframes-community-skills、ra1nyxin/immersive-vibration-response-skill);首期快照无对照。中英文项目 9 / 6。",
       "file": "/assets/articles/github-trending/github-trending-2026-08-25.md",
       "cover": ""
+    },
+    {
+      "id": "90ba12b2-c7ad-43ee-8c59-a7fe3c606301",
+      "title": "GitHub 日榜 · 2026-08-26 · open-higgsfield 单日 550 星登顶 + Skill 形态继续吞噬周边（色彩学/视频理解/夕阳审计各占一坑）",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-27 08:11",
+      "pinned": null,
+      "summary": "日榜 2026-08-26:Top1 由 wide-trace/open-higgsfield 单日 550 星拿下,40 模型整合站;Skill 形态继续吞噬垂类(色彩学/视频理解/夕阳审计);UditAkhourii/cdaf 把视频 sidecar 减 token 1/10;MiaAI-Lab 与 0xBakeer 同一时间发两个 Qwen3.8-Flash-Next 单/双 DGX Spark 部署分支;对照上期 14 条全掉出,只剩 cdaf 复进。中英文 6/9。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-26.md",
+      "cover": ""
     }
   ],
   "works": [
