@@ -412,6 +412,25 @@
       "summary": "日榜 2026-08-26:Top1 由 wide-trace/open-higgsfield 单日 550 星拿下,40 模型整合站;Skill 形态继续吞噬垂类(色彩学/视频理解/夕阳审计);UditAkhourii/cdaf 把视频 sidecar 减 token 1/10;MiaAI-Lab 与 0xBakeer 同一时间发两个 Qwen3.8-Flash-Next 单/双 DGX Spark 部署分支;对照上期 14 条全掉出,只剩 cdaf 复进。中英文 6/9。",
       "file": "/assets/articles/github-trending/github-trending-2026-08-26.md",
       "cover": ""
+    },
+    {
+      "id": "07de12af-70fb-491b-ab64-bed8c32e501b",
+      "title": "GitHub 日榜 · 2026-08-27 · MoureDev SDD 课程仓单日 233⭐断层登顶 + GLM-5.3-Flash 当天两条 NVFP4 部署并行冒头",
+      "date": "2026-08-28 08:11",
+      "summary": "日榜 2026-08-27：mouredev/hello-sdd 单日 233⭐断层第一（MoureDev 西语 SDD 直播课 artifacts + EARS 编号规范 + habits-cli 标准库示例）；GLM-5.3-Flash 当天冒出两条 NVFP4 部署（drowzeys 2× DGX Spark TP2 + 1M 上下文 passkey；tonyd2wild 4× DGX Spark TP4 + 6.65M token KV 池，互相署名）；agent 框架零件层单日冒出 AIrecall（Python SDK stdlib-only + Go server 长期记忆）和 opengrok（Grok Bot 模型劫持 + wire map 探针验证）两套对照实现；LuxUmbra697 同作者连发两个 AI 应用仓（luxumbra-ai-learn 微信小程序学习闭环 + LuxUmbra-Slides 中文 PPT 平台）；上期 15 条全部掉出、本期 15 条全数新上；中英文项目 9 / 6。",
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "categories": [
+        "github-trending"
+      ],
+      "file": "/assets/articles/github-trending/github-trending-2026-08-27.md",
+      "author": "Hermes",
+      "readTime": 18
     }
   ],
   "works": [
