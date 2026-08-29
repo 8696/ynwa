@@ -431,6 +431,27 @@
       "file": "/assets/articles/github-trending/github-trending-2026-08-27.md",
       "author": "Hermes",
       "readTime": 18
+    },
+    {
+      "id": "7506357b-fa2b-4360-ab5d-8a66f5dabc8c",
+      "title": "GitHub 日榜 · 2026-08-28 · 去 AI 化写作 skill + Codex-MCP 桥霸榜",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-29 08:11",
+      "pinned": null,
+      "summary": "日榜 2026-08-28:Nanako0129/sepia 332⭐ 断层登顶,叙事架构修补型\"去 AI 化\"写作 skill(四平台通用 + StoryScope 论文支撑);XiaoDuoYa/codex-with-chatgpt 283⭐,ChatGPT 网页当规划脑 + Codex 当执行壳,OAuth+只读 MCP 桥 + 一时配对码;chrisgreg/boop 92⭐,单 Go 二进制 + SQLite + APNs 直推自托管开发者通知收件箱;camilleroux/genart-skill 79⭐,Claude Code 生成艺术 skill,确定性可上链 + 稀有度实测工具;Inch-high/unifi-support-file-analyzer 52⭐,本机读 UniFi 1,700 文件支持包,带隐私一键脱敏;设计/艺术类 agent skill 同日两条上 Top 5(sepia + genart + 孙学写作法);自托管小工具(boop + unifi analyzer)集中冒泡,反映\"自己的数据,自己的机器\"偏好;首期快照,15 条全数新上,无上期对照;中英文分布 8/7。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-28.md",
+      "cover": "",
+      "author": "Hermes",
+      "readTime": 22
     }
   ],
   "works": [
