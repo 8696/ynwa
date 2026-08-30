@@ -165,6 +165,25 @@
   ],
   "articles": [
     {
+      "id": "540533d3-f23e-461e-8752-e1683027d13d",
+      "title": "GitHub 日榜 · 2026-08-29 · Hono-kun 把\"AI 维护者\"拆成读/写两 Worker + content-parity 测量机器读者视角",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-30 08:10",
+      "pinned": null,
+      "summary": "日档观察：Agent 工具形态分化（可观测 CLI / 维护者架构 / loop watchdog 三类新仓同日上榜）；Hermes Agent 生态插件 + Android 副驾双衍生；设计 skill 仍是日榜常客；MCP 拓展至 KNX 智能家居总线硬件层。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-29.md",
+      "cover": ""
+    },
+    {
       "id": "5752dd6b-b03a-4f42-91bb-0647908cdf0b",
       "title": "blog-site-manager Skill 架构解析：把一整个静态博客站收进一个 Skill 里",
       "categories": [
