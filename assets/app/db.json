@@ -471,6 +471,23 @@
       "cover": "",
       "author": "Hermes",
       "readTime": 22
+    },
+    {
+      "id": "3510f9fe-fddb-4bfc-80f4-85ac683801da",
+      "title": "GitHub 日榜 · 2026-08-30 · yname 字符级 RNN 抢注 YC 名字 + PixelML 4×170HX 攒 256 GB HBM 池",
+      "date": "2026-08-31 08:10",
+      "summary": "日榜 2026-08-30：aadithyanr/yname 44⭐ 登顶（字符级 RNN + 6,194 YC 公司名训练，浏览器本地生成 + RDAP 域名检查）；rileycx/strafe 30⭐，macOS Space 切换加速器，~1k 行 Swift / 零依赖把 168.5ms 动画期压到 49.6ms；ih8d8/yt-dlp-manager 29⭐，自托管 yt-dlp 单 Go 二进制 + Web UI/TUI/CLI/daemon 四前端共享队列；PixelML/club-170hx 13⭐，4×CMP 170HX 攒 256 GB HBM2e 计算池，Qwen3.8-27B NVFP4 单卡 136.38 tok/s @ 180 W；alesha-pro/atlas 12⭐，Qwen3.8-27B 1,199 张量权重视觉化画布 + 实测 SQNR；drephantom/wq-brain-mcp-server 9⭐，WorldQuant BRAIN MCP 故意不在 MCP 层暴露 submit；oh-my-dsh/dsh-plugin-upgrade-skill 9⭐，DSH 插件升级 agent skill 多 plugin 一致；sharn25/Curved-Gauge-Card 13⭐，HA 半圆仪表盘 SVG <textPath>；joeynyc/awesome-microduck 11⭐，Microduck 双足机器人 awesome-list；本档热度扁平（Top1 44⭐ / Top15 8⭐），由\"小而锐利\"个人工具撑起；上一期 15 条全部掉出；中英文项目 12/3。",
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "categories": [
+        "github-trending"
+      ],
+      "file": "/assets/articles/github-trending/github-trending-2026-08-30.md"
     }
   ],
   "works": [
