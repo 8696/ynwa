@@ -488,6 +488,23 @@
         "github-trending"
       ],
       "file": "/assets/articles/github-trending/github-trending-2026-08-30.md"
+    },
+    {
+      "id": "2c408cd7-79b2-4ed5-8246-e705814d675a",
+      "title": "GitHub 周榜 · 2026-W35 · sapientinc/PRAXIST 单仓 4530 星领跑 + 30 条全部换血",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W35.md",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-08-31 00:50",
+      "summary": "AI/agent/LLM 主题上周一~上周日（2026-08-24..2026-08-30）新创建热门仓库榜单，30 条全部为新上、无连榜；sapientinc/PRAXIST 单仓 4530 星领跑，Tencent/WeMM-Embedding 把多模态 embedding 矩阵打到 MMEB-v2/v3 SOTA，XiaoDuoYa/codex-with-chatgpt 把 ChatGPT 网页 + 只读 MCP 桥变成 Codex 规划脑，wide-trace/open-higgsfield 对位闭源 Higgsfield AI 收 40 个图像视频模型。"
     }
   ],
   "works": [
