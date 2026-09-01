@@ -505,6 +505,24 @@
       ],
       "date": "2026-08-31 00:50",
       "summary": "AI/agent/LLM 主题上周一~上周日（2026-08-24..2026-08-30）新创建热门仓库榜单，30 条全部为新上、无连榜；sapientinc/PRAXIST 单仓 4530 星领跑，Tencent/WeMM-Embedding 把多模态 embedding 矩阵打到 MMEB-v2/v3 SOTA，XiaoDuoYa/codex-with-chatgpt 把 ChatGPT 网页 + 只读 MCP 桥变成 Codex 规划脑，wide-trace/open-higgsfield 对位闭源 Higgsfield AI 收 40 个图像视频模型。"
+    },
+    {
+      "id": "19cca924-da97-4364-b802-50bef139b698",
+      "title": "GitHub 日榜 · 2026-08-31 · agent harness 双榜登顶 + Skill/CLI 工具箱类集体冒头",
+      "date": "2026-09-01T08:10:30+08:00",
+      "summary": "2026-08-31 GitHub 新创建热门 AI/agent/LLM 仓库 Top 12（30 条原始 - 18 条空壳/成人词剔除）：AMAP-ML/LoopArena 把大模型当 controller 测调度 + productdevbook/cizgile 零依赖 RFC 严格 slug 引擎 + Tyche-MKR 同步登顶两个 agent 仓 + yilujian/easy-writing BYOK 中文网文桌面。Skill/CLI 工具箱类集体冒头。本档仅 12 条未满 15 满档。",
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "categories": [
+        "github-trending"
+      ],
+      "file": "/assets/articles/github-trending/github-trending-2026-08-31.md",
+      "pinned": null
     }
   ],
   "works": [
