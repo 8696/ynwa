@@ -25,9 +25,10 @@
       "target": ""
     },
     {
-      "label": "关于",
-      "value": "#about",
-      "target": ""
+      "type": "link",
+      "label": "Agent开发",
+      "value": "/ai-agents-learning/index.html",
+      "target": "_blank"
     },
     {
       "label": "联系",

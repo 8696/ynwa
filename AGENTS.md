@@ -45,7 +45,7 @@ assets/
    - **不要** → `components/`（例如首页 Hero、搜索结果行）
 2. 会不会被多个页面或壳层复用？  
    - **会** → 一定在 `components/`（例如 `ArticleCard`、`Pagination`、`DbState`）
-3. 首页底下的 `#works` / `#about` / `#contact` 挂在路由出口外，也算组件，**不进** `pages/`。
+3. 首页底下的 `#works` / `#contact` 挂在路由出口外，也算组件，**不进** `pages/`。
 
 两边都是「一个全局函数 + 同名 `.css`」；差别只在是否对应一条路由。
 
@@ -57,10 +57,10 @@ assets/
 | --- | --- | --- | --- |
 | **`themes.js`** | 首屏前写入强调色 | 仅：IIFE 内的 `themes` 表 + 按本地日历日 `% length` 选色；写 `--accent` / `--accent-soft` / `--accent-2` / `--on-accent` / `--on-accent-2` 与 `data-theme` | `SITE_*` 文案、`db`、任何 React/JSX、读 `localStorage`；不要把色值再抄进 `config.js` 或组件 CSS |
 | **`base.css`** | 全站共用样式与变量兜底 | 仅：`:root` 兜底（含 `--accent*`）、reset、`body` 条纹底、`.skip-link` / `.page` / `.wrap` / `.site-header-inner`、`.btn*` / `.chip*` / `.section-title*` / `.eyebrow` / `.page-title` / `.page-desc`、`prefers-reduced-motion` | `Header`/`ArticleCard`/`Works*` 等私有布局（进同名 `.css`）；`.markdown-body`（进 `pages/Article.css`）；不要在这里「业务写死」某天的强调色 |
-| **`config.js`** | 站点身份与运行常量 | 仅：`PUBLIC_ASSET_BASE`、`SITE_*`（含 `SITE_ABOUT_*` / `SITE_WORKS_*`）、`DB_URL`、`PAGE_SIZE`、`PINNED_MAX`、`CACHE_*`、`FOOTER_*`；可顺带设默认 `document.title` / `meta description` | `articles[]`/`nav[]`/`works[]` 等列表（进 `db.json`）；`themes` 表；缓存读写/`fetch`（进 `db-context.js`）；JSX / React |
+| **`config.js`** | 站点身份与运行常量 | 仅：`PUBLIC_ASSET_BASE`、`SITE_*`（含 `SITE_WORKS_*`）、`DB_URL`、`PAGE_SIZE`、`PINNED_MAX`、`CACHE_*`、`FOOTER_*`；可顺带设默认 `document.title` / `meta description` | `articles[]`/`nav[]`/`works[]` 等列表（进 `db.json`）；`themes` 表；缓存读写/`fetch`（进 `db-context.js`）；JSX / React |
 | **`utils.js`** | 纯函数工具箱 | 仅全局纯函数：`formatDate`、`getCategoryName`/`List`、`paginate`、`buildPageRange`、`escapeHtml`、`highlightOne`、`searchArticles`、置顶（`getPinRank` / `listPinnedItems` / `isPinnedItem` / `orderItemsWithPinned`，文章别名仍可用）、`normalizeArticleFilePath`、`resolvePublicAssetUrl`、`getGithubNav` | `React.*`、JSX、`createRoot`、DOM 副作用、`fetch(DB_URL)`、站点文案常量（进 `config.js`） |
 | **`db-context.js`** | `db.json` 唯一入口 | 仅：`DBContext`、`DBProvider`、`useDB`，以及本文件私有的缓存辅助（`isCacheDisable*` / `applyCacheDisableFromUrl`）；读 `config` 的 `DB_URL`/`CACHE_*`；排序后写入内存的 `db` | 第二个 `fetch(DB_URL)`；页面/卡片 UI；在别处再定义一份 `CACHE_KEY`；改 `DB_URL` 字符串本身（那是 `config.js`） |
-| **`main.js`** | 应用壳 + 挂载 | 仅：`App`（`Header` + `<Routes>` + 首页路由外 `#works/#about/#contact` + `Footer` + skip-link）、滚动策略、`createRoot` 包 `BrowserRouter`/`DBProvider` | 具体页面 JSX（进 `pages/`）；卡片/子块 DOM（进 `components/`）；`loadDB` 实现（进 `db-context.js`）；新业务常量（进 `config.js`） |
+| **`main.js`** | 应用壳 + 挂载 | 仅：`App`（`Header` + `<Routes>` + 首页路由外 `#works/#contact` + `Footer` + skip-link）、滚动策略、`createRoot` 包 `BrowserRouter`/`DBProvider` | 具体页面 JSX（进 `pages/`）；卡片/子块 DOM（进 `components/`）；`loadDB` 实现（进 `db-context.js`）；新业务常量（进 `config.js`） |
 
 **加载形态（不可混）：**
 
@@ -88,9 +88,9 @@ assets/
 | **加分类 / 标签** | `db.json` 的 `categories[]` 或 `tags[]`；分类要上顶栏再改 `nav[]` | 文章里必须写词典 **id**，不要写展示名。总览页 `/topics` 自动列出词典，不必改 nav |
 | **改顶栏栏目** | `db.json` 的 `nav[]` | 「首页」和搜索是代码写死的，不要写进 `nav` |
 | **加 AI 作品卡** | `db.json` 的 `works[]`；独立页部署到同域 `/ai-page/<目录>/` | 不要把作品页收进 React 路由；本仓库不收 `ai-page/` 源码 |
-| **改站点名 / 关于 / 邮箱 / 页脚 / 分页大小 / 置顶上限 / 缓存键** | `core/config.js` | 作品条目、栏目、文章不放这里 |
+| **改站点名 / 邮箱 / 页脚 / 分页大小 / 置顶上限 / 缓存键** | `core/config.js` | 作品条目、栏目、文章不放这里 |
 | **改强调色 / 加一套主题** | `core/themes.js` 的 `themes` 数组 | 不要写进 `config.js` 或 `index.html` 底部，否则首屏闪默认黄 |
-| **改列表卡片 / 顶栏 / 页脚 / 作品卡 / 关于 / 联系** | `components/<Name>.js` + 同名 `.css` | 不要在页面里复制一份卡片 DOM；新组件还要在 `index.html` 的 `LOCAL_ASSETS.components` 里加一项 `{ js, css }` |
+| **改列表卡片 / 顶栏 / 页脚 / 作品卡 / 联系** | `components/<Name>.js` + 同名 `.css` | 不要在页面里复制一份卡片 DOM；新组件还要在 `index.html` 的 `LOCAL_ASSETS.components` 里加一项 `{ js, css }` |
 | **改作品卡排布** | `components/WorksSection.css` 的 `.bento`（首页与 `/works` 共用） | 宽屏是 **CSS grid 左右换行**。不要用 `column-count`：那会先填满左列再填右列 |
 | **改某个路由页（首页、详情、搜索…）** | `pages/<Name>.js` + 同名 `.css` | 页面不要自己 `fetch db.json`；数据只用 `useDB()` |
 | **加一条新路由** | 新建 `pages/<Name>.{js,css}` → `index.html` 登记 → `core/main.js` 的 `<Routes>`；要上顶栏再改 `nav[]` | 托管必须继续把未知路径回退到 `index.html` |
@@ -170,7 +170,7 @@ body 末尾:
 
 **components 推荐顺序（与当前 `index.html` 一致）：**
 
-`EmptyState` → `SearchIcon` → `Header` → `Footer` → `DbState` → `WorksCardArrow` → `buildWorksLooks` → `WorksCard` → `WorksSection` → `AboutSection` → `ContactCta` → `TagLinks` → `ArticleCard` → `SearchResultRow` → `Pagination` → `HomeHero`
+`EmptyState` → `SearchIcon` → `Header` → `Footer` → `DbState` → `WorksCardArrow` → `buildWorksLooks` → `WorksCard` → `WorksSection` → `ContactCta` → `TagLinks` → `ArticleCard` → `SearchResultRow` → `Pagination` → `HomeHero`
 
 **pages 推荐顺序（仅 Routes 登记的页面）：**
 
@@ -211,7 +211,6 @@ body 末尾:
 | `buildWorksLooks` | 作品卡随机配色（无 DOM；CSS 占位） |
 | `WorksCard` | 单张作品卡（支持置顶徽标） |
 | `WorksSection` | 首页 `#works` 区块（含末尾「更多」；作品先按 pinned 再切） |
-| `AboutSection` | 首页 `#about`：人设卡、站名由来、「这个站」；文案在 `SITE_ABOUT_*` |
 | `ContactCta` | 首页 `#contact` |
 | `TagLinks` | 标签 id → `/tag/:id` 链接 |
 | `ArticleCard` | 文章列表卡（支持搜索高亮、`openInNewTab`、置顶徽标） |
@@ -382,7 +381,7 @@ npx --yes serve -s . -l 3000
 5. 需要顶栏入口 → `db.json` `nav[]`
 6. `document.title` 在该页 `useEffect` 里改，参考现有页面
 
-首页底下的作品 / 关于 / 联系**不要塞进 `Home`**：它们挂在 `core/main.js`、路由出口之外，列表翻页不会卸掉。新的「分页后仍留在首页底部」的区块同样挂在 `isHome ? ...` 旁边，并给锚点 `id`（现有：`#articles`、`#works`、`#about`、`#contact`）。
+首页底下的作品 / 联系**不要塞进 `Home`**：它们挂在 `core/main.js`、路由出口之外，列表翻页不会卸掉。新的「分页后仍留在首页底部」的区块同样挂在 `isHome ? ...` 旁边，并给锚点 `id`（现有：`#articles`、`#works`、`#contact`）。
 
 ### 新卡片 / 复用 UI
 
