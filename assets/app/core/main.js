@@ -17,7 +17,7 @@ function App() {
   }, [location.pathname, navType])
 
   React.useEffect(function () {
-    // 全 pathname 都支持 hash 滚动：首页用 #works/#about/#contact（路由外区块）；
+    // 全 pathname 都支持 hash 滚动：首页用 #works/#contact（路由外区块）；
     // 跨页用 #topics-cats / #topics-tags（首页统计卡跳到 /topics 后滚到对应区块）。
     if (!location.hash) return
     var id = location.hash.slice(1)
@@ -45,9 +45,8 @@ function App() {
           <ReactRouterDOM.Route path="*" element={<NotFound />} />
         </ReactRouterDOM.Routes>
       </div>
-      {/* 作品/关于/联系挂在路由外：分页只换 #main 里的列表，这三块始终在首页底下，不被 Home 重挂 */}
+      {/* 作品/联系挂在路由外：分页只换 #main 里的列表，这两块始终在首页底下，不被 Home 重挂 */}
       {isHome ? <WorksSection /> : null}
-      {isHome ? <AboutSection /> : null}
       {isHome ? <ContactCta /> : null}
       <Footer />
     </React.Fragment>

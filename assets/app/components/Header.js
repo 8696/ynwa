@@ -64,7 +64,7 @@ function Header() {
   /**
    * 把 db.nav 单项转成「点了去哪、用哪种标签、是否高亮」。
    * nav 没有 type：value 就是地址，看前缀决定怎么走。
-   * - #about → 回首页再滚锚点（跨页也能用）
+   * - #contact → 回首页再滚锚点（跨页也能用）
    * - http(s) 或 target=_blank → 原生 <a>（Link 会拦点击）
    * - /category/AI、/works → React Router Link
    */

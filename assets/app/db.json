@@ -25,9 +25,10 @@
       "target": ""
     },
     {
-      "label": "关于",
-      "value": "#about",
-      "target": ""
+      "type": "link",
+      "label": "Agent开发",
+      "value": "/ai-agents-learning/index.html",
+      "target": "_blank"
     },
     {
       "label": "联系",
@@ -54,7 +55,7 @@
     {
       "id": "github-trending",
       "name": "GitHub榜单",
-      "description": "GitHub 趋势、热榜与开源项目观察"
+      "description": "GitHub AI / agent / LLM 项目的日榜、周榜、月榜观察"
     }
   ],
   "tags": [
@@ -164,6 +165,43 @@
     }
   ],
   "articles": [
+    {
+      "id": "540533d3-f23e-461e-8752-e1683027d13d",
+      "title": "GitHub 日榜 · 2026-08-29 · Hono-kun 把\"AI 维护者\"拆成读/写两 Worker + content-parity 测量机器读者视角",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-30 08:10",
+      "pinned": null,
+      "summary": "日档观察：Agent 工具形态分化（可观测 CLI / 维护者架构 / loop watchdog 三类新仓同日上榜）；Hermes Agent 生态插件 + Android 副驾双衍生；设计 skill 仍是日榜常客；MCP 拓展至 KNX 智能家居总线硬件层。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-29.md",
+      "cover": ""
+    },
+    {
+      "id": "5752dd6b-b03a-4f42-91bb-0647908cdf0b",
+      "title": "blog-site-manager Skill 架构解析：把一整个静态博客站收进一个 Skill 里",
+      "categories": [
+        "engineering"
+      ],
+      "tags": [
+        "skill",
+        "architecture",
+        "hermes-agent",
+        "github"
+      ],
+      "date": "2026-08-24 20:30",
+      "pinned": null,
+      "summary": "拆解 blog-site-manager Skill 内部设计——三 CLI 分工、router 模式、双闸 dry-run、保护键 / 路径归一化、工作副本脏检查这套安全栈怎么搭出来",
+      "file": "/assets/articles/engineering/blog-site-manager-skill-arch.md",
+      "cover": ""
+    },
     {
       "id": "3e4de540-55bd-41e6-ab7a-e8654dd70059",
       "title": "使用 Claude code 生成个人博客网站",
@@ -336,6 +374,190 @@
       "pinned": null,
       "summary": "周榜 2026-08-17..2026-08-23（共 30 条）：s1dashu/ip-as-logo-skill 单仓 3899⭐ 登顶（Agent Skill 形态最佳代表，可一键将 IP 转 logo），MCP 实现同期出现 4 条独立仓（CopilotKit/OpenBot、cinderline/northcinder、duty1g/x64dbg-mcp-server、wang2122/sprix-sage-router），设计/营销类 Skill 集中涌现约 10 条；上期（W33）30 条全部掉出，本期 staying=0；DSH 周边从 W33 的 8 条周边霸榜回落到 W34 仅剩 #11 / #26 两条；Top 10 详深挖覆盖 cumora（Windows BYOA 部署踩坑、#58 #59 双 open）、OpenBot（AG-UI 治理型 MCP + 三条审计/导航/凭据 open issue）、x64dbg-mcp-server（Zig 写就、71 个 MCP tools、x64 上已 closed 的 0xc0000005）、watermark-remover（W33 同仓 ShadowAqueduct 换壳重生）等。",
       "file": "/assets/articles/github-trending/github-weekly-2026-W34.md",
+      "cover": ""
+    },
+    {
+      "id": "88347247-98b7-43b7-97ad-b3e373112d30",
+      "title": "GitHub 日榜 · 2026-08-24 · Agent Skill 5 条同时冒头 + tonghuasun-agent 用真实 Issue 暴露 DLL 未签名风险",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-25 08:10",
+      "pinned": null,
+      "summary": "日榜 2026-08-24：Agent Skill 当道（Top 15 中 5 条属 Codex/Claude Code Skill 生态），Fireworks Open ELI5（10235 字符、Truth Ladder + 离线 HTML + 严格导出校验）和 tonghuasun-agent（6 harness 桥 + Issue #2 作者自报「核心 DLL 未签名」+ Issue #3 实战兼容报错）位居前列；DSH 预设生态进入「破限玩法」阶段；上期 15 条全部掉出、本期 15 条全部新上；中英文项目 7 / 8。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-24.md",
+      "cover": ""
+    },
+    {
+      "id": "4aabf126-852f-4928-b5b5-8afe0a36196d",
+      "title": "GitHub 日榜 · 2026-08-25 · 腾讯微信视觉下场做 WeMM-Embedding 多模态矩阵 + hayamimi 纯 CPU 实时多语 ASR 把 whisper-turbo CER 打到一半",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-26 08:11",
+      "pinned": null,
+      "summary": "日榜 2026-08-25:整档个人工具化占绝对多数,15 条里 12+ 是单点 Skill / 本地桌面 / 本地脚本;腾讯微信视觉下场做 WeMM-Embedding(2B/4B/9B),MMEB-v2/v3 多档 SOTA;oboroge0/hayamimi 纯 CPU 实时多语 ASR 把 whisper-turbo 在广播日语音频上的 CER 从 13.8% 打到 5.8%;Agent Skill 形态继续渗透(KurosawaGeeker/femboy-skill、Reality-JH/FailoverAI、heygen/hyperframes-community-skills、ra1nyxin/immersive-vibration-response-skill);首期快照无对照。中英文项目 9 / 6。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-25.md",
+      "cover": ""
+    },
+    {
+      "id": "90ba12b2-c7ad-43ee-8c59-a7fe3c606301",
+      "title": "GitHub 日榜 · 2026-08-26 · open-higgsfield 单日 550 星登顶 + Skill 形态继续吞噬周边（色彩学/视频理解/夕阳审计各占一坑）",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-27 08:11",
+      "pinned": null,
+      "summary": "日榜 2026-08-26:Top1 由 wide-trace/open-higgsfield 单日 550 星拿下,40 模型整合站;Skill 形态继续吞噬垂类(色彩学/视频理解/夕阳审计);UditAkhourii/cdaf 把视频 sidecar 减 token 1/10;MiaAI-Lab 与 0xBakeer 同一时间发两个 Qwen3.8-Flash-Next 单/双 DGX Spark 部署分支;对照上期 14 条全掉出,只剩 cdaf 复进。中英文 6/9。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-26.md",
+      "cover": ""
+    },
+    {
+      "id": "07de12af-70fb-491b-ab64-bed8c32e501b",
+      "title": "GitHub 日榜 · 2026-08-27 · MoureDev SDD 课程仓单日 233⭐断层登顶 + GLM-5.3-Flash 当天两条 NVFP4 部署并行冒头",
+      "date": "2026-08-28 08:11",
+      "summary": "日榜 2026-08-27：mouredev/hello-sdd 单日 233⭐断层第一（MoureDev 西语 SDD 直播课 artifacts + EARS 编号规范 + habits-cli 标准库示例）；GLM-5.3-Flash 当天冒出两条 NVFP4 部署（drowzeys 2× DGX Spark TP2 + 1M 上下文 passkey；tonyd2wild 4× DGX Spark TP4 + 6.65M token KV 池，互相署名）；agent 框架零件层单日冒出 AIrecall（Python SDK stdlib-only + Go server 长期记忆）和 opengrok（Grok Bot 模型劫持 + wire map 探针验证）两套对照实现；LuxUmbra697 同作者连发两个 AI 应用仓（luxumbra-ai-learn 微信小程序学习闭环 + LuxUmbra-Slides 中文 PPT 平台）；上期 15 条全部掉出、本期 15 条全数新上；中英文项目 9 / 6。",
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "categories": [
+        "github-trending"
+      ],
+      "file": "/assets/articles/github-trending/github-trending-2026-08-27.md",
+      "author": "Hermes",
+      "readTime": 18
+    },
+    {
+      "id": "7506357b-fa2b-4360-ab5d-8a66f5dabc8c",
+      "title": "GitHub 日榜 · 2026-08-28 · 去 AI 化写作 skill + Codex-MCP 桥霸榜",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-08-29 08:11",
+      "pinned": null,
+      "summary": "日榜 2026-08-28:Nanako0129/sepia 332⭐ 断层登顶,叙事架构修补型\"去 AI 化\"写作 skill(四平台通用 + StoryScope 论文支撑);XiaoDuoYa/codex-with-chatgpt 283⭐,ChatGPT 网页当规划脑 + Codex 当执行壳,OAuth+只读 MCP 桥 + 一时配对码;chrisgreg/boop 92⭐,单 Go 二进制 + SQLite + APNs 直推自托管开发者通知收件箱;camilleroux/genart-skill 79⭐,Claude Code 生成艺术 skill,确定性可上链 + 稀有度实测工具;Inch-high/unifi-support-file-analyzer 52⭐,本机读 UniFi 1,700 文件支持包,带隐私一键脱敏;设计/艺术类 agent skill 同日两条上 Top 5(sepia + genart + 孙学写作法);自托管小工具(boop + unifi analyzer)集中冒泡,反映\"自己的数据,自己的机器\"偏好;首期快照,15 条全数新上,无上期对照;中英文分布 8/7。",
+      "file": "/assets/articles/github-trending/github-trending-2026-08-28.md",
+      "cover": "",
+      "author": "Hermes",
+      "readTime": 22
+    },
+    {
+      "id": "3510f9fe-fddb-4bfc-80f4-85ac683801da",
+      "title": "GitHub 日榜 · 2026-08-30 · yname 字符级 RNN 抢注 YC 名字 + PixelML 4×170HX 攒 256 GB HBM 池",
+      "date": "2026-08-31 08:10",
+      "summary": "日榜 2026-08-30：aadithyanr/yname 44⭐ 登顶（字符级 RNN + 6,194 YC 公司名训练，浏览器本地生成 + RDAP 域名检查）；rileycx/strafe 30⭐，macOS Space 切换加速器，~1k 行 Swift / 零依赖把 168.5ms 动画期压到 49.6ms；ih8d8/yt-dlp-manager 29⭐，自托管 yt-dlp 单 Go 二进制 + Web UI/TUI/CLI/daemon 四前端共享队列；PixelML/club-170hx 13⭐，4×CMP 170HX 攒 256 GB HBM2e 计算池，Qwen3.8-27B NVFP4 单卡 136.38 tok/s @ 180 W；alesha-pro/atlas 12⭐，Qwen3.8-27B 1,199 张量权重视觉化画布 + 实测 SQNR；drephantom/wq-brain-mcp-server 9⭐，WorldQuant BRAIN MCP 故意不在 MCP 层暴露 submit；oh-my-dsh/dsh-plugin-upgrade-skill 9⭐，DSH 插件升级 agent skill 多 plugin 一致；sharn25/Curved-Gauge-Card 13⭐，HA 半圆仪表盘 SVG <textPath>；joeynyc/awesome-microduck 11⭐，Microduck 双足机器人 awesome-list；本档热度扁平（Top1 44⭐ / Top15 8⭐），由\"小而锐利\"个人工具撑起；上一期 15 条全部掉出；中英文项目 12/3。",
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "categories": [
+        "github-trending"
+      ],
+      "file": "/assets/articles/github-trending/github-trending-2026-08-30.md"
+    },
+    {
+      "id": "2c408cd7-79b2-4ed5-8246-e705814d675a",
+      "title": "GitHub 周榜 · 2026-W35 · sapientinc/PRAXIST 单仓 4530 星领跑 + 30 条全部换血",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W35.md",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-08-31 00:50",
+      "summary": "AI/agent/LLM 主题上周一~上周日（2026-08-24..2026-08-30）新创建热门仓库榜单，30 条全部为新上、无连榜；sapientinc/PRAXIST 单仓 4530 星领跑，Tencent/WeMM-Embedding 把多模态 embedding 矩阵打到 MMEB-v2/v3 SOTA，XiaoDuoYa/codex-with-chatgpt 把 ChatGPT 网页 + 只读 MCP 桥变成 Codex 规划脑，wide-trace/open-higgsfield 对位闭源 Higgsfield AI 收 40 个图像视频模型。"
+    },
+    {
+      "id": "19cca924-da97-4364-b802-50bef139b698",
+      "title": "GitHub 日榜 · 2026-08-31 · agent harness 双榜登顶 + Skill/CLI 工具箱类集体冒头",
+      "date": "2026-09-01T08:10:30+08:00",
+      "summary": "2026-08-31 GitHub 新创建热门 AI/agent/LLM 仓库 Top 12（30 条原始 - 18 条空壳/成人词剔除）：AMAP-ML/LoopArena 把大模型当 controller 测调度 + productdevbook/cizgile 零依赖 RFC 严格 slug 引擎 + Tyche-MKR 同步登顶两个 agent 仓 + yilujian/easy-writing BYOK 中文网文桌面。Skill/CLI 工具箱类集体冒头。本档仅 12 条未满 15 满档。",
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "categories": [
+        "github-trending"
+      ],
+      "file": "/assets/articles/github-trending/github-trending-2026-08-31.md",
+      "pinned": null
+    },
+    {
+      "id": "0ae887b8-ef1f-4ba1-ade3-2d711012886d",
+      "title": "GitHub 月榜 · 2026-08 · DSH 单生态吃掉近半热度 + Kimi K3 单 CPU 跑通 2.8T 参数",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-monthly-ranking"
+      ],
+      "date": "2026-09-01 09:10",
+      "pinned": null,
+      "summary": "月榜 Top 50：DeepSeek Harness 单生态吃掉近半热度（13/50,Top 10 占 5 席,19 天破 20 万星创历史 Agent 框架首发纪录）；工具型黑马两强并列(guillaumemeyer/watermarks-remover 剥离 C2PA 水印 + firecrawl/anydoc 8 种办公文档转 Markdown,各 1.9 万星)；极简硬件极简(FareedKhan-dev/kimi-k3-in-c 纯 C99 8.24GB RAM 单 CPU 跑通 2.78T 参数 vs dmmulroy/anti-slop Oxlint 极简规则);MCP 协议层进入场景落地期(CopilotKit/OpenBot AI 同事 + fuxicodex/Fuxi 终端 agent + duty1g/x64dbg-mcp-server 逆向调试器三领域同月接入);设计/写作 Skill 类元工具上量(IP logo / 短剧分镜 / 去 AI 化写作 / 单色编辑风 4 个 Skill 进 Top 50,Agent Harness 内置 Skill 市场细分已成型)。",
+      "file": "/assets/articles/github-trending/github-monthly-2026-08.md",
+      "cover": ""
+    },
+    {
+      "id": "497cc6c7-0b76-4ca5-a759-30692ed3f3f1",
+      "title": "我搭了一套 23 个模块的 AI Agent 学习仓库：架构、内容与陪跑设计",
+      "categories": [
+        "engineering"
+      ],
+      "tags": [
+        "ai",
+        "agent"
+      ],
+      "date": "2026-09-01 10:00",
+      "pinned": null,
+      "summary": "8696/ai-agents-learning 仓库介绍：从 0 到 1 学 AI Agent 开发的 24 模块路线、五个实战项目、docs/apps/demos 三段式结构、以及怎么把 AGENTS.md 设计成 AI 陪跑契约",
+      "file": "/assets/articles/engineering/agent-xue-xi-cang-ku-jie-shao.md",
       "cover": ""
     }
   ],
