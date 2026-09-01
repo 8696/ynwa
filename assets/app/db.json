@@ -543,6 +543,22 @@
       "summary": "月榜 Top 50：DeepSeek Harness 单生态吃掉近半热度（13/50,Top 10 占 5 席,19 天破 20 万星创历史 Agent 框架首发纪录）；工具型黑马两强并列(guillaumemeyer/watermarks-remover 剥离 C2PA 水印 + firecrawl/anydoc 8 种办公文档转 Markdown,各 1.9 万星)；极简硬件极简(FareedKhan-dev/kimi-k3-in-c 纯 C99 8.24GB RAM 单 CPU 跑通 2.78T 参数 vs dmmulroy/anti-slop Oxlint 极简规则);MCP 协议层进入场景落地期(CopilotKit/OpenBot AI 同事 + fuxicodex/Fuxi 终端 agent + duty1g/x64dbg-mcp-server 逆向调试器三领域同月接入);设计/写作 Skill 类元工具上量(IP logo / 短剧分镜 / 去 AI 化写作 / 单色编辑风 4 个 Skill 进 Top 50,Agent Harness 内置 Skill 市场细分已成型)。",
       "file": "/assets/articles/github-trending/github-monthly-2026-08.md",
       "cover": ""
+    },
+    {
+      "id": "497cc6c7-0b76-4ca5-a759-30692ed3f3f1",
+      "title": "我搭了一套 23 个模块的 AI Agent 学习仓库：架构、内容与陪跑设计",
+      "categories": [
+        "engineering"
+      ],
+      "tags": [
+        "ai",
+        "agent"
+      ],
+      "date": "2026-09-01 10:00",
+      "pinned": null,
+      "summary": "8696/ai-agents-learning 仓库介绍：从 0 到 1 学 AI Agent 开发的 24 模块路线、五个实战项目、docs/apps/demos 三段式结构、以及怎么把 AGENTS.md 设计成 AI 陪跑契约",
+      "file": "/assets/articles/engineering/agent-xue-xi-cang-ku-jie-shao.md",
+      "cover": ""
     }
   ],
   "works": [
