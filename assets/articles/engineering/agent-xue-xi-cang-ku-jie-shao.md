@@ -198,22 +198,10 @@ yarn workspaces / pnpm workspaces 一开始看着很美（统一 `node_modules`�
 
 ---
 
-## 现在的进度和怎么参与
-
-### 我的进度
-
-按 `docs/06-学习总览.md` 的状态：
-
-- ✅ 模块 00（环境准备）和模块 01（AI & LLM 基础认知）已过完——这两个是基础，写笔记即可，不进代码项目。
-- 🔄 项目 1（ChatGPT Mini）在做——目前能跑通 SSE 流式回复 + Zod 校验 + HTTP + 浏览器聊天 UI，但多轮对话、Token Budget、429 处理还没回填。
-- ⬜ 模块 02 起到模块 23 还没开始。
-
-换句话说：仓库结构、文档、AGENTS.md 陪跑契约是齐的，但**我自己也只走完了 2/24**。这不影响你打开它——文档和 AGENTS.md 是给 AI 读的「契约」，跑起来就是陪跑模式；项目空目录是按 AGENTS.md §2 故意留的，禁止提前建。
-
 ### 怎么参与 / 围观
 
 - **GitHub 仓库**：[github.com/8696/ai-agents-learning](https://github.com/8696/ai-agents-learning)
-- **配套可读站点**：[icode.link/ai-agents-learning/index.html](https://icode.link/ai-agents-learning/index.html)（一个双源阅读器，本地 fetch `./<path>` 或远程 fetch `raw.githubusercontent.com/8696/ai-agents-learning/refs/heads/master/<path>`，二选一不复制）
+- **配套可读站点**：[http://icode.link/ai-agents-learning/index.html](http://icode.link/ai-agents-learning/index.html)（一个双源阅读器，本地 fetch `./<path>` 或远程 fetch `raw.githubusercontent.com/8696/ai-agents-learning/refs/heads/master/<path>`，二选一不复制）
 - **怎么开始**：`git clone` 下来，用 Cursor / Claude Code / Codex 打开，对助手说 `coach start` 就行。它会自动读 `AGENTS.md` 切到陪跑模式，找到当前条，给你讲第一条。
 
 如果你是 Agent 开发老手，可以直接看 `docs/03-学习路线.md` 的 24 模块主表 + S/A/B/C 能力分级，按你自己需要的档位挑着学；如果你是前端转 Agent，强烈建议按 `coach start` 从模块 00 开始走。
