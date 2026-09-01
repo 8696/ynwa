@@ -55,7 +55,7 @@
     {
       "id": "github-trending",
       "name": "GitHub榜单",
-      "description": "GitHub 趋势、热榜与开源项目观察"
+      "description": "GitHub AI / agent / LLM 项目的日榜、周榜、月榜观察"
     }
   ],
   "tags": [
