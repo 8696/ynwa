@@ -573,7 +573,7 @@
         "llm",
         "github-daily-ranking"
       ],
-      "date": "2026-09-01",
+      "date": "2026-09-02T08:10:30+08:00",
       "pinned": null,
       "summary": "本日 Top 15 中出现 3 家撞名 miniMax H3 的仓库(lihaoyun6/ComfyUI-H3VAE_TRT、LIUFelix2004/God-minmax-H3、gokayfem/h3-max-education),以及 5 个 deep target 中 2 个走 skill 形态(kydlikebtc/awesome-grokbot、boringmarketer/meta-ads-skill)。MCP 题材降到 2 条,RL 训练栈冒头 3 条。",
       "file": "/assets/articles/github-trending/github-trending-2026-09-01.md",
