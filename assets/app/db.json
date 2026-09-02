@@ -546,7 +546,7 @@
     },
     {
       "id": "497cc6c7-0b76-4ca5-a759-30692ed3f3f1",
-      "title": "我搭了一套 23 个模块的 AI Agent 学习仓库：架构、内容与陪跑设计",
+      "title": "我搭了一套 24 个模块的 AI Agent 学习仓库：架构、内容与陪跑设计",
       "categories": [
         "engineering"
       ],
@@ -558,6 +558,25 @@
       "pinned": null,
       "summary": "8696/ai-agents-learning 仓库介绍：从 0 到 1 学 AI Agent 开发的 24 模块路线、五个实战项目、docs/apps/demos 三段式结构、以及怎么把 AGENTS.md 设计成 AI 陪跑契约",
       "file": "/assets/articles/engineering/agent-xue-xi-cang-ku-jie-shao.md",
+      "cover": ""
+    },
+    {
+      "id": "7bb95a2c-50cd-45d0-939b-cb0ab420a766",
+      "title": "GitHub 日榜 · 2026-09-01 · miniMax H3 撞名三家同日上榜 + skill/agent 多家冒头",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-daily-ranking"
+      ],
+      "date": "2026-09-02T08:10:30+08:00",
+      "pinned": null,
+      "summary": "本日 Top 15 中出现 3 家撞名 miniMax H3 的仓库(lihaoyun6/ComfyUI-H3VAE_TRT、LIUFelix2004/God-minmax-H3、gokayfem/h3-max-education),以及 5 个 deep target 中 2 个走 skill 形态(kydlikebtc/awesome-grokbot、boringmarketer/meta-ads-skill)。MCP 题材降到 2 条,RL 训练栈冒头 3 条。",
+      "file": "/assets/articles/github-trending/github-trending-2026-09-01.md",
       "cover": ""
     }
   ],
