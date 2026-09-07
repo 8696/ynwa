@@ -10,13 +10,17 @@ function Pagination(props) {
     return buildPageRange(current, totalPages)
   }, [current, totalPages])
 
+  function handlePageClick() {
+    // 分页属于同一页面内容切换；Router 不会触发浏览器原生回顶。
+    window.scrollTo(0, 0)
+  }
+
   if (totalPages <= 1) return null
 
   return (
     <nav className="pagination">
-      {/* 边界页用 span 而不是 Link，避免点「上一页」仍跳到当前 URL */}
       {current > 1 ? (
-        <ReactRouterDOM.Link className="page-btn page-btn--prev" to={buildUrl(current - 1)}>
+        <ReactRouterDOM.Link className="page-btn page-btn--prev" to={buildUrl(current - 1)} onClick={handlePageClick}>
           上一页
         </ReactRouterDOM.Link>
       ) : (
@@ -31,6 +35,7 @@ function Pagination(props) {
           <ReactRouterDOM.Link
             key={n}
             to={buildUrl(n)}
+            onClick={handlePageClick}
             className={'page-btn' + (n === current ? ' page-btn--current' : '')}
           >
             {n}
@@ -39,7 +44,7 @@ function Pagination(props) {
       })}
 
       {current < totalPages ? (
-        <ReactRouterDOM.Link className="page-btn" to={buildUrl(current + 1)}>
+        <ReactRouterDOM.Link className="page-btn" to={buildUrl(current + 1)} onClick={handlePageClick}>
           下一页
         </ReactRouterDOM.Link>
       ) : (
