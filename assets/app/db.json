@@ -156,7 +156,7 @@
     {
       "id": "github-weekly-ranking",
       "name": "GitHub周榜",
-      "description": "AI/agent/LLM 主题当周新创建热门仓库榜单(每周一 07:00 CST 跑)"
+      "description": "AI/agent/LLM 主题上周一~上周日新创建热门仓库榜单(每周一 08:40 CST 跑)"
     },
     {
       "id": "github-monthly-ranking",
@@ -578,6 +578,23 @@
       "summary": "本日 Top 15 中出现 3 家撞名 miniMax H3 的仓库(lihaoyun6/ComfyUI-H3VAE_TRT、LIUFelix2004/God-minmax-H3、gokayfem/h3-max-education),以及 5 个 deep target 中 2 个走 skill 形态(kydlikebtc/awesome-grokbot、boringmarketer/meta-ads-skill)。MCP 题材降到 2 条,RL 训练栈冒头 3 条。",
       "file": "/assets/articles/github-trending/github-trending-2026-09-01.md",
       "cover": ""
+    },
+    {
+      "id": "f2d81be5-c4f8-4358-b421-c5e5ee4f3636",
+      "title": "GitHub 周榜 · 2026-W36 · Anthropic 单周双发 commerce-agents + fermats-last-theorem，4275+2208 星领跑",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W36.md",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-09-07 08:50",
+      "summary": "AI/agent/LLM 主题上周一~上周日（2026-08-31..2026-09-06）新创建热门仓库榜单，30 条全部为新上、无连榜；lnkiai/m3e-canvas 单仓 4275 星领跑，anthropics/commerce-agents 是 Anthropic 官方首个 commerce 行业 Claude Agent 完整参考实现，2akouwu/reverify 把确定性工具变 AI 反编译裁判，Human-Agent-Society/reef 首个开源持续自我改进 agent 基建。"
     }
   ],
   "works": [
