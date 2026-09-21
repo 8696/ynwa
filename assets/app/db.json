@@ -614,6 +614,25 @@
       "pinned": null,
       "summary": "AI/agent/LLM 主题上周一~上周日(2026-09-07..2026-09-13)新创建热门仓库榜单,30 条全部为新上、无连榜(口径:窗口内新仓);Vincentwei1021/anything2explainer 单仓 1166⭐ 登顶(Claude Code / Codex skill,主题→黑底 TTS 讲解视频,9 阶段 + 4 checkpoint + QC + reference 片),Agent Skill 形态在 Top 10 拿下 7 席,anything2explainer 是当前唯一对内容批量产线做端到端封装的项目;Top 10 还包括 dream-loop(AI 自我纠错做 3D demo)、Mac-Duo(iPhone Duo 效果移植 MacBook,已知 lid angle 锁屏 + 简体中文切换 bug)、text-humanizer(DeepSeek+Google+DeepL 多语回译)、Colafornia 短视频生成、gongwen-gbt9704-skill(GB/T 9704-2012 公文 DOCX,跨 10+ 平台安装)、lunel(RVG Gateway fork 多协议代理平台,fork 数 1425)、recurrent-looped-tranformer(论文级架构,parity 4× 训练长度仍 60.8%)、reelbench-skills(零 npm 零 API key 的视频拉片 skill)、RhineLabUI(明日方舟莱茵生命档案终端复刻)。中英文项目分布:Top 30 内英文 24 / 中文 6。",
       "cover": ""
+    },
+    {
+      "id": "55b103f2-fc23-45d3-9f03-c6653d0c2d8b",
+      "title": "GitHub 周榜 · 2026-W38 · TypeSafe Jev 单生态霸榜,Top 30 内 12 条衍生 + Qwen-Image-2.1 官方与剪映 headless 双中文代表",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W38.md",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-09-21 08:46",
+      "pinned": null,
+      "summary": "AI/agent/LLM 主题上周一~上周日(2026-09-14..2026-09-20)新创建热门仓库榜单,30 条全部为新上、零连榜(口径:窗口内新仓);[browser-use/jev-ultrafast](https://github.com/browser-use/jev-ultrafast) 单仓 11,855⭐ 登顶,把\"浏览器操作空间限定到 8 类 + 元素表索引化,Jev 决策 backbone\"做成 Browser Use Cloud 的 ultrafast 实验分支;TypeSafe 的 \"Jev / System One\" typed-decision 单生态本周在 Top 30 里至少 12 条,awesome-jev 在窗口内同时长出 4 份独立整理(yibie/AbdelStark/cobanov/logicrw);[QwenLM/Qwen-Image-2.1](https://github.com/QwenLM/Qwen-Image-2.1) 414⭐ 是这周 Top 30 里唯一阿里/通义官方仓库,[mcncarl/jianying-headless](https://github.com/mcncarl/jianying-headless) 1,980⭐ 是中文仓最高位,把\"剪映专业版 macOS 11.5.0 headless 化\"做成 Python CLI + Agent Skill 双形态;Agent Skill 形态在 Top 30 仍有 5 条,但本周让位给 Jev 单生态头条;[korcarc/text-humanizer](https://github.com/korcarc/text-humanizer) 736⭐ 与 W37 的 SpaceDudem 走相似多语回译路线、但自带 MIT,\"AI 文本人性化\"赛段本周不再是单点试水;[incoai/splash](https://github.com/incoai/splash)/[mizorewww/laya-mlx](https://github.com/mizorewww/laya-mlx)/[mizorewww/laya-coreml](https://github.com/mizorewww/laya-coreml) 三条独立路径把 decision model 跑成 5-15ms;中英文项目分布:Top 30 内英文 24 / 中文 6。",
+      "cover": ""
     }
   ],
   "works": [
