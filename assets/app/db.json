@@ -166,6 +166,25 @@
   ],
   "articles": [
     {
+      "id": "5dff11af-1741-48fb-90ed-a7c99378b216",
+      "title": "GitHub 周榜 · 2026-W39 · jev-chat-jarvis 单生态 6775⭐ 一家独大 + Nokia+Hunyuan 联合署名 AnyJev 入局决策模型",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W39.md",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-09-28 08:46",
+      "pinned": null,
+      "summary": "AI/agent/LLM 主题上周一~上周日(2026-09-21..2026-09-27)新创建热门仓库榜单,30 条全部为新上、零连榜(口径:窗口内新仓按当前总星排序);[jev-chat/jev-chat-jarvis](https://github.com/jev-chat/jev-chat-jarvis) 单仓 6,775⭐ 登顶、近 Top 2(1,988⭐)的 3.4 倍,通过 Android 无障碍只读 QQ/X/飞书对话做两段式对话副驾,同作者群本周内集中发 5 条相关仓(#18 jev-chat-windows / #29 jev-chat-jarvis-mac / #30 JevRev 等)形成新一批\"jev\"撞名集团;[nokia-applied-research/AnyJev](https://github.com/nokia-applied-research/AnyJev) 833⭐ 是本期 Top 10 里唯一带\"头部厂商 + 研究机构\"双署名的仓(Nokia Sunnyvale + Tencent Hunyuan 联合),把任意 LLM 转 typed decision 模型、无需微调;[yetone/magpie](https://github.com/yetone/magpie) 1,243⭐ 是系统菜单栏/TUI/CLI 三形态的\"agent 模型路由\",内嵌本地 gateway 翻译 OpenAI chat / Responses / Anthropic Messages 三协议、覆盖 20+ provider 含 DeepSeek/Kimi/GLM/MiniMax/Qwen;[unreallabsai/unreal-agent](https://github.com/unreallabsai/unreal-agent) 1,988⭐ 是 Go 写的 async-first agent harness,9 组件分层 + session 可 fork + operation durable;[riba2534/claude-opus-5-5-demo](https://github.com/riba2534/claude-opus-5-5-demo) 821⭐ 用 Claude Opus 5.5 一句话提示词one-shot 出三款可玩 3D 游戏(鹈鹕骑自行车 / 穿越火线·运输船 / QQ 飞车)、零人工改代码、Cloudflare Pages 部署;[mikehasa/golive-skill](https://github.com/mikehasa/golive-skill) 1,012⭐ 把 coding agent \"真上线\",Vercel/Netlify/Supabase/Neon/Porkbun/GoDaddy/Resend/Stripe 八服务编排 + 每写操作都要 plan + --confirm-* flag;中英文项目分布:Top 30 内英文约 18 / 中文约 12,中文占比明显高于 W37/W38;W38 → W39 名单几乎全员换血,W38 30 条全部掉出,W39 30 条全部为新上;两个不同的\"jev\"撞名(W38 = TypeSafe Jev 决策模型 / W39 = jev-chat 对话副驾)构成本期最大结构性变化。",
+      "cover": ""
+    },
+    {
       "id": "540533d3-f23e-461e-8752-e1683027d13d",
       "title": "GitHub 日榜 · 2026-08-29 · Hono-kun 把\"AI 维护者\"拆成读/写两 Worker + content-parity 测量机器读者视角",
       "categories": [
