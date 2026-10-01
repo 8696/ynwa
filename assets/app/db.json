@@ -652,6 +652,25 @@
       "pinned": null,
       "summary": "AI/agent/LLM 主题上周一~上周日(2026-09-14..2026-09-20)新创建热门仓库榜单,30 条全部为新上、零连榜(口径:窗口内新仓);[browser-use/jev-ultrafast](https://github.com/browser-use/jev-ultrafast) 单仓 11,855⭐ 登顶,把\"浏览器操作空间限定到 8 类 + 元素表索引化,Jev 决策 backbone\"做成 Browser Use Cloud 的 ultrafast 实验分支;TypeSafe 的 \"Jev / System One\" typed-decision 单生态本周在 Top 30 里至少 12 条,awesome-jev 在窗口内同时长出 4 份独立整理(yibie/AbdelStark/cobanov/logicrw);[QwenLM/Qwen-Image-2.1](https://github.com/QwenLM/Qwen-Image-2.1) 414⭐ 是这周 Top 30 里唯一阿里/通义官方仓库,[mcncarl/jianying-headless](https://github.com/mcncarl/jianying-headless) 1,980⭐ 是中文仓最高位,把\"剪映专业版 macOS 11.5.0 headless 化\"做成 Python CLI + Agent Skill 双形态;Agent Skill 形态在 Top 30 仍有 5 条,但本周让位给 Jev 单生态头条;[korcarc/text-humanizer](https://github.com/korcarc/text-humanizer) 736⭐ 与 W37 的 SpaceDudem 走相似多语回译路线、但自带 MIT,\"AI 文本人性化\"赛段本周不再是单点试水;[incoai/splash](https://github.com/incoai/splash)/[mizorewww/laya-mlx](https://github.com/mizorewww/laya-mlx)/[mizorewww/laya-coreml](https://github.com/mizorewww/laya-coreml) 三条独立路径把 decision model 跑成 5-15ms;中英文项目分布:Top 30 内英文 24 / 中文 6。",
       "cover": ""
+    },
+    {
+      "id": "243a444d-85b4-4ff3-a279-76c48a2a1b0a",
+      "title": "GitHub 月榜 · 2026-09 · Jev/Laya 决策模型家族霸占 26% 席位 + Z.ai 官方下场做 Coding Agent Harness",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-monthly-ranking"
+      ],
+      "date": "2026-10-01 09:10",
+      "pinned": null,
+      "summary": "月榜 Top 50：Jev/Laya 决策模型单生态霸榜（13/50, 26%，覆盖模型本体/laya-mlx 运行时/jev-chat-jarvis 移动 UI/browser-use-jev-ultrafast web agent/awesome-jev 类别全生态）；Z.ai 官方 9-20 发布 ZCode Coding Agent Harness（7253 星,桌面/浏览器/终端 Agent 全栈 monorepo），与同期 Anthropic commerce-agents / NVlabs SoL-Pi 共同走入「厂商参考实现期」；32,047 星的「中国大陆高性价比人生指南」HTML 站因 README 提及 Claude Code/Codex skill 命中 assistant 关键词出现在 TOP1；Codex/Claude Code 派生 Skill 大批量上量（anything2explainer/screenwriting-skills/ffmpeg-skill/dream-loop/handraw-style 等 8+ 项目进榜），yetone/magpie 做 harness 间模型路由；「非纯 AI 工具」混入比例明显上升（Compositor Mac 上的 Photoshop 替代/codenotch macOS 用量限速条/disktree Rust 磁盘清理/mural iPhone 语言学习）。",
+      "file": "/assets/articles/github-trending/github-monthly-2026-09.md",
+      "cover": ""
     }
   ],
   "works": [
