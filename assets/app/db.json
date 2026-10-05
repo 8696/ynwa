@@ -671,6 +671,25 @@
       "summary": "月榜 Top 50：Jev/Laya 决策模型单生态霸榜（13/50, 26%，覆盖模型本体/laya-mlx 运行时/jev-chat-jarvis 移动 UI/browser-use-jev-ultrafast web agent/awesome-jev 类别全生态）；Z.ai 官方 9-20 发布 ZCode Coding Agent Harness（7253 星,桌面/浏览器/终端 Agent 全栈 monorepo），与同期 Anthropic commerce-agents / NVlabs SoL-Pi 共同走入「厂商参考实现期」；32,047 星的「中国大陆高性价比人生指南」HTML 站因 README 提及 Claude Code/Codex skill 命中 assistant 关键词出现在 TOP1；Codex/Claude Code 派生 Skill 大批量上量（anything2explainer/screenwriting-skills/ffmpeg-skill/dream-loop/handraw-style 等 8+ 项目进榜），yetone/magpie 做 harness 间模型路由；「非纯 AI 工具」混入比例明显上升（Compositor Mac 上的 Photoshop 替代/codenotch macOS 用量限速条/disktree Rust 磁盘清理/mural iPhone 语言学习）。",
       "file": "/assets/articles/github-trending/github-monthly-2026-09.md",
       "cover": ""
+    },
+    {
+      "id": "8e4cd0a6-4d4e-4d93-b569-30210e3b4356",
+      "title": "GitHub 周榜 · 2026-W40 · Claude Code 周边生态与 AI 浏览器 agent 双线霸榜",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-10-05 08:40",
+      "pinned": null,
+      "summary": "周榜 Top 30(窗口 2026-09-28..2026-10-04):Claude Code 周边生态五席霸榜(universal-modder/yomiyasu/answer-me-with-html/vibe-wise/replica-skill),KKKKhazix/AIHOT 以 5774 星拿下第一(事件级聚簇 + 日报自动出刊的中文模板);CopilotKit/OpenDots 把 always-on AI 同事做成开源模板(独立 sandboxed 浏览器 + Slack + 通话),feder-cr/dots 用改过的 Firefox 反指纹 + OpenRouter 做浏览器 agent;firelex/jeff 把 0.8B System 1 + 9 个 LoRA 压过 27B 8 个分类任务平均 38× 速度 / 2.8× 错答率减少;Meta muse-gadget-sdk 把 AI 助理延伸到 ESP32 / Linux 外设。首期快照:上期 30 条全部跌出。分布:英文 24 / 中文 6。",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W40.md",
+      "cover": ""
     }
   ],
   "works": [
