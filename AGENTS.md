@@ -94,6 +94,7 @@ assets/
 | **改作品卡排布** | `components/WorksSection.css` 的 `.bento`（首页与 `/works` 共用） | 宽屏是 **CSS grid 左右换行**。不要用 `column-count`：那会先填满左列再填右列 |
 | **改某个路由页（首页、详情、搜索…）** | `pages/<Name>.js` + 同名 `.css` | 页面不要自己 `fetch db.json`；数据只用 `useDB()` |
 | **加一条新路由** | 新建 `pages/<Name>.{js,css}` → `index.html` 登记 → `core/main.js` 的 `<Routes>`；要上顶栏再改 `nav[]` | 托管必须继续把未知路径回退到 `index.html` |
+| **加一条短链** | `pages/NotFound.js` 顶部的 `SHORT_LINKS` | 只加一行 key/value；短链只用于分发，不进 `nav[]`、不占路由。详见下方「短链（short link）」 |
 | **加纯函数（日期、搜索、URL、置顶排序）** | `core/utils.js` | 无 JSX、无 `import`/`export`；挂到全局 `function foo()` |
 | **改缓存 / 数据加载** | `core/db-context.js` | 全站只允许这一处读 `db.json`；`DB_URL` 在 `config.js` |
 | **改共用样式（按钮、chip、页面宽）** | `core/base.css` | 强调色走 CSS 变量，不要硬编码 |
@@ -229,7 +230,7 @@ body 末尾:
 | `Topics` | `/topics`（分类 + 标签总览，不分页） |
 | `Search` | `/search` |
 | `Works` | `/works`（置顶抽到最前；网格与首页 `#works` 共用 `.bento`） |
-| `NotFound` | `*` |
+| `NotFound` | `*`（兼短链：命中 `SHORT_LINKS` 时整页跳走） |
 
 无独立样式的文件（如 `buildWorksLooks.css`、`Category.css`、`Tag.css`）保留一行注释占位，**不要删**，以免与 JS 一一对应关系断裂。
 
@@ -382,6 +383,39 @@ npx --yes serve -s . -l 3000
 6. `document.title` 在该页 `useEffect` 里改，参考现有页面
 
 首页底下的作品 / 联系**不要塞进 `Home`**：它们挂在 `core/main.js`、路由出口之外，列表翻页不会卸掉。新的「分页后仍留在首页底部」的区块同样挂在 `isHome ? ...` 旁边，并给锚点 `id`（现有：`#articles`、`#works`、`#contact`）。
+
+### 短链（short link）
+
+把站内很长的内部链接换成短路径，用来发给别人。例：`/ai` → `/ai-agents-learning/index.html#docs/03-学习路线.md`。
+
+**机制**：映射表 `SHORT_LINKS` 写在 `assets/app/pages/NotFound.js` 顶部。未知路径会落到 `path="*"` 的 404 页（托管把任意路径回退成 `index.html`，React 才能读到 `location.pathname`），该页的 `useEffect` 查表命中就 `window.location.replace(target)` 整页跳走；未命中就正常显示 404。
+
+**加一条短链**：在 `SHORT_LINKS` 里加一行 key/value 即可，不用动别的地方。
+
+```js
+var SHORT_LINKS = {
+  '/ai': '/ai-agents-learning/index.html#docs/03-学习路线.md',
+  '/gh': 'https://github.com/8696/ynwa',
+}
+```
+
+**value 怎么写**（由 `resolveShortLinkTarget()` 解析）：
+
+| value 写法 | 解析结果 |
+| --- | --- |
+| 站内绝对路径（`/ai-agents-learning/...`） | 拼当前站 origin → `http://icode.link/ai-agents-learning/...` |
+| 不带前导斜杠的相对路径（`ai-agents-learning/...`） | 补斜杠后拼 origin |
+| 完整 `http(s)://` 地址 | **原样跳转**（外站），不拼 origin |
+
+拼 origin 而不是直接用相对路径，是为了避免 `icode.link` ↔ `www.icode.link`、http ↔ https 之间来回跳时把 hash 弄丢。
+
+**约定**：
+
+- key 是短路径（以 `/` 开头），value 是站内绝对路径或 `http(s)://` 完整地址
+- 严格相等匹配：`/ai/`（尾斜杠）、`/AI`（大小写）都**不**命中，别指望模糊匹配
+- 短链**不进 `nav[]`**、不占 `<Routes>`、不出现在顶栏或 `/topics`；它只用于外部分发
+- 短链目标可以是站内 SPA 路由（如 `/works`），也可以是独立静态页（如 `/ai-page/<name>/index.html`）
+- 改完要推 OSS 才生效（`assets/app/pages/NotFound.js` 是保护键，须 `--force`）
 
 ### 新卡片 / 复用 UI
 
