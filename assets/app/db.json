@@ -27,7 +27,7 @@
     {
       "type": "link",
       "label": "Agent开发",
-      "value": "/ai-agents-learning/index.html",
+      "value": "/ai-agents-learning/index.html#docs/03-学习路线.md",
       "target": "_blank"
     },
     {
@@ -165,6 +165,25 @@
     }
   ],
   "articles": [
+    {
+      "id": "5dff11af-1741-48fb-90ed-a7c99378b216",
+      "title": "GitHub 周榜 · 2026-W39 · jev-chat-jarvis 单生态 6775⭐ 一家独大 + Nokia+Hunyuan 联合署名 AnyJev 入局决策模型",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W39.md",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-09-28 08:46",
+      "pinned": null,
+      "summary": "AI/agent/LLM 主题上周一~上周日(2026-09-21..2026-09-27)新创建热门仓库榜单,30 条全部为新上、零连榜(口径:窗口内新仓按当前总星排序);[jev-chat/jev-chat-jarvis](https://github.com/jev-chat/jev-chat-jarvis) 单仓 6,775⭐ 登顶、近 Top 2(1,988⭐)的 3.4 倍,通过 Android 无障碍只读 QQ/X/飞书对话做两段式对话副驾,同作者群本周内集中发 5 条相关仓(#18 jev-chat-windows / #29 jev-chat-jarvis-mac / #30 JevRev 等)形成新一批\"jev\"撞名集团;[nokia-applied-research/AnyJev](https://github.com/nokia-applied-research/AnyJev) 833⭐ 是本期 Top 10 里唯一带\"头部厂商 + 研究机构\"双署名的仓(Nokia Sunnyvale + Tencent Hunyuan 联合),把任意 LLM 转 typed decision 模型、无需微调;[yetone/magpie](https://github.com/yetone/magpie) 1,243⭐ 是系统菜单栏/TUI/CLI 三形态的\"agent 模型路由\",内嵌本地 gateway 翻译 OpenAI chat / Responses / Anthropic Messages 三协议、覆盖 20+ provider 含 DeepSeek/Kimi/GLM/MiniMax/Qwen;[unreallabsai/unreal-agent](https://github.com/unreallabsai/unreal-agent) 1,988⭐ 是 Go 写的 async-first agent harness,9 组件分层 + session 可 fork + operation durable;[riba2534/claude-opus-5-5-demo](https://github.com/riba2534/claude-opus-5-5-demo) 821⭐ 用 Claude Opus 5.5 一句话提示词one-shot 出三款可玩 3D 游戏(鹈鹕骑自行车 / 穿越火线·运输船 / QQ 飞车)、零人工改代码、Cloudflare Pages 部署;[mikehasa/golive-skill](https://github.com/mikehasa/golive-skill) 1,012⭐ 把 coding agent \"真上线\",Vercel/Netlify/Supabase/Neon/Porkbun/GoDaddy/Resend/Stripe 八服务编排 + 每写操作都要 plan + --confirm-* flag;中英文项目分布:Top 30 内英文约 18 / 中文约 12,中文占比明显高于 W37/W38;W38 → W39 名单几乎全员换血,W38 30 条全部掉出,W39 30 条全部为新上;两个不同的\"jev\"撞名(W38 = TypeSafe Jev 决策模型 / W39 = jev-chat 对话副驾)构成本期最大结构性变化。",
+      "cover": ""
+    },
     {
       "id": "540533d3-f23e-461e-8752-e1683027d13d",
       "title": "GitHub 日榜 · 2026-08-29 · Hono-kun 把\"AI 维护者\"拆成读/写两 Worker + content-parity 测量机器读者视角",
@@ -595,6 +614,101 @@
       ],
       "date": "2026-09-07 08:50",
       "summary": "AI/agent/LLM 主题上周一~上周日（2026-08-31..2026-09-06）新创建热门仓库榜单，30 条全部为新上、无连榜；lnkiai/m3e-canvas 单仓 4275 星领跑，anthropics/commerce-agents 是 Anthropic 官方首个 commerce 行业 Claude Agent 完整参考实现，2akouwu/reverify 把确定性工具变 AI 反编译裁判，Human-Agent-Society/reef 首个开源持续自我改进 agent 基建。"
+    },
+    {
+      "id": "8f8604b5-15db-4a48-a9b2-b599e2a8c1be",
+      "title": "GitHub 周榜 · 2026-W37 · Agent Skill 一统 Top 10,anything2explainer 单仓 1166 星把主题→讲解视频做成端到端管线",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W37.md",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-09-14 08:45",
+      "pinned": null,
+      "summary": "AI/agent/LLM 主题上周一~上周日(2026-09-07..2026-09-13)新创建热门仓库榜单,30 条全部为新上、无连榜(口径:窗口内新仓);Vincentwei1021/anything2explainer 单仓 1166⭐ 登顶(Claude Code / Codex skill,主题→黑底 TTS 讲解视频,9 阶段 + 4 checkpoint + QC + reference 片),Agent Skill 形态在 Top 10 拿下 7 席,anything2explainer 是当前唯一对内容批量产线做端到端封装的项目;Top 10 还包括 dream-loop(AI 自我纠错做 3D demo)、Mac-Duo(iPhone Duo 效果移植 MacBook,已知 lid angle 锁屏 + 简体中文切换 bug)、text-humanizer(DeepSeek+Google+DeepL 多语回译)、Colafornia 短视频生成、gongwen-gbt9704-skill(GB/T 9704-2012 公文 DOCX,跨 10+ 平台安装)、lunel(RVG Gateway fork 多协议代理平台,fork 数 1425)、recurrent-looped-tranformer(论文级架构,parity 4× 训练长度仍 60.8%)、reelbench-skills(零 npm 零 API key 的视频拉片 skill)、RhineLabUI(明日方舟莱茵生命档案终端复刻)。中英文项目分布:Top 30 内英文 24 / 中文 6。",
+      "cover": ""
+    },
+    {
+      "id": "55b103f2-fc23-45d3-9f03-c6653d0c2d8b",
+      "title": "GitHub 周榜 · 2026-W38 · TypeSafe Jev 单生态霸榜,Top 30 内 12 条衍生 + Qwen-Image-2.1 官方与剪映 headless 双中文代表",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W38.md",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-09-21 08:46",
+      "pinned": null,
+      "summary": "AI/agent/LLM 主题上周一~上周日(2026-09-14..2026-09-20)新创建热门仓库榜单,30 条全部为新上、零连榜(口径:窗口内新仓);[browser-use/jev-ultrafast](https://github.com/browser-use/jev-ultrafast) 单仓 11,855⭐ 登顶,把\"浏览器操作空间限定到 8 类 + 元素表索引化,Jev 决策 backbone\"做成 Browser Use Cloud 的 ultrafast 实验分支;TypeSafe 的 \"Jev / System One\" typed-decision 单生态本周在 Top 30 里至少 12 条,awesome-jev 在窗口内同时长出 4 份独立整理(yibie/AbdelStark/cobanov/logicrw);[QwenLM/Qwen-Image-2.1](https://github.com/QwenLM/Qwen-Image-2.1) 414⭐ 是这周 Top 30 里唯一阿里/通义官方仓库,[mcncarl/jianying-headless](https://github.com/mcncarl/jianying-headless) 1,980⭐ 是中文仓最高位,把\"剪映专业版 macOS 11.5.0 headless 化\"做成 Python CLI + Agent Skill 双形态;Agent Skill 形态在 Top 30 仍有 5 条,但本周让位给 Jev 单生态头条;[korcarc/text-humanizer](https://github.com/korcarc/text-humanizer) 736⭐ 与 W37 的 SpaceDudem 走相似多语回译路线、但自带 MIT,\"AI 文本人性化\"赛段本周不再是单点试水;[incoai/splash](https://github.com/incoai/splash)/[mizorewww/laya-mlx](https://github.com/mizorewww/laya-mlx)/[mizorewww/laya-coreml](https://github.com/mizorewww/laya-coreml) 三条独立路径把 decision model 跑成 5-15ms;中英文项目分布:Top 30 内英文 24 / 中文 6。",
+      "cover": ""
+    },
+    {
+      "id": "243a444d-85b4-4ff3-a279-76c48a2a1b0a",
+      "title": "GitHub 月榜 · 2026-09 · Jev/Laya 决策模型家族霸占 26% 席位 + Z.ai 官方下场做 Coding Agent Harness",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-monthly-ranking"
+      ],
+      "date": "2026-10-01 09:10",
+      "pinned": null,
+      "summary": "月榜 Top 50：Jev/Laya 决策模型单生态霸榜（13/50, 26%，覆盖模型本体/laya-mlx 运行时/jev-chat-jarvis 移动 UI/browser-use-jev-ultrafast web agent/awesome-jev 类别全生态）；Z.ai 官方 9-20 发布 ZCode Coding Agent Harness（7253 星,桌面/浏览器/终端 Agent 全栈 monorepo），与同期 Anthropic commerce-agents / NVlabs SoL-Pi 共同走入「厂商参考实现期」；32,047 星的「中国大陆高性价比人生指南」HTML 站因 README 提及 Claude Code/Codex skill 命中 assistant 关键词出现在 TOP1；Codex/Claude Code 派生 Skill 大批量上量（anything2explainer/screenwriting-skills/ffmpeg-skill/dream-loop/handraw-style 等 8+ 项目进榜），yetone/magpie 做 harness 间模型路由；「非纯 AI 工具」混入比例明显上升（Compositor Mac 上的 Photoshop 替代/codenotch macOS 用量限速条/disktree Rust 磁盘清理/mural iPhone 语言学习）。",
+      "file": "/assets/articles/github-trending/github-monthly-2026-09.md",
+      "cover": ""
+    },
+    {
+      "id": "8e4cd0a6-4d4e-4d93-b569-30210e3b4356",
+      "title": "GitHub 周榜 · 2026-W40 · Claude Code 周边生态与 AI 浏览器 agent 双线霸榜",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-10-05 08:40",
+      "pinned": null,
+      "summary": "周榜 Top 30(窗口 2026-09-28..2026-10-04):Claude Code 周边生态五席霸榜(universal-modder/yomiyasu/answer-me-with-html/vibe-wise/replica-skill),KKKKhazix/AIHOT 以 5774 星拿下第一(事件级聚簇 + 日报自动出刊的中文模板);CopilotKit/OpenDots 把 always-on AI 同事做成开源模板(独立 sandboxed 浏览器 + Slack + 通话),feder-cr/dots 用改过的 Firefox 反指纹 + OpenRouter 做浏览器 agent;firelex/jeff 把 0.8B System 1 + 9 个 LoRA 压过 27B 8 个分类任务平均 38× 速度 / 2.8× 错答率减少;Meta muse-gadget-sdk 把 AI 助理延伸到 ESP32 / Linux 外设。首期快照:上期 30 条全部跌出。分布:英文 24 / 中文 6。",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W40.md",
+      "cover": ""
+    },
+    {
+      "id": "7eddf056-010b-4bf0-8f93-c6578b2318d8",
+      "title": "GitHub 周榜 · 2026-W41 · storytold 单生态 6 席霸榜 + ARTEX 双克隆验证渗透测试自走 agent 持续走热",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-10-12 08:40",
+      "pinned": null,
+      "summary": "周榜 Top 30(窗口 2026-10-05..2026-10-11):storytold 单生态拿下 6 席(wordcraft 5917 / gridcraft / cadcraft / deckcraft / soundcraft / craft-launcher),Rust clean-room 重写 Word/Excel/AutoCAD/PowerPoint/Pro Tools 5 件套;mhtsec/ARTEX(3145) + Hinln/ARTEX(678) + trhhubsd/ARTEXX 三连验证渗透测试自走 agent 备份 fork 规律;wheresryan22/anatomy 3295 把 0 依赖 Node 20+ isometric SVG skill 撑到 Claude/OpenCode/Codex 三客户端通用;alchaincyf/huashu-art-motion 3385 的 35 艺术风格 + 9 解说语法,单线程 TCPServer bug 已被主线修复(commit 57d67608);zhongerxin/iPhone-use 3043 Codex 通过 WDA + USB 操作真 iPhone,iOS 27/Wi-Fi start 出现 code 74;#15 DeepSeek-Bot 是本周 DSH 生态唯一一席。分布:英文 22 / 中文 8。",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W41.md",
+      "cover": ""
     }
   ],
   "works": [

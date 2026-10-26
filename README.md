@@ -585,7 +585,7 @@ loadDB()
 | `/tag/:id` | `Tag` | 同上 |
 | `/search?q=` | `Search` | 扫标题 / 摘要；输入 200ms 防抖后 `replace` 写入 URL |
 | `/works` | `Works` | `works[]` 全部卡片（有效置顶最多 3 条在前），不分页、无「更多」 |
-| `*` | `NotFound` | 404 |
+| `*` | `NotFound` | 404；命中短链映射（`SHORT_LINKS`）时整页跳到目标地址 |
 
 每页条数 `PAGE_SIZE`（默认 10，`core/config.js`）。置顶上限 `PINNED_MAX`（默认 3，文章与作品共用、各自竞选）。总页数 ≤7 时页码全列；否则保留首页、末页、当前页 ±1，中间省略（`buildPageRange`）。
 
@@ -596,6 +596,37 @@ loadDB()
 - 首页带 hash → `requestAnimationFrame` 后再 `scrollIntoView`（等区块挂上）
 
 搜索结果复用 `ArticleCard`（含封面、条纹），点进文章会新窗口打开（`openInNewTab`），方便对照阅读而不离开搜索页。
+
+### 短链（short link）
+
+站内链接太长时，给它配一个短路径方便外部分发。例：`/ai` → `/ai-agents-learning/index.html#docs/03-学习路线.md`。
+
+映射表 `SHORT_LINKS` 在 `assets/app/pages/NotFound.js` 顶部：
+
+```js
+var SHORT_LINKS = {
+  '/ai': '/ai-agents-learning/index.html#docs/03-学习路线.md',
+}
+```
+
+**工作方式**：静态托管把任意未知路径回退成 `index.html`，React Router 因此把它交给 `path="*"` 的 404 页；该页的 `useEffect` 读 `location.pathname` 查表，命中就 `window.location.replace(target)` 整页跳走，未命中就照常显示 404。
+
+**特点**：
+
+- 严格相等匹配——`/ai/`（尾斜杠）、`/AI`（大小写）都不命中
+- 短链只用于外部分发，不进顶栏、不占 `<Routes>`、不出现在 `/topics`
+- 目标可以是站内 SPA 路由（`/works`），也可以是独立静态页（`/ai-page/<name>/index.html`）
+- 加一条短链 = 在表里加一行，不用改路由、不用改 `db.json`
+
+**value 两种写法**（由 `resolveShortLinkTarget()` 解析）：
+
+| value 写法 | 解析结果 |
+| --- | --- |
+| 站内绝对路径（`/ai-agents-learning/...`） | 拼当前站 origin → `http://icode.link/ai-agents-learning/...` |
+| 不带前导斜杠的相对路径（`ai-agents-learning/...`） | 补斜杠后拼 origin |
+| 完整 `http(s)://` 地址 | **原样跳转**（外站），不拼 origin |
+
+拼 origin 是为了避免 `icode.link` ↔ `www.icode.link`、http ↔ https 之间来回跳时把 hash 弄丢。
 
 ---
 
