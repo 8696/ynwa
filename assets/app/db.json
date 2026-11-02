@@ -709,6 +709,25 @@
       "summary": "周榜 Top 30(窗口 2026-10-05..2026-10-11):storytold 单生态拿下 6 席(wordcraft 5917 / gridcraft / cadcraft / deckcraft / soundcraft / craft-launcher),Rust clean-room 重写 Word/Excel/AutoCAD/PowerPoint/Pro Tools 5 件套;mhtsec/ARTEX(3145) + Hinln/ARTEX(678) + trhhubsd/ARTEXX 三连验证渗透测试自走 agent 备份 fork 规律;wheresryan22/anatomy 3295 把 0 依赖 Node 20+ isometric SVG skill 撑到 Claude/OpenCode/Codex 三客户端通用;alchaincyf/huashu-art-motion 3385 的 35 艺术风格 + 9 解说语法,单线程 TCPServer bug 已被主线修复(commit 57d67608);zhongerxin/iPhone-use 3043 Codex 通过 WDA + USB 操作真 iPhone,iOS 27/Wi-Fi start 出现 code 74;#15 DeepSeek-Bot 是本周 DSH 生态唯一一席。分布:英文 22 / 中文 8。",
       "file": "/assets/articles/github-trending/github-weekly-2026-W41.md",
       "cover": ""
+    },
+    {
+      "id": "929caa83-762a-48ae-8545-47174633f9f7",
+      "title": "GitHub 周榜 · 2026-W44 · DeepSeek 官方 superagent 原型 39 小时冲 7287 星 + 同一套姿势图库被四人分头汉化",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-11-02 08:40",
+      "pinned": null,
+      "summary": "周榜 Top 30(窗口 2026-10-26..2026-11-01):DeepSeek 官方 deepseek-ai/dsh-superagent-prototype 空降榜首,创建仅 39.1 小时冲到 7287 星(186 星/小时),次日即衍生 9 个中文/插件/沙盒仓;同一套日本姿势图库被 anhao/ai-pose-gallery-zh(5136)、paipiange/nvzhuang(1865)、HRuiCcc/RuiC-PoseAtlas(963)、sleepy-zone/ai-ref-library-cn(568) 四家分头中文本地化(四者互非 fork);valentderah/totk-pc-recomp(3201) 实为塞尔达静态重编译,仅因 README 提及 AI coding agents 命中关键词;wangzan101/Mika(3831) 暴露 agent 无任务步数上限已烧穿 GPT Go 额度;anhao/ai-pose-gallery-zh 与 paipiange/nvzhuang 由 @Angel-Gril 提交代理白名单/同源校验安全审计并当日修复;lexifina/global-law(1591) 把各国法律做成 git 历史但 5 条 issue 指出引用解析与废止识别失效。分布:英文 22 / 中文 8。",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W44.md",
+      "cover": ""
     }
   ],
   "works": [
