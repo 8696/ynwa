@@ -728,6 +728,25 @@
       "summary": "周榜 Top 30(窗口 2026-10-26..2026-11-01):DeepSeek 官方 deepseek-ai/dsh-superagent-prototype 空降榜首,创建仅 39.1 小时冲到 7287 星(186 星/小时),次日即衍生 9 个中文/插件/沙盒仓;同一套日本姿势图库被 anhao/ai-pose-gallery-zh(5136)、paipiange/nvzhuang(1865)、HRuiCcc/RuiC-PoseAtlas(963)、sleepy-zone/ai-ref-library-cn(568) 四家分头中文本地化(四者互非 fork);valentderah/totk-pc-recomp(3201) 实为塞尔达静态重编译,仅因 README 提及 AI coding agents 命中关键词;wangzan101/Mika(3831) 暴露 agent 无任务步数上限已烧穿 GPT Go 额度;anhao/ai-pose-gallery-zh 与 paipiange/nvzhuang 由 @Angel-Gril 提交代理白名单/同源校验安全审计并当日修复;lexifina/global-law(1591) 把各国法律做成 git 历史但 5 条 issue 指出引用解析与废止识别失效。分布:英文 22 / 中文 8。",
       "file": "/assets/articles/github-trending/github-weekly-2026-W44.md",
       "cover": ""
+    },
+    {
+      "id": "8f81c28a-3d99-40a6-90b0-47db6181bb3c",
+      "title": "GitHub 周榜 · 2026-W46 · 21 个 Gemini 探测仓同分钟刷出 473 星霸占 8 席 + ARTEX 官方镜像后门事件催生安全复刻",
+      "categories": [
+        "github-trending"
+      ],
+      "tags": [
+        "github",
+        "ai",
+        "agent",
+        "llm",
+        "github-weekly-ranking"
+      ],
+      "date": "2026-11-16 08:40",
+      "pinned": null,
+      "summary": "AI/agent/LLM 主题 2026-11-09..2026-11-15 新创建热门仓库榜单(30 条全部为新上、零连榜;口径:窗口内新仓按当前总星排序)。[huamidev/GestaltX](https://github.com/huamidev/GestaltX) 7,741⭐ 登顶、iOS 27 MobileGestalt 编辑器(命中 ai 仅因 README 的 Apple Intelligence 开关),fork 比 34%;[Kianuni/Erosion-CN](https://github.com/Kianuni/Erosion-CN) 2,129⭐ 为其中文防白苹果加固版,其 issue 区给出 iOS 27.3 beta 1 国行硬件被 eligibilityd 本地拦截的第一手根因(Eligibility returned no CN region policy on a CH region code device);[deepseek-ai/chat-demo](https://github.com/deepseek-ai/chat-demo) 2,966⭐ 为官方纯静态聊天 demo;[FrigadeHQ/yogurt](https://github.com/FrigadeHQ/yogurt) 1,650⭐ 为本地优先会议纪要(whisper.cpp+llama.cpp+本地 MCP);[agentes-chat/agentes-chat](https://github.com/agentes-chat/agentes-chat) 1,513⭐ 为 agent 作为频道成员的自托管 Slack 替代;[failsafe-security/artex](https://github.com/failsafe-security/artex) 708⭐ 因 ARTEX 官方 Docker 镜像被查出未授权命令执行后门而生的源码复刻版,同期还有 FBI 通报与 make verify 失效争议。★本期最大结构异常:gemini-config-checker in:name 全网 28 个同名仓,21 个在 2026-11-15 16:46-16:48 三分钟内批量创建、stars 一律精确 473、forks 一律 0、size 一律 181KB,README 横幅直指上游 MatinSenPai/Gemini-Config-Checker;其中 8 个进入 Top 30(#23-#30),实质只对应一个项目。语言分布:英文 27 / 中文 3;in:readme 为子串级匹配,Top 30 内约 6 席非 AI 产品(GestaltX/Erosion-CN/mkw-recomp/TelemetryCleaner/islandcn/open-orange)。W45(2026-11-02..2026-11-08)因 cron 执行被打断从未跑成,本期对比跨到 W44。",
+      "file": "/assets/articles/github-trending/github-weekly-2026-W46.md",
+      "cover": ""
     }
   ],
   "works": [
